@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Capital City Airports Map</title>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <h2>Capital City Airports by Traffic Volume</h2>
+  <div id="vis"></div>
+
+  <script>
+    fetch("https://github.com/m1234634213/3179/raw/main/Week9/vg.json")
+      .then(response => response.json())
+      .then(spec => {
+        vegaEmbed('#vis', spec, { actions: false }).catch(console.error);
+      });
+  </script>
+</body>
+</html>
