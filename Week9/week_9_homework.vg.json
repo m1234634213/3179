@@ -7,7 +7,7 @@
   "layer": [
     {
       "data": {
-        "url": "ne_110m_admin_0_countries.topojson",
+        "url": "https://github.com/m1234634213/3179/raw/main/Week9/ne_110m_admin_0_countries.topojson",
         "format": {
           "type": "topojson",
           "feature": "ne_110m_admin_0_countries"
@@ -21,7 +21,7 @@
     },
     {
       "data": {
-        "url": "capital_city_airports_all.csv",
+        "url": "https://github.com/m1234634213/3179/raw/main/Week9/capital_city_airports_all.csv",
         "format": {"type": "csv"}
       },
       "transform": [
@@ -56,3 +56,4 @@
   ],
   "title": "Capital City Airports by Traffic Volume"
 }
+
