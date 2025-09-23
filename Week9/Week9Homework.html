@@ -11,7 +11,7 @@
   <div id="vis"></div>
 
   <script>
-    fetch("https://github.com/m1234634213/3179/raw/main/Week9/vg.json")
+    fetch("https://github.com/m1234634213/3179/raw/main/Week9/week_9_homework.vg.json")
       .then(response => response.json())
       .then(spec => {
         vegaEmbed('#vis', spec, { actions: false }).catch(console.error);
