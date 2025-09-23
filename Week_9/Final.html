@@ -16,7 +16,7 @@
       "description": "Capital City Airports with Traffic Categories",
       "width": 800,
       "height": 500,
-      "projection": { "type": "equirectangular" },
+      "projection": { "type": "equalEarth" },
       "layer": [
         {
           "data": {
@@ -25,13 +25,37 @@
               "type": "topojson",
               "feature": "ne_110m_admin_0_countries"
             }
+            
           },
           "mark": {
             "type": "geoshape",
             "fill": "#f0f0f0",
             "stroke": "#888"
           }
-        },
+        },{
+      "transform": [
+        {
+          "calculate": "'Data is not available in ' + datum.properties.NAME",
+          "as": "note"
+        }
+      ],
+      "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "white"},
+      "encoding": {"tooltip": {"field": "note"}}
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+        "format": {"type": "topojson", "feature": "oceans"}
+      },
+      "mark": {"type": "geoshape", "fill": "skyblue"}
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/WorldMapWithGraticules.topojson",
+        "format": {"type": "topojson", "feature": "ne_110m_graticules_30"}
+      },
+      "mark": {"type": "geoshape", "fill": null, "stroke": "lightgray"}
+    },
         {
           "data": {
             "url": "capital_city_airports_all.csv",
@@ -67,8 +91,8 @@
           }
         }
       ],
-      "title": "Capital City Airports by Traffic Volume"
-    };
+      "title": "Capital City Airports by Traffic Volume"}
+    ;
 
     vegaEmbed('#vis', spec, { actions: false }).catch(console.error);
   </script>
