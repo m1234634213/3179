@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Airports Map</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  </head>
+  <body>
+    <h2>World Airports Map</h2>
+    <div id="vis"></div>
+
+    <script type="text/javascript">
+      const spec = {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "description": "Map of world airports",
+        "projection": {"type": "equirectangular"},
+        "layer": [
+          {
+            "data": {"url": "ne_110.geojson"},
+            "mark": {"type": "geoshape", "fill": "#f0f0f0", "stroke": "#999"},
+            "encoding": {}
+          },
+          {
+            "data": {"url": "airports.csv"},
+            "mark": "circle",
+            "encoding": {
+              "longitude": {"field": "Longitude", "type": "quantitative"},
+              "latitude": {"field": "Latitude", "type": "quantitative"},
+              "size": {"field": "Altitude", "type": "quantitative", "scale": {"range":[10,300]}},
+              "color": {"field": "Country", "type": "nominal"},
+              "tooltip": [
+                {"field": "Airport", "type": "nominal"},
+                {"field": "City", "type": "nominal"},
+                {"field": "Country", "type": "nominal"},
+                {"field": "Altitude", "type": "quantitative"}
+              ]
+            }
+          }
+        ]
+      };
+
+      vegaEmbed('#vis', spec);
+    </script>
+  </body>
+</html>
