@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Australian outbound flights with year slider, arcs via interpolation, arrowheads, and passenger encoding",
+  "description": "Simplified Australian outbound flights with top routes and cleaner arcs",
   "width": 800,
   "height": 800,
   "data": {
@@ -29,22 +29,16 @@
       "filter": "datum.Year == selectedYear && datum['Lat  Aus'] != null && datum['Lat International'] != null"
     },
     {
-      "calculate": "(datum['Lon International'] - datum['Lon Aus']) * 0.25 + datum['Lon Aus']", "as": "lon25"
+      "window": [{"op":"rank","as":"routeRank","sort":[{"field":"(b) OutFlightsAll","order":"descending"}]}]
+    },
+    {
+      "filter": "datum.routeRank <= 30"
     },
     {
       "calculate": "(datum['Lon International'] - datum['Lon Aus']) * 0.5 + datum['Lon Aus']", "as": "lon50"
     },
     {
-      "calculate": "(datum['Lon International'] - datum['Lon Aus']) * 0.75 + datum['Lon Aus']", "as": "lon75"
-    },
-    {
-      "calculate": "(datum['Lat International'] - datum['Lat  Aus']) * 0.25 + datum['Lat  Aus']", "as": "lat25"
-    },
-    {
       "calculate": "(datum['Lat International'] - datum['Lat  Aus']) * 0.5 + datum['Lat  Aus']", "as": "lat50"
-    },
-    {
-      "calculate": "(datum['Lat International'] - datum['Lat  Aus']) * 0.75 + datum['Lat  Aus']", "as": "lat75"
     }
   ],
   "layer": [
@@ -58,11 +52,11 @@
     {
       "transform": [
         {
-          "fold": ["Lon Aus","lon25","lon50","lon75","Lon International"],
+          "fold": ["Lon Aus","lon50","Lon International"],
           "as": ["step","longitude"]
         },
         {
-          "calculate": "datum.step=='Lon Aus'?datum['Lat  Aus']:(datum.step=='lon25'?datum.lat25:(datum.step=='lon50'?datum.lat50:(datum.step=='lon75'?datum.lat75:datum['Lat International'])))",
+          "calculate": "datum.step=='Lon Aus'?datum['Lat  Aus']:(datum.step=='lon50'?datum.lat50:datum['Lat International'])",
           "as": "latitude"
         }
       ],
