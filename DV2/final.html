@@ -1,47 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Week 9 & 10 Homework Visualizations</title>
-  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-    h2 {
-      margin-top: 40px;
-    }
-    .vis-container {
-      margin-bottom: 50px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vega-Lite Circular Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+<style>
+  body { font-family: Arial; margin: 0; background: #f7f7f7; overflow-x: hidden; }
+  #dashboard { position: relative; width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center; }
+  .main-chart { width: 600px; height: 600px; border: 1px solid #ccc; background: white; z-index: 1; }
+  .comment-box { width: 220px; height: 160px; border: 1px solid #ccc; background: white; padding: 5px; cursor: pointer; overflow: hidden; transition: transform 0.2s; position: absolute; }
+  .comment-box:hover { transform: scale(1.1); z-index: 2; }
+  .modal { display: none; position: fixed; z-index: 10; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
+  .modal-content { background: white; padding: 20px; border-radius: 5px; max-width: 90%; max-height: 90%; }
+</style>
 </head>
 <body>
 
-  <h2>Week 9: Capital City Airports with Traffic Categories</h2>
-  <div id="vis-week9" class="vis-container"></div>
+<div id="dashboard">
+  <div id="mainChart" class="main-chart"></div>
 
-  <h2>Week 10: Australian Airports Passengers Map with Slider</h2>
-  <div id="vis-week10" class="vis-container"></div>
+  <div id="domesticAirlines" class="comment-box"></div>
+  <div id="domestic" class="comment-box"></div>
+  <div id="emissionsMap" class="comment-box"></div>
+  <div id="cityInt" class="comment-box"></div>
+  <div id="gas" class="comment-box"></div>
+  <div id="week9Homework" class="comment-box"></div>
+</div>
 
-  <script>
-    // Load Week 9 JSON
-    fetch('week_9_homework.vg.json')
-      .then(response => response.json())
-      .then(spec => {
-        vegaEmbed('#vis-week9', spec, {actions: false});
-      });
+<div id="modal" class="modal" onclick="closeModal()">
+  <div class="modal-content" id="modalContent"></div>
+</div>
 
-    // Load Week 10 JSON
-    fetch('trial.vg.json')
-      .then(response => response.json())
-      .then(spec => {
-        vegaEmbed('#vis-week10', spec, {actions: false});
-      });
-  </script>
+<script>
+const charts = [
+  {id: "mainChart", file: "global.vg.json"},
+  {id: "domesticAirlines", file: "domestic_airlines.vg.json"},
+  {id: "domestic", file: "domestic.vg.json"},
+  {id: "emissionsMap", file: "emisssions_map.vg.json"},
+  {id: "cityInt", file: "city_int.vg.json"},
+  {id: "gas", file: "gas.vg.json"},
+  {id: "week9Homework", file: "week_9_homework.vg.json"},
+];
+
+// Embed charts using fetch
+charts.forEach(chart => {
+  fetch(chart.file)
+    .then(response => response.json())
+    .then(spec => {
+      vegaEmbed('#' + chart.id, spec, {actions: false})
+        .then(() => {
+          if(chart.id !== "mainChart"){
+            document.getElementById(chart.id).onclick = () => openModal(spec);
+          }
+        });
+    })
+    .catch(console.error);
+});
+
+// Position comment boxes in a circle
+function positionBoxes() {
+  const main = document.getElementById("mainChart");
+  const mainRect = main.getBoundingClientRect();
+  const centerX = mainRect.left + mainRect.width / 2;
+  const centerY = mainRect.top + mainRect.height / 2;
+
+  const boxes = ["domesticAirlines","domestic","emissionsMap","cityInt","gas","week9Homework"];
+  const radius = Math.max(mainRect.width, mainRect.height) / 2 + 120;
+
+  boxes.forEach((id,index)=>{
+    const angle = (index / boxes.length) * 2 * Math.PI;
+    const el = document.getElementById(id);
+    el.style.left = (centerX + radius * Math.cos(angle) - el.offsetWidth/2) + "px";
+    el.style.top = (centerY + radius * Math.sin(angle) - el.offsetHeight/2) + "px";
+  });
+}
+
+window.addEventListener("load", positionBoxes);
+window.addEventListener("resize", positionBoxes);
+
+function openModal(spec){
+  const modal = document.getElementById("modal");
+  const modalContent = document.getElementById("modalContent");
+  modal.style.display = "flex";
+  modalContent.innerHTML = "";
+  vegaEmbed(modalContent, spec, {actions: true});
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display = "none";
+  document.getElementById("modalContent").innerHTML = "";
+}
+</script>
 
 </body>
 </html>
