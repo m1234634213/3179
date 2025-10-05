@@ -1,0 +1,53 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Horizontal bar chart with triangle markers from city_int_airline.csv",
+  "data": {
+    "url": "city_int_airline.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "Year": "number",
+        "Total Flights": "number"
+      }
+    }
+  },
+  "params": [
+    {
+      "name": "selectedYear",
+      "value": 2020,
+      "bind": {
+        "input": "select",
+        "options": [2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025]
+      }
+    }
+  ],
+  "transform": [
+    {"filter": "datum.Year === selectedYear"}
+  ],
+  "layer": [
+    {
+      "mark": {"type": "bar", "size": 10},
+      "encoding": {
+        "x": {"field": "Total Flights", "type": "quantitative"},
+        "y": {"field": "Airline", "type": "nominal", "sort": "-x"},
+        "color": {"field": "Airline", "type": "nominal"}
+      }
+    },
+    {
+      "mark": {"type": "point", "shape": "triangle-right", "size": 150},
+      "encoding": {
+        "x": {"field": "Total Flights", "type": "quantitative"},
+        "y": {"field": "Airline", "type": "nominal"},
+        "color": {"field": "Airline", "type": "nominal"}
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "left", "dx": 5},
+      "encoding": {
+        "x": {"field": "Total Flights", "type": "quantitative"},
+        "y": {"field": "Airline", "type": "nominal"},
+        "text": {"field": "Total Flights", "type": "quantitative"}
+      }
+    }
+  ]
+}

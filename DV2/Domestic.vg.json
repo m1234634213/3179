@@ -1,0 +1,143 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 800,
+    "height": 600,
+    "title": "Australian Domestic Flight Routes (Passenger Weighted)",
+    "projection": {
+        "type": "mercator",
+        "center": [
+            133,
+            -27
+        ],
+        "scale": 800
+    },
+    "layer": [
+        {
+            "data": {
+                "url": "ne_110m_admin_0_australia.topojson",
+                "format": {
+                    "type": "topojson",
+                    "feature": "ne_110m_admin_0_australia"
+                }
+            },
+            "mark": {
+                "type": "geoshape",
+                "fill": "#f0f0f0",
+                "stroke": "#888"
+            }
+        },
+        {
+            "data": {
+                "url": "Domestic Flights.csv"
+            },
+            "mark": {
+                "type": "rule",
+                "stroke": "steelblue",
+                "strokeOpacity": 0.5
+            },
+            "encoding": {
+                "longitude": {
+                    "field": "City1_Lon",
+                    "type": "quantitative"
+                },
+                "latitude": {
+                    "field": "City1_Lat",
+                    "type": "quantitative"
+                },
+                "longitude2": {
+                    "field": "City2_Lon"
+                },
+                "latitude2": {
+                    "field": "City2_Lat"
+                },
+                "strokeWidth": {
+                    "field": "Passenger_Trips",
+                    "type": "quantitative",
+                    "scale": {
+                        "range": [
+                            0.5,
+                            6
+                        ]
+                    }
+                },  
+                "tooltip": [
+                    {
+                        "field": "City1",
+                        "type": "nominal",
+                        "title": "Origin"
+                    },
+                    {
+                        "field": "City2",
+                        "type": "nominal",
+                        "title": "Destination"
+                    },
+                    {
+                        "field": "Passenger_Trips",
+                        "type": "quantitative",
+                        "title": "Passengers"
+                    },
+                    {
+                        "field": "Year",
+                        "type": "quantitative",
+                        "title": "Year"
+                    },
+                    {
+                        "field": "Month",
+                        "type": "nominal",
+                        "title": "Month"
+                    }
+                ]
+            }
+        },
+        {
+            "data": {
+                "url": "Domestic Flights.csv"
+            },
+            "mark": {
+                "type": "circle",
+                "size": 40,
+                "color": "red"
+            },
+            "encoding": {
+                "longitude": {
+                    "field": "City1_Lon",
+                    "type": "quantitative"
+                },
+                "latitude": {
+                    "field": "City1_Lat",
+                    "type": "quantitative"
+                },
+                "tooltip": {
+                    "field": "City1",
+                    "type": "nominal",
+                    "title": "Origin Airport"
+                }
+            }
+        },
+        {
+            "data": {
+                "url": "Domestic Flights.csv"
+            },
+            "mark": {
+                "type": "circle",
+                "size": 40,
+                "color": "red"
+            },
+            "encoding": {
+                "longitude": {
+                    "field": "City2_Lon",
+                    "type": "quantitative"
+                },
+                "latitude": {
+                    "field": "City2_Lat",
+                    "type": "quantitative"
+                },
+                "tooltip": {
+                    "field": "City2",
+                    "type": "nominal",
+                    "title": "Destination Airport"
+                }
+            }
+        }
+    ]
+}

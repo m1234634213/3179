@@ -1,0 +1,26 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Australian Airports Passenger Map",
+  "width": 800,
+  "height": 600,
+  "projection": {"type": "mercator"},
+  "data": {
+    "url": "passenger_clean.csv"
+  },
+  "mark": {
+    "type": "circle",
+    "tooltip": true,
+    "opacity": 0.7
+  },
+  "encoding": {
+    "longitude": {"field": "Lon", "type": "quantitative"},
+    "latitude": {"field": "Lat", "type": "quantitative"},
+    "size": {"field": "Passengers", "type": "quantitative", "title": "Passenger Volume"},
+    "color": {"field": "AIRPORT", "type": "nominal"},
+    "tooltip": [
+      {"field": "AIRPORT", "type": "nominal"},
+      {"field": "Year", "type": "temporal"},
+      {"field": "Passengers", "type": "quantitative"}
+    ]
+  }
+}

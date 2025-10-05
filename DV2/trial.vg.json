@@ -1,0 +1,63 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Australian airports passengers map with slider, pronounced bubble sizes, two-color saturation, and left-aligned labels",
+  "width": 800,
+  "height": 500,
+  "data": {"url": "clean.csv"},
+  "projection": {
+    "type": "mercator",
+    "center": [133, -27],
+    "scale": 600,
+    "translate": [400, 250]
+  },
+  "params": [
+    {
+      "name": "selectedYear",
+      "value": 2009,
+      "bind": {"input": "range", "min": 2009, "max": 2025, "step": 1}
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "ne_110m_admin_0_australia.topojson",
+        "format": {"type": "topojson", "feature": "ne_110m_admin_0_australia"}
+      },
+      "mark": {"type": "geoshape", "fill": "#f0f0f0", "stroke": "#888"}
+    },
+    {
+      "transform": [{"filter": "datum.Year == selectedYear"}],
+      "mark": {"type": "circle", "tooltip": true, "stroke": "black", "opacity": 0.9},
+      "encoding": {
+        "longitude": {"field": "Lon", "type": "quantitative"},
+        "latitude": {"field": "Lat", "type": "quantitative"},
+        "size": {
+          "field": "Passengers",
+          "type": "quantitative",
+          "scale": {"range": [100, 400], "type": "sqrt"}
+        },
+        "color": {
+          "field": "Passengers",
+          "type": "quantitative",
+          "scale": {"range": ["#FFA500", "#800080"]},
+          "legend": {"title": "Passengers"}
+        },
+        "tooltip": [
+          {"field": "AIRPORT", "type": "nominal"},
+          {"field": "Year", "type": "quantitative"},
+          {"field": "Passengers", "type": "quantitative"}
+        ]
+      }
+    },
+    {
+      "transform": [{"filter": "datum.Year == selectedYear"}],
+      "mark": {"type": "text", "dx": 100, "dy": 0, "fontWeight": "bold", "color": "black", "align": "right"},
+      "encoding": {
+        "longitude": {"field": "Lon", "type": "quantitative"},
+        "latitude": {"field": "Lat", "type": "quantitative"},
+        "text": {"field": "AIRPORT", "type": "nominal"}
+      }
+    }
+  ]
+}
+

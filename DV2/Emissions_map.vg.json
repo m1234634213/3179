@@ -1,0 +1,36 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "World map colored by aviation CO₂ emissions (log scale, reversed magma)",
+  "width": 900,
+  "height": 500,
+  "data": {
+    "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
+    "format": {"type": "topojson", "feature": "countries"}
+  },
+  "transform": [
+    {
+      "lookup": "id",
+      "from": {
+        "data": {
+          "url": "emissions.csv"
+        },
+        "key": "numeric",  
+        "fields": ["Total", "Entity"]
+      }
+    }
+  ],
+  "projection": {"type": "mercator"},
+  "mark": "geoshape",
+  "encoding": {
+    "color": {
+      "field": "Total",
+      "type": "quantitative",
+      "title": "CO₂ Emissions",
+      "scale": {"type": "log", "scheme": "magma", "reverse": true, "nice": true}
+    },
+    "tooltip": [
+      {"field": "Entity", "type": "qualitative"},
+      {"field": "Total", "type": "quantitative", "format": ","}
+    ]
+  }
+}

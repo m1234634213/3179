@@ -1,0 +1,65 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Cumulative airline flight heat map with max year dropdown",
+  "width": 900,
+  "height": 500,
+  "data": {
+    "url": "domestic_airlines_flights.csv"
+  },
+  "params": [
+    {
+      "name": "maxYear",
+      "value": 2025,
+      "bind": {
+        "input": "select",
+        "options": [2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
+        "name": "Max Year: "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "filter": "datum.Airline != 'All Airlines'"
+    },
+    {
+      "aggregate": [
+        {"op": "count", "as": "Flights"}
+      ],
+      "groupby": ["Airline", "Year"]
+    },
+    {
+      "window": [
+        {"op": "sum", "field": "Flights", "as": "CumulativeFlights"}
+      ],
+      "groupby": ["Airline"],
+      "sort": [{"field": "Year", "order": "ascending"}]
+    },
+    {
+      "filter": "datum.Year >= 2010 && datum.Year <= maxYear"
+    }
+  ],
+  "mark": "rect",
+  "encoding": {
+    "x": {
+      "field": "Year",
+      "type": "ordinal",
+      "axis": {"title": "Year"}
+    },
+    "y": {
+      "field": "Airline",
+      "type": "nominal",
+      "axis": {"title": "Airline"}
+    },
+    "color": {
+      "field": "CumulativeFlights",
+      "type": "quantitative",
+      "scale": {"scheme": "purplered"},
+      "legend": {"title": "Cumulative Flights"}
+    },
+    "tooltip": [
+      {"field": "Airline", "type": "nominal"},
+      {"field": "Year", "type": "ordinal"},
+      {"field": "CumulativeFlights", "type": "quantitative"}
+    ]
+  }
+}

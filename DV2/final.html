@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Week 9 & 10 Homework Visualizations</title>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h2 {
+      margin-top: 40px;
+    }
+    .vis-container {
+      margin-bottom: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Week 9: Capital City Airports with Traffic Categories</h2>
+  <div id="vis-week9" class="vis-container"></div>
+
+  <h2>Week 10: Australian Airports Passengers Map with Slider</h2>
+  <div id="vis-week10" class="vis-container"></div>
+
+  <script>
+    // Load Week 9 JSON
+    fetch('week_9_homework.vg.json')
+      .then(response => response.json())
+      .then(spec => {
+        vegaEmbed('#vis-week9', spec, {actions: false});
+      });
+
+    // Load Week 10 JSON
+    fetch('trial.vg.json')
+      .then(response => response.json())
+      .then(spec => {
+        vegaEmbed('#vis-week10', spec, {actions: false});
+      });
+  </script>
+
+</body>
+</html>
