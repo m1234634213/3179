@@ -3,6 +3,7 @@
   "description": "Australian airports passengers map with slider and pronounced bubble sizes (single color)",
   "width": 800,
   "height": 600,
+  "background":null,
   "data": {"url": "clean.csv"},
   "projection": {
     "type": "mercator",
@@ -58,6 +59,7 @@
     }
   ]
 }
+
 
 
 
