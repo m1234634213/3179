@@ -28,7 +28,7 @@
     },
     {
       "transform": [{"filter": "datum.Year == selectedYear"}],
-      "mark": {"type": "circle", "tooltip": true, "stroke": "black", "opacity": 0.8, "color": "#1f77b4"},
+      "mark": {"type": "circle", "tooltip": true, "stroke": "black", "opacity": 0.8, "color": "#FFA500"},
       "encoding": {
         "longitude": {"field": "Lon", "type": "quantitative"},
         "latitude": {"field": "Lat", "type": "quantitative"},
@@ -59,6 +59,7 @@
     }
   ]
 }
+
 
 
 
