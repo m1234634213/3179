@@ -1,4 +1,4 @@
-
+/* General Page Styling */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -7,7 +7,7 @@ body {
   position: relative;
 }
 
-/* Title with no background stripe */
+/* Title with background effect */
 h2 {
   margin-top: 0;
   text-align: center;
@@ -93,22 +93,4 @@ h2 {
 @keyframes cloud {
   from { right: -500px; }
   to { right: 102%; }
-}
-
-/* Plane animation moving across the top */
-.plane {
-  position: absolute;
-  top: 20px; /* Set the plane to move at the top */
-  left: -150px; /* Start off-screen */
-  z-index: 1;
-  animation: planeMove 10s linear infinite;
-}
-
-@keyframes planeMove {
-  from {
-    left: -150px; /* Start off-screen */
-  }
-  to {
-    left: 100%; /* Move across to the right */
-  }
 }
