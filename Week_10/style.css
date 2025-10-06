@@ -52,7 +52,7 @@ h2 {
   border-radius: 10px;
   padding: 10px;
   overflow: visible;
-  background: transparent
+  background: transparent;
 }
 
 /* Locking layout for zooming prevention */
