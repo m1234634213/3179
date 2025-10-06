@@ -2,7 +2,7 @@
       "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
       "description": "Capital City Airports with Traffic Categories",
       "width": 800,
-      "height": 500,
+      "height": 800,
       "projection": { "type": "equalEarth" },
       "layer": [
         {
@@ -79,6 +79,7 @@
         }
       ],
       "title": "Capital City Airports by Traffic Volume"}
+
 
 
 
