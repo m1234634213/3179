@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Australian airports passengers map with slider and pronounced bubble sizes (single color)",
   "width": 800,
-  "height": 500,
+  "height": 800,
   "data": {"url": "clean.csv"},
   "projection": {
     "type": "mercator",
@@ -58,4 +58,5 @@
     }
   ]
 }
+
 
