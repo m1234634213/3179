@@ -78,7 +78,9 @@ h2 {
 /* Cloud animation */
 .cloud {
   position: absolute;
-  top: -100px;
+  top: 0px;
+  margin: 0; /* Remove any margin */
+  padding: 0; /* Remove any padding */
   right: -500px;
   opacity: .8;
   animation: cloud 10s linear 0s infinite reverse;
