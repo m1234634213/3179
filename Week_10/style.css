@@ -7,29 +7,15 @@ body {
   position: relative;
 }
 
-/* Title with background effect */
+/* Title with no background stripe */
 h2 {
-  margin-top: 40px;
+  margin-top: 0;
   text-align: center;
   font-size: 2em;
   position: relative;
-  padding: 20px;
-  background: #2a2a2a;
+  padding: 40px 20px;
   color: white;
-  display: inline-block;
-  z-index: 1; /* Ensure title is above background elements */
-}
-
-h2:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #ff6600;
-  z-index: -1;
-  transform: skewY(-12deg);
+  z-index: 1; /* Title is above background elements */
 }
 
 /* Container for Visualizations */
@@ -107,4 +93,22 @@ h2:before {
 @keyframes cloud {
   from { right: -500px; }
   to { right: 102%; }
+}
+
+/* Plane animation moving across the top */
+.plane {
+  position: absolute;
+  top: 20px; /* Set the plane to move at the top */
+  left: -150px; /* Start off-screen */
+  z-index: 1;
+  animation: planeMove 10s linear infinite;
+}
+
+@keyframes planeMove {
+  from {
+    left: -150px; /* Start off-screen */
+  }
+  to {
+    left: 100%; /* Move across to the right */
+  }
 }
