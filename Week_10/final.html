@@ -25,21 +25,24 @@
       margin-top: 40px;
     }
 
-    .vis-container {
+    .vis-wrapper {
       flex: 1;
       min-width: 45%;
       max-width: 48%;
-      height: auto;
-      border: 2px solid #ccc;
-      border-radius: 10px;
-      padding: 10px;
-      overflow: hidden;
     }
 
     .vis-header {
       text-align: center;
       font-size: 1.2em;
       margin-bottom: 10px;
+    }
+
+    .vis-container {
+      height: 400px; /* Fixed height for the visualizations */
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      padding: 10px;
+      overflow: hidden;
     }
   </style>
 </head>
@@ -49,13 +52,13 @@
 
   <div class="container">
     <!-- Week 9 Visualization with Header -->
-    <div>
+    <div class="vis-wrapper">
       <div class="vis-header">Week 9: Capital City Airports with Traffic Categories</div>
       <div id="vis-week9" class="vis-container"></div>
     </div>
 
     <!-- Week 10 Visualization with Header -->
-    <div>
+    <div class="vis-wrapper">
       <div class="vis-header">Week 10: Australian Airports Passengers Map with Slider</div>
       <div id="vis-week10" class="vis-container"></div>
     </div>
