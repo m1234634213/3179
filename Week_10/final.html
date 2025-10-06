@@ -2,88 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Week 9 & 10 Homework Visualizations</title>
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      overflow-x: hidden; /* Prevent horizontal scroll */
-    }
-
-    /* Title with background effect */
-    h2 {
-      margin-top: 40px;
-      text-align: center;
-      font-size: 2em;
-      position: relative;
-      padding: 20px;
-      background: #2a2a2a;
-      color: white;
-      display: inline-block;
-      z-index: 1;
-    }
-
-    h2:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #ff6600;
-      z-index: -1;
-      transform: skewY(-12deg);
-    }
-
-    .container {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-top: 40px;
-      padding: 20px;
-      overflow-x: hidden; /* Prevent horizontal scroll */
-      position: relative;
-      z-index: 1;
-    }
-
-    .vis-wrapper {
-      flex: 1;
-      min-width: 45%;
-      max-width: 48%;
-    }
-
-    .vis-header {
-      text-align: center;
-      font-size: 1.2em;
-      margin-bottom: 10px;
-    }
-
-    .vis-container {
-      height: 800px; /* Fixed height for the visualizations */
-      border: 2px solid #ccc;
-      border-radius: 10px;
-      padding: 10px;
-      overflow: hidden;
-    }
-
-    /* Locking layout for zooming prevention */
-    .no-zoom {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      z-index: -1; /* Ensure it's behind content */
-    }
-  </style>
+  <link rel="stylesheet" href="style.css"> 
 </head>
 <body class="no-zoom">
 
+  <!-- Cloud and Light Animation -->
+  <div class="cloud cloud1">
+    <div class="light"></div>
+    <img src="https://images.vexels.com/media/users/3/145795/isolated/preview/05cd33059a006bf49006097af4ccba98-plane-in-flight-by-vexels.png" />
+  </div>
+
+  <!-- Main Content -->
   <h2>Week 9 & 10: Australian Airports Visualizations</h2>
 
   <div class="container">
