@@ -1,0 +1,107 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+}
+
+header {
+  position: relative;
+  text-align: center;
+  padding: 40px 0 20px 0;
+  background: #e3f2fd;
+  overflow: hidden;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.2em;
+  z-index: 5;
+  position: relative;
+}
+
+#sliderContainer {
+  text-align: center;
+  margin: 20px;
+}
+
+.dashboard {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.side-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.main-column {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chart-box {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.chart-box h2 {
+  font-size: 1.1em;
+  margin-top: 0;
+}
+
+.main-chart {
+  width: 650px;
+  height: 650px;
+}
+
+.notes {
+  font-size: 0.85em;
+  color: #666;
+  margin-top: 8px;
+}
+
+/* Light animation */
+.light {
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 50%;
+  bottom: 295px;
+  position: absolute;
+  z-index: 10;
+  left: 20px;
+  animation: light 800ms ease-in-out 0s infinite alternate;
+}
+
+/* Cloud animation */
+.cloud {
+  position: absolute;
+  top: 0px;
+  right: -500px;
+  opacity: .8;
+  animation: cloud 10s linear 0s infinite reverse;
+  z-index: 0;
+}
+
+.cloud img {
+  width: 200px;
+  height: auto;
+}
+
+@keyframes light {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes cloud {
+  from { right: -500px; }
+  to { right: 102%; }
+}
