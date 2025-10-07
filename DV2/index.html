@@ -10,108 +10,109 @@
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
 <body>
-  <!-- Moving cloud background -->
   <div class="container">
+    <!-- Moving cloud background -->
     <div id="cloud-intro"></div>
+
+    <!-- Header with plane -->
+    <header>
+      <h1>Data Visualisation 2</h1>
+      <div class="cloud cloud1">
+        <div class="light"></div>
+        <img src="vecteezy_cloud-png-with-ai-generated_26774603.png" alt="Plane"/>
+      </div>
+    </header>
+
+    <!-- Global year slider -->
+    <div id="sliderContainer">
+      <label for="yearSlider"><strong>Select Year:</strong></label>
+      <input type="range" id="yearSlider" min="2000" max="2025" step="1" value="2010">
+      <span id="yearLabel">2010</span>
+    </div>
+
+    <!-- Dashboard layout -->
+    <main class="dashboard">
+      <div class="side-column">
+        <div class="chart-box">
+          <h2>Domestic Airlines of Choice</h2>
+          <div id="domesticAirlines"></div>
+          <p class="notes">Notes: (Fill later)</p>
+        </div>
+        <div class="chart-box">
+          <h2>Domestic</h2>
+          <div id="domestic"></div>
+          <p class="notes">Notes: (Fill later)</p>
+        </div>
+        <div class="chart-box">
+          <h2>Emissions Map</h2>
+          <div id="emissionsMap"></div>
+          <p class="notes">Notes: (Fill later)</p>
+        </div>
+      </div>
+
+      <div class="main-column">
+        <div class="chart-box main-chart">
+          <h2>Global Globe</h2>
+          <div id="mainChart"></div>
+        </div>
+      </div>
+
+      <div class="side-column">
+        <div class="chart-box">
+          <h2>International Airline of Choice</h2>
+          <div id="cityInt"></div>
+          <p class="notes">Notes: (Fill later)</p>
+        </div>
+        <div class="chart-box">
+          <h2>Engine Efficiency</h2>
+          <div id="gas"></div>
+          <p class="notes">Notes: (Fill later)</p>
+        </div>
+        <div class="chart-box">
+          <h2>Week 9 Homework</h2>
+          <div id="week9Homework"></div>
+          <p class="notes">Notes: (Fill later)</p>
+        </div>
+      </div>
+    </main>
   </div>
-
-  <header>
-    <h1>Data Visualisation 2</h1>
-    <div class="cloud cloud1">
-      <div class="light"></div>
-      <img src="05cd33059a006bf49006097af4ccba98-plane-in-flight-by-vexels.png" alt="Plane"/>
-    </div>
-  </header>
-
-  <!-- Global year slider -->
-  <div id="sliderContainer">
-    <label for="yearSlider"><strong>Select Year:</strong></label>
-    <input type="range" id="yearSlider" min="2000" max="2025" step="1" value="2010">
-    <span id="yearLabel">2010</span>
-  </div>
-
-  <!-- Layout -->
-  <main class="dashboard">
-    <div class="side-column">
-      <div class="chart-box">
-        <h2>Domestic Airlines</h2>
-        <div id="domesticAirlines"></div>
-        <p class="notes">Notes: (Fill later)</p>
-      </div>
-      <div class="chart-box">
-        <h2>Domestic</h2>
-        <div id="domestic"></div>
-        <p class="notes">Notes: (Fill later)</p>
-      </div>
-      <div class="chart-box">
-        <h2>Emissions Map</h2>
-        <div id="emissionsMap"></div>
-        <p class="notes">Notes: (Fill later)</p>
-      </div>
-    </div>
-
-    <div class="main-column">
-      <div class="chart-box main-chart">
-        <h2>Global Globe</h2>
-        <div id="mainChart"></div>
-      </div>
-    </div>
-
-    <div class="side-column">
-      <div class="chart-box">
-        <h2>City International</h2>
-        <div id="cityInt"></div>
-        <p class="notes">Notes: (Fill later)</p>
-      </div>
-      <div class="chart-box">
-        <h2>Gas</h2>
-        <div id="gas"></div>
-        <p class="notes">Notes: (Fill later)</p>
-      </div>
-      <div class="chart-box">
-        <h2>Week 9 Homework</h2>
-        <div id="week9Homework"></div>
-        <p class="notes">Notes: (Fill later)</p>
-      </div>
-    </div>
-  </main>
 
   <script>
-  const charts = [
-    {id: "mainChart", file: "global.vg.json"},
-    {id: "domesticAirlines", file: "domestic_airlines.vg.json"},
-    {id: "domestic", file: "domestic.vg.json"},
-    {id: "emissionsMap", file: "emisssions_map.vg.json"},
-    {id: "cityInt", file: "city_int.vg.json"},
-    {id: "gas", file: "gas.vg.json"},
-    {id: "week9Homework", file: "week_9_homework.vg.json"},
-  ];
+    // List of charts
+    const charts = [
+      {id: "mainChart", file: "global.vg.json"},
+      {id: "domesticAirlines", file: "domestic_airlines.vg.json"},
+      {id: "domestic", file: "domestic.vg.json"},
+      {id: "emissionsMap", file: "emisssions_map.vg.json"},
+      {id: "cityInt", file: "city_int.vg.json"},
+      {id: "gas", file: "gas.vg.json"},
+      {id: "week9Homework", file: "week_9_homework.vg.json"},
+    ];
 
-  let chartViews = {};
-  const yearSlider = document.getElementById("yearSlider");
-  const yearLabel = document.getElementById("yearLabel");
+    const chartViews = {};
+    const yearSlider = document.getElementById("yearSlider");
+    const yearLabel = document.getElementById("yearLabel");
 
-  function updateCharts(year) {
-    yearLabel.textContent = year;
-    Object.values(chartViews).forEach(view => {
-      view.signal("selectedYear", year).run();
-    });
-  }
-
-  charts.forEach(chart => {
-    fetch(chart.file)
-      .then(r => r.json())
-      .then(spec => {
-        spec.params = spec.params || [];
-        spec.params.push({name:"selectedYear", value:parseInt(yearSlider.value), bind:false});
-        vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
-          chartViews[chart.id] = res.view;
+    // Load all charts
+    charts.forEach(chart => {
+      fetch(chart.file)
+        .then(r => r.json())
+        .then(spec => {
+          vegaEmbed('#' + chart.id, spec, {actions: false}).then(res => {
+            chartViews[chart.id] = res.view;
+            res.view.signal("selectedYear", parseInt(yearSlider.value)).run();
+          });
         });
-      });
-  });
+    });
 
-  yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
+    // Update charts when slider moves
+    yearSlider.addEventListener("input", e => {
+      const year = parseInt(e.target.value);
+      yearLabel.textContent = year;
+      Object.values(chartViews).forEach(view => {
+        view.signal("selectedYear", year).run();
+      });
+    });
   </script>
 </body>
 </html>
-
