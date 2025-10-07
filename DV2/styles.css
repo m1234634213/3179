@@ -22,10 +22,10 @@ html, body, .container {
 #cloud-intro {
   position: relative;
   height: 100%;
-  background: url(https://static.radulescu.me/examples/clouds/clouds1000.png);
-  background: url(https://static.radulescu.me/examples/clouds/clouds1000.png) 0 200px,
-              url(https://static.radulescu.me/examples/clouds/clouds1200_1.png) 0 300px,
-              url(https://static.radulescu.me/examples/clouds/clouds1000_blur3.png) 100px 250px;
+  background: url(vecteezy_cloud-png-with-ai-generated_26774603.png);
+  background: url(vecteezy_cloud-png-with-ai-generated_26774603.png) 0 200px,
+              url(vecteezy_cloud-png-with-ai-generated_26774603.png) 0 300px,
+              url(vecteezy_cloud-png-with-ai-generated_26774603.png) 100px 250px;
   animation: wind 20s linear infinite;
   z-index: -1; /* behind everything */
 }
@@ -148,3 +148,4 @@ header h1 {
   color: #333;
   margin-top: 8px;
 }
+
