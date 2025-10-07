@@ -21,7 +21,7 @@
   ],
   "transform": [
     {
-      "filter": "datum.Year == selectedYear"
+      "filter": "datum.Year <= selectedYear"
     },
     {
       "aggregate": [
