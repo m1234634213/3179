@@ -106,13 +106,7 @@
         });
     });
 
-    yearSlider.addEventListener("input", e => {
-  const year = parseInt(e.target.value);
-  yearLabel.textContent = year;
-  Object.values(chartViews).forEach(view => {
-    view.signal("selectedYear", year).run();
-  });
-}).catch(err => console.error(err));;
+    yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));;
   </script>
 </body>
 </html>
