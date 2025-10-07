@@ -1,6 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Top 15 airlines horizontal bar chart with line marker",
+  "description": "Top 15 airlines horizontal bar chart with line marker, dynamic per selected year",
+  "width": 900,
+  "height": 500,
   "data": {
     "url": "city_int_airline.csv",
     "format": {
