@@ -112,7 +112,7 @@
   Object.values(chartViews).forEach(view => {
     view.signal("selectedYear", year).run();
   });
-});
+}).catch(err => console.error(err));;
   </script>
 </body>
 </html>

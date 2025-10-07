@@ -21,9 +21,7 @@
   ],
   "transform": [
     {
-      "filter": {
-        "expr": "datum.Year == selectedYear"
-      }
+      "filter": "datum.Year == selectedYear"
     },
     {
       "aggregate": [
@@ -35,9 +33,7 @@
       "window": [{"op": "rank", "as": "rank"}],
       "sort": [{"field": "TotalFlightsSum", "order": "descending"}]
     },
-    {
-      "filter": {"expr": "datum.rank <= 15"}
-    }
+    {"filter": "datum.rank <= 15"}
   ],
   "mark": "bar",
   "encoding": {
