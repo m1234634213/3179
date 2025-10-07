@@ -7,16 +7,11 @@
     "url": "domestic_airlines_flights.csv"
   },
   "params": [
-    {
-      "name": "maxYear",
-      "value": 2025,
-      "bind": {
-        "input": "select",
-        "options": [2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
-        "name": "Max Year: "
-      }
-    }
-  ],
+  {
+    "name": "selectedYear",
+    "value": 2010
+  }
+],
   "transform": [
     {
       "filter": "datum.Airline != 'All Airlines'"
@@ -35,7 +30,7 @@
       "sort": [{"field": "Year", "order": "ascending"}]
     },
     {
-      "filter": "datum.Year >= 2010 && datum.Year <= maxYear"
+      "filter": "datum.Year <= selectedYear"
     }
   ],
   "mark": "rect",
@@ -63,3 +58,4 @@
     ]
   }
 }
+
