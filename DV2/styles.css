@@ -11,6 +11,9 @@ html, body {
 header {
   text-align: center;
   padding: 40px 0 20px 0;
+  position: relative;
+  text-align: center;
+  overflow: hidden;
 }
 
 header h1 {
@@ -18,6 +21,8 @@ header h1 {
   font-size: 2.2em;
   color: white;
   text-shadow: 0 0 5px rgba(0,0,0,0.4);
+  z-index: 5;
+  position: relative;
 }
 
 /* Slider */
