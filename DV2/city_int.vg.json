@@ -20,7 +20,9 @@
     }
   ],
   "transform": [
-    {"filter": "datum.Year === selectedYear"},
+    {
+      "filter": "datum.Year <= (selectedYear < 2010 ? 2010 : selectedYear)"
+    },
     {
       "aggregate": [
         {"op": "sum", "field": "Total Flights", "as": "TotalFlightsSum"}
