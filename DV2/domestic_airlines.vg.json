@@ -30,7 +30,7 @@
       "sort": [{"field": "Year", "order": "ascending"}]
     },
     {
-      "filter": "datum.Year <= max(2010, selectedYear)"
+      "filter": "datum.Year <= (selectedYear < 2010 ? 2010 : selectedYear"
     }
   ],
   "mark": "rect",
@@ -58,3 +58,4 @@
     ]
   }
 }
+
