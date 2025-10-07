@@ -1,87 +1,33 @@
-html, body, .container {
+html, body {
   width: 100%;
   height: 100%;
-  min-width: 500px;
-  min-height: 500px;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #007ced 1%, #cce7ff 100%);
 }
 
-/* Sky gradient background */
-.container {
-  background-color: #007ced;
-  background: linear-gradient(to bottom, #007ced 1%,#cce7ff 100%);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -2; /* very back */
-}
-
-
-/* Header and layout styling */
+/* Header styling */
 header {
-  position: relative;
   text-align: center;
   padding: 40px 0 20px 0;
-  background: transparent;
-  overflow: hidden;
-  z-index: 1;
 }
 
 header h1 {
   margin: 0;
   font-size: 2.2em;
-  z-index: 5;
-  position: relative;
   color: white;
   text-shadow: 0 0 5px rgba(0,0,0,0.4);
 }
 
-/* Plane and blinking light */
-.light {
-  width: 10px;
-  height: 10px;
-  background: red;
-  border-radius: 50%;
-  bottom: 295px;
-  position: absolute;
-  z-index: 10;
-  left: 20px;
-  animation: light 800ms ease-in-out 0s infinite alternate;
-}
-
-.cloud {
-  position: absolute;
-  top: 0px;
-  right: -500px;
-  opacity: .8;
-  animation: cloud 10s linear 0s infinite reverse;
-  z-index: 2;
-}
-
-.cloud img {
-  width: 200px;
-  height: auto;
-}
-
-@keyframes light {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-@keyframes cloud {
-  from { right: -500px; }
-  to { right: 102%; }
-}
-
-/* Page layout */
+/* Slider */
 #sliderContainer {
   text-align: center;
   margin: 20px;
   color: #fff;
 }
 
+/* Dashboard layout */
 .dashboard {
   display: flex;
   justify-content: space-around;
@@ -127,4 +73,3 @@ header h1 {
   color: #333;
   margin-top: 8px;
 }
-
