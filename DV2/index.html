@@ -99,14 +99,20 @@
         .then(r => r.json())
         .then(spec => {
           spec.params = spec.params || [];
-          spec.params.push({name:"selectedYear", value:parseInt(yearSlider.value), bind:false});
+          spec.params.push({name:"selectedYear", value:parseInt(yearSlider.value)});
           vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
             chartViews[chart.id] = res.view;
           });
         });
     });
 
-    yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
+    yearSlider.addEventListener("input", e => {
+  const year = parseInt(e.target.value);
+  yearLabel.textContent = year;
+  Object.values(chartViews).forEach(view => {
+    view.signal("selectedYear", year).run();
+  });
+});
   </script>
 </body>
 </html>
