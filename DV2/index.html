@@ -14,7 +14,7 @@
     <h1>Data Visualisation 2</h1>
     <div class="cloud cloud1">
       <div class="light"></div>
-      <img src="05cd33059a006bf49006097af4ccba98-plane-in-flight-by-vexels.png" alt="Plane"/>
+      <img src="https://images.vexels.com/media/users/3/145795/isolated/preview/05cd33059a006bf49006097af4ccba98-plane-in-flight-by-vexels.png" alt="Plane"/>
     </div>
   </header>
 
@@ -29,7 +29,7 @@
   <main class="dashboard">
     <div class="side-column">
       <div class="chart-box">
-        <h2>Domestic Airlines of Choice</h2>
+        <h2>Domestic Airlines</h2>
         <div id="domesticAirlines"></div>
         <p class="notes">Notes: (Fill later)</p>
       </div>
@@ -54,12 +54,12 @@
 
     <div class="side-column">
       <div class="chart-box">
-        <h2>International Airline of Choice</h2>
+        <h2>City International</h2>
         <div id="cityInt"></div>
         <p class="notes">Notes: (Fill later)</p>
       </div>
       <div class="chart-box">
-        <h2>Engine Efficiency</h2>
+        <h2>Gas</h2>
         <div id="gas"></div>
         <p class="notes">Notes: (Fill later)</p>
       </div>
@@ -72,53 +72,40 @@
   </main>
 
   <script>
-    const charts = [
-      { id: "mainChart", file: "global.vg.json" },
-      { id: "domesticAirlines", file: "domestic_airlines.vg.json" },
-      { id: "domestic", file: "domestic.vg.json" },
-      { id: "emissionsMap", file: "emissions_map.vg.json" }, // check spelling
-      { id: "cityInt", file: "city_int.vg.json" },
-      { id: "gas", file: "gas.vg.json" },
-      { id: "week9Homework", file: "week_9_homework.vg.json" },
-    ];
+  const charts = [
+    {id: "mainChart", file: "global.vg.json"},
+    {id: "domesticAirlines", file: "domestic_airlines.vg.json"},
+    {id: "domestic", file: "domestic.vg.json"},
+    {id: "emissionsMap", file: "emisssions_map.vg.json"},
+    {id: "cityInt", file: "city_int.vg.json"},
+    {id: "gas", file: "gas.vg.json"},
+    {id: "week9Homework", file: "week_9_homework.vg.json"},
+  ];
 
-    const chartViews = {};
-    const yearSlider = document.getElementById("yearSlider");
-    const yearLabel = document.getElementById("yearLabel");
+  let chartViews = {};
+  const yearSlider = document.getElementById("yearSlider");
+  const yearLabel = document.getElementById("yearLabel");
 
-    function loadCharts() {
-      charts.forEach(chart => {
-        fetch(chart.file)
-          .then(res => {
-            if (!res.ok) throw new Error(`Cannot load ${chart.file}`);
-            return res.json();
-          })
-          .then(spec => vegaEmbed('#' + chart.id, spec, { actions: false }))
-          .then(embed => {
-            chartViews[chart.id] = embed.view;
+  function updateCharts(year) {
+    yearLabel.textContent = year;
+    Object.values(chartViews).forEach(view => {
+      view.signal("selectedYear", year).run();
+    });
+  }
 
-            // Initialize selectedYear if the chart supports it
-            if (embed.view.signalNames().includes("selectedYear")) {
-              embed.view.signal("selectedYear", parseInt(yearSlider.value)).run();
-            }
-          })
-          .catch(err => console.error(err));
+  charts.forEach(chart => {
+    fetch(chart.file)
+      .then(r => r.json())
+      .then(spec => {
+        spec.params = spec.params || [];
+        spec.params.push({name:"selectedYear", value:parseInt(yearSlider.value), bind:false});
+        vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
+          chartViews[chart.id] = res.view;
+        });
       });
-    }
+  });
 
-    function updateCharts(year) {
-      yearLabel.textContent = year;
-      Object.values(chartViews).forEach(view => {
-        if (view.signalNames().includes("selectedYear")) {
-          view.signal("selectedYear", year).run();
-        }
-      });
-    }
-
-    yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
-
-    // Load charts on page load
-    loadCharts();
+  yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
   </script>
 </body>
 </html>
