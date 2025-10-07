@@ -72,44 +72,53 @@
   </main>
 
   <script>
-    // List of charts
     const charts = [
-      {id: "mainChart", file: "global.vg.json"},
-      {id: "domesticAirlines", file: "domestic_airlines.vg.json"},
-      {id: "domestic", file: "domestic.vg.json"},
-      {id: "emissionsMap", file: "emisssions_map.vg.json"},
-      {id: "cityInt", file: "city_int.vg.json"},
-      {id: "gas", file: "gas.vg.json"},
-      {id: "week9Homework", file: "week_9_homework.vg.json"},
+      { id: "mainChart", file: "global.vg.json" },
+      { id: "domesticAirlines", file: "domestic_airlines.vg.json" },
+      { id: "domestic", file: "domestic.vg.json" },
+      { id: "emissionsMap", file: "emissions_map.vg.json" }, // check spelling
+      { id: "cityInt", file: "city_int.vg.json" },
+      { id: "gas", file: "gas.vg.json" },
+      { id: "week9Homework", file: "week_9_homework.vg.json" },
     ];
 
     const chartViews = {};
     const yearSlider = document.getElementById("yearSlider");
     const yearLabel = document.getElementById("yearLabel");
 
-    // Load all charts
-    charts.forEach(chart => {
-      fetch(chart.file)
-        .then(r => r.json())
-        .then(spec => {
-          vegaEmbed('#' + chart.id, spec, {actions: false}).then(res => {
-            chartViews[chart.id] = res.view;
-            // initialize chart with current slider value
-            res.view.signal("selectedYear", parseInt(yearSlider.value)).run();
-          });
-        });
-    });
+    function loadCharts() {
+      charts.forEach(chart => {
+        fetch(chart.file)
+          .then(res => {
+            if (!res.ok) throw new Error(`Cannot load ${chart.file}`);
+            return res.json();
+          })
+          .then(spec => vegaEmbed('#' + chart.id, spec, { actions: false }))
+          .then(embed => {
+            chartViews[chart.id] = embed.view;
 
-    // Update charts when slider moves
-    yearSlider.addEventListener("input", e => {
-      const year = parseInt(e.target.value);
+            // Initialize selectedYear if the chart supports it
+            if (embed.view.signalNames().includes("selectedYear")) {
+              embed.view.signal("selectedYear", parseInt(yearSlider.value)).run();
+            }
+          })
+          .catch(err => console.error(err));
+      });
+    }
+
+    function updateCharts(year) {
       yearLabel.textContent = year;
       Object.values(chartViews).forEach(view => {
-        view.signal("selectedYear", year).run();
+        if (view.signalNames().includes("selectedYear")) {
+          view.signal("selectedYear", year).run();
+        }
       });
-    });
+    }
+
+    yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
+
+    // Load charts on page load
+    loadCharts();
   </script>
 </body>
 </html>
-
-
