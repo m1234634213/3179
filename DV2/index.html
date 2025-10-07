@@ -1,99 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vega-Lite Circular Dashboard</title>
-<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
-<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-<style>
-  body { font-family: Arial; margin: 0; background: #f7f7f7; overflow-x: hidden; }
-  #dashboard { position: relative; width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center; }
-  .main-chart { width: 600px; height: 600px; border: 1px solid #ccc; background: white; z-index: 1; }
-  .comment-box { width: 220px; height: 160px; border: 1px solid #ccc; background: white; padding: 5px; cursor: pointer; overflow: hidden; transition: transform 0.2s; position: absolute; }
-  .comment-box:hover { transform: scale(1.1); z-index: 2; }
-  .modal { display: none; position: fixed; z-index: 10; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
-  .modal-content { background: white; padding: 20px; border-radius: 5px; max-width: 90%; max-height: 90%; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Visualisation 2</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
 <body>
+  <header>
+    <h1>Data Visualisation 2</h1>
+    <div class="cloud cloud1">
+      <div class="light"></div>
+      <img src="https://images.vexels.com/media/users/3/145795/isolated/preview/05cd33059a006bf49006097af4ccba98-plane-in-flight-by-vexels.png" alt="Plane"/>
+    </div>
+  </header>
 
-<div id="dashboard">
-  <div id="mainChart" class="main-chart"></div>
+  <!-- Global year slider -->
+  <div id="sliderContainer">
+    <label for="yearSlider"><strong>Select Year:</strong></label>
+    <input type="range" id="yearSlider" min="2000" max="2025" step="1" value="2010">
+    <span id="yearLabel">2010</span>
+  </div>
 
-  <div id="domesticAirlines" class="comment-box"></div>
-  <div id="domestic" class="comment-box"></div>
-  <div id="emissionsMap" class="comment-box"></div>
-  <div id="cityInt" class="comment-box"></div>
-  <div id="gas" class="comment-box"></div>
-  <div id="week9Homework" class="comment-box"></div>
-</div>
+  <!-- Layout -->
+  <main class="dashboard">
+    <div class="side-column">
+      <div class="chart-box">
+        <h2>Domestic Airlines</h2>
+        <div id="domesticAirlines"></div>
+        <p class="notes">Notes: (Fill later)</p>
+      </div>
+      <div class="chart-box">
+        <h2>Domestic</h2>
+        <div id="domestic"></div>
+        <p class="notes">Notes: (Fill later)</p>
+      </div>
+      <div class="chart-box">
+        <h2>Emissions Map</h2>
+        <div id="emissionsMap"></div>
+        <p class="notes">Notes: (Fill later)</p>
+      </div>
+    </div>
 
-<div id="modal" class="modal" onclick="closeModal()">
-  <div class="modal-content" id="modalContent"></div>
-</div>
+    <div class="main-column">
+      <div class="chart-box main-chart">
+        <h2>Global Globe</h2>
+        <div id="mainChart"></div>
+      </div>
+    </div>
 
-<script>
-const charts = [
-  {id: "mainChart", file: "global.vg.json"},
-  {id: "domesticAirlines", file: "domestic_airlines.vg.json"},
-  {id: "domestic", file: "domestic.vg.json"},
-  {id: "emissionsMap", file: "emisssions_map.vg.json"},
-  {id: "cityInt", file: "city_int.vg.json"},
-  {id: "gas", file: "gas.vg.json"},
-  {id: "week9Homework", file: "week_9_homework.vg.json"},
-];
+    <div class="side-column">
+      <div class="chart-box">
+        <h2>City International</h2>
+        <div id="cityInt"></div>
+        <p class="notes">Notes: (Fill later)</p>
+      </div>
+      <div class="chart-box">
+        <h2>Gas</h2>
+        <div id="gas"></div>
+        <p class="notes">Notes: (Fill later)</p>
+      </div>
+      <div class="chart-box">
+        <h2>Week 9 Homework</h2>
+        <div id="week9Homework"></div>
+        <p class="notes">Notes: (Fill later)</p>
+      </div>
+    </div>
+  </main>
 
-// Embed charts using fetch
-charts.forEach(chart => {
-  fetch(chart.file)
-    .then(response => response.json())
-    .then(spec => {
-      vegaEmbed('#' + chart.id, spec, {actions: false})
-        .then(() => {
-          if(chart.id !== "mainChart"){
-            document.getElementById(chart.id).onclick = () => openModal(spec);
-          }
+  <script>
+  const charts = [
+    {id: "mainChart", file: "global.vg.json"},
+    {id: "domesticAirlines", file: "domestic_airlines.vg.json"},
+    {id: "domestic", file: "domestic.vg.json"},
+    {id: "emissionsMap", file: "emisssions_map.vg.json"},
+    {id: "cityInt", file: "city_int.vg.json"},
+    {id: "gas", file: "gas.vg.json"},
+    {id: "week9Homework", file: "week_9_homework.vg.json"},
+  ];
+
+  let chartViews = {};
+  const yearSlider = document.getElementById("yearSlider");
+  const yearLabel = document.getElementById("yearLabel");
+
+  function updateCharts(year) {
+    yearLabel.textContent = year;
+    Object.values(chartViews).forEach(view => {
+      view.signal("selectedYear", year).run();
+    });
+  }
+
+  charts.forEach(chart => {
+    fetch(chart.file)
+      .then(r => r.json())
+      .then(spec => {
+        spec.params = spec.params || [];
+        spec.params.push({name:"selectedYear", value:parseInt(yearSlider.value), bind:false});
+        vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
+          chartViews[chart.id] = res.view;
         });
-    })
-    .catch(console.error);
-});
-
-// Position comment boxes in a circle
-function positionBoxes() {
-  const main = document.getElementById("mainChart");
-  const mainRect = main.getBoundingClientRect();
-  const centerX = mainRect.left + mainRect.width / 2;
-  const centerY = mainRect.top + mainRect.height / 2;
-
-  const boxes = ["domesticAirlines","domestic","emissionsMap","cityInt","gas","week9Homework"];
-  const radius = Math.max(mainRect.width, mainRect.height) / 2 + 120;
-
-  boxes.forEach((id,index)=>{
-    const angle = (index / boxes.length) * 2 * Math.PI;
-    const el = document.getElementById(id);
-    el.style.left = (centerX + radius * Math.cos(angle) - el.offsetWidth/2) + "px";
-    el.style.top = (centerY + radius * Math.sin(angle) - el.offsetHeight/2) + "px";
+      });
   });
-}
 
-window.addEventListener("load", positionBoxes);
-window.addEventListener("resize", positionBoxes);
-
-function openModal(spec){
-  const modal = document.getElementById("modal");
-  const modalContent = document.getElementById("modalContent");
-  modal.style.display = "flex";
-  modalContent.innerHTML = "";
-  vegaEmbed(modalContent, spec, {actions: true});
-}
-
-function closeModal(){
-  document.getElementById("modal").style.display = "none";
-  document.getElementById("modalContent").innerHTML = "";
-}
-</script>
-
+  yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
+  </script>
 </body>
 </html>
