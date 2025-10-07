@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Top 15 airlines horizontal bar chart, dynamic per selected year",
+  "description": "Top 15 airlines horizontal bar chart with flights summed per airline, dynamic per selected year",
   "width": 900,
   "height": 500,
   "data": {
@@ -22,15 +22,21 @@
   "transform": [
     {"filter": "datum.Year === selectedYear"},
     {
+      "aggregate": [
+        {"op": "sum", "field": "Total Flights", "as": "TotalFlightsSum"}
+      ],
+      "groupby": ["Airline"]
+    },
+    {
       "window": [{"op": "rank", "as": "rank"}],
-      "sort": [{"field": "Total Flights", "order": "descending"}]
+      "sort": [{"field": "TotalFlightsSum", "order": "descending"}]
     },
     {"filter": "datum.rank <= 15"}
   ],
   "mark": "bar",
   "encoding": {
     "x": {
-      "field": "Total Flights",
+      "field": "TotalFlightsSum",
       "type": "quantitative",
       "axis": {"title": "Total Flights"}
     },
@@ -47,7 +53,7 @@
     },
     "tooltip": [
       {"field": "Airline", "type": "nominal"},
-      {"field": "Total Flights", "type": "quantitative"}
+      {"field": "TotalFlightsSum", "type": "quantitative"}
     ]
   }
 }
