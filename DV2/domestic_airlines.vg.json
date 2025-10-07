@@ -1,17 +1,17 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Cumulative airline flight heat map with max year dropdown",
+  "description": "Cumulative airline flight heat map, showing at least 2010 if slider is lower",
   "width": 900,
   "height": 500,
   "data": {
     "url": "domestic_airlines_flights.csv"
   },
   "params": [
-  {
-    "name": "selectedYear",
-    "value": 2010
-  }
-],
+    {
+      "name": "selectedYear",
+      "value": 2010
+    }
+  ],
   "transform": [
     {
       "filter": "datum.Airline != 'All Airlines'"
@@ -58,5 +58,3 @@
     ]
   }
 }
-
-
