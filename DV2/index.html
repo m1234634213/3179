@@ -99,7 +99,7 @@
         .then(r => r.json())
         .then(spec => {
           spec.params = spec.params || [];
-          spec.params.push({name:"selectedYear", value:parseInt(yearSlider.value)});
+          spec.params.push({name:"selectedYear", value:parseInt(yearSlider.value), bind:false});
           vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
             chartViews[chart.id] = res.view;
           });
