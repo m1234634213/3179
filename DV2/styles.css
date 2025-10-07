@@ -10,76 +10,90 @@ html, body, .container {
 
 /* Sky gradient background */
 .container {
-  background: linear-gradient(to bottom, #007ced 1%, #cce7ff 100%);
+  background-color: #007ced;
+  background: linear-gradient(to bottom, #007ced 1%,#cce7ff 100%);
   position: fixed;
   top: 0;
   left: 0;
-  z-index: -2; /* behind everything */
+  z-index: -2; /* very back */
 }
 
 /* Cloud layer */
 #cloud-intro {
-  position: fixed;
-  width: 8%;
-  height: 8%;
-  background: url(vecteezy_cloud-png-with-ai-generated_26774603.png) 0 200px,
-              url(vecteezy_cloud-png-with-ai-generated_26774603.png) 0 300px,
-              url(vecteezy_cloud-png-with-ai-generated_26774603.png) 100px 250px;
+  position: relative;
+  height: 100%;
+  background: url(https://static.radulescu.me/examples/clouds/clouds1000.png);
+  background: url(https://static.radulescu.me/examples/clouds/clouds1000.png) 0 200px,
+              url(https://static.radulescu.me/examples/clouds/clouds1200_1.png) 0 300px,
+              url(https://static.radulescu.me/examples/clouds/clouds1000_blur3.png) 100px 250px;
   animation: wind 20s linear infinite;
-  z-index: -1; /* behind all content */
+  z-index: -1; /* behind everything */
 }
 
 /* Cloud drifting animation */
 @keyframes wind {
-  0% { background-position: 0 200px, 0 300px, 100px 250px; }
-  100% { background-position: 1000px 200px, 1200px 300px, 1100px 250px; }
+  0% {
+    background-position: 0 200px, 0 300px, 100px 250px;
+  }
+  100% {
+    background-position: 1000px 200px, 1200px 300px, 1100px 250px;
+  }
 }
 
-/* Header styling */
+/* Header and layout styling */
 header {
   position: relative;
   text-align: center;
   padding: 40px 0 20px 0;
   background: transparent;
-  overflow: visible;
-  z-index: 2;
+  overflow: hidden;
+  z-index: 1;
 }
 
 header h1 {
   margin: 0;
   font-size: 2.2em;
+  z-index: 5;
+  position: relative;
   color: white;
   text-shadow: 0 0 5px rgba(0,0,0,0.4);
-  position: relative;
 }
 
 /* Plane and blinking light */
-.plane {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 3; /* above clouds */
-}
-
-.plane img {
-  width: 200px;
-  height: auto;
-}
-
 .light {
   width: 10px;
   height: 10px;
   background: red;
   border-radius: 50%;
+  bottom: 295px;
   position: absolute;
-  bottom: 50px;
-  left: 50px;
-  animation: light 800ms ease-in-out infinite alternate;
+  z-index: 10;
+  left: 20px;
+  animation: light 800ms ease-in-out 0s infinite alternate;
+}
+
+.cloud {
+  position: absolute;
+  top: 0px;
+  right: -500px;
+  opacity: .8;
+  animation: cloud 10s linear 0s infinite reverse;
+  z-index: 2;
+}
+
+.cloud img {
+  width: 200px;
+  height: auto;
 }
 
 @keyframes light {
   0% { opacity: 0; }
   100% { opacity: 1; }
+}
+
+@keyframes cloud {
+  from { right: -500px; }
+  to { right: 102%; }
 }
 
 /* Page layout */
@@ -119,7 +133,7 @@ header h1 {
 }
 
 .chart-box h2 {
-  font-size: 1.2em;
+  font-size: 1.1em;
   margin-top: 0;
   text-align: center;
 }
@@ -134,4 +148,3 @@ header h1 {
   color: #333;
   margin-top: 8px;
 }
-
