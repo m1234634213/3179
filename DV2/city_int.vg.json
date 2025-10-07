@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Top 15 airlines horizontal bar chart with line marker, dynamic per selected year",
+  "description": "Top 15 airlines horizontal bar chart, dynamic per selected year",
   "width": 900,
   "height": 500,
   "data": {
@@ -27,29 +27,27 @@
     },
     {"filter": "datum.rank <= 15"}
   ],
-  "layer": [
-    {
-      "mark": {"type": "bar", "size": 10},
-      "encoding": {
-        "x": {"field": "Total Flights", "type": "quantitative"},
-        "y": {"field": "Airline", "type": "nominal", "sort": "-x"},
-        "color": {"field": "Airline", "type": "nominal"}
-      }
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "Total Flights",
+      "type": "quantitative",
+      "axis": {"title": "Total Flights"}
     },
-    {
-      "mark": {"type": "line", "interpolate": "monotone", "color": "black", "strokeWidth": 2},
-      "encoding": {
-        "x": {"field": "Total Flights", "type": "quantitative"},
-        "y": {"field": "Airline", "type": "nominal", "sort": "-x"}
-      }
+    "y": {
+      "field": "Airline",
+      "type": "nominal",
+      "sort": "-x",
+      "axis": {"title": "Airline"}
     },
-    {
-      "mark": {"type": "text", "align": "left", "dx": 5},
-      "encoding": {
-        "x": {"field": "Total Flights", "type": "quantitative"},
-        "y": {"field": "Airline", "type": "nominal"},
-        "text": {"field": "Total Flights", "type": "quantitative"}
-      }
-    }
-  ]
+    "color": {
+      "field": "Airline",
+      "type": "nominal",
+      "legend": null
+    },
+    "tooltip": [
+      {"field": "Airline", "type": "nominal"},
+      {"field": "Total Flights", "type": "quantitative"}
+    ]
+  }
 }
