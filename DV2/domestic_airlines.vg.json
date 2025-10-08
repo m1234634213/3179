@@ -13,12 +13,7 @@
       }
     }
   },
-  "params": [
-  {
-    "name": "yearSignal",
-    "value": 2010
-  }
-],
+  "params": [],
   "transform": [
     {"filter": "datum.Airline != 'All Airlines'"},
     {
