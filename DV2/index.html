@@ -108,15 +108,35 @@
     //       });
     //     });
     // });
-   charts.forEach(chart => {
+
+
+  //  charts.forEach(chart => {
+  //   fetch(chart.file)
+  //     .then(r => r.json())
+  //     .then(spec => {
+  //       // Remove any params inside JSON for selectedYear
+  //       vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
+  //         chartViews[chart.id] = res.view;
+  //         res.view.signal("yearSignal", parseInt(yearSlider.value)).run();
+  //       });
+  //     });
+  // });
+
+    charts.forEach(chart => {
     fetch(chart.file)
       .then(r => r.json())
       .then(spec => {
-        // Remove any params inside JSON for selectedYear
-        vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
-          chartViews[chart.id] = res.view;
-          res.view.signal("yearSignal", parseInt(yearSlider.value)).run();
-        });
+        // Remove any existing year param in JSON
+        if (spec.params) {
+          spec.params = spec.params.filter(p => p.name !== "selectedYear");
+        }
+
+        vegaEmbed('#' + chart.id, spec, {actions:false})
+          .then(res => {
+            chartViews[chart.id] = res.view;
+            // Initialize signal on load
+            updateCharts(parseInt(yearSlider.value));
+          });
       });
   });
     yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));;
