@@ -13,12 +13,7 @@
       }
     }
   },
-  "params": [
-  {
-    "name": "yearSignal",
-    "value": 2020
-  }
-],
+  "params": [],
   "transform": [
     {
       "filter": "datum.Year <= yearSignal"
