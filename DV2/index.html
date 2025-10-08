@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Data Visualisation 2</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styler.css">
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
@@ -105,19 +105,17 @@
     //       });
     //     });
     // });
-    charts.forEach(chart => {
+   charts.forEach(chart => {
   fetch(chart.file)
     .then(r => r.json())
     .then(spec => {
-      // Remove any extra param push if already in JSON
+      // Remove any params inside JSON for selectedYear
       vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
         chartViews[chart.id] = res.view;
-        // initialize chart with slider value
-        res.view.signal("selectedYear", parseInt(yearSlider.value)).run();
+        res.view.signal("selectedYear", parseInt(yearSlider.value)).runAsync();
       });
     });
 });
-
     yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));;
   </script>
 </body>
