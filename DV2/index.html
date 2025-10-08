@@ -128,7 +128,7 @@
       .then(spec => {
         // Remove any existing year param in JSON
         if (spec.params) {
-          spec.params = spec.params.filter(p => p.name !== "selectedYear");
+          spec.params = spec.params.filter(p => p.name !== "yearSignal");
         }
 
         vegaEmbed('#' + chart.id, spec, {actions:false})
