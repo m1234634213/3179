@@ -9,8 +9,7 @@
   "params": [
     {
       "name": "selectedYear",
-      "value": 2010,
-      "bind": null
+      "value": 2010
     }
   ],
   "transform": [
