@@ -45,6 +45,7 @@ header h1 {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  overflow: visible;
 }
 
 .main-column {
@@ -52,6 +53,11 @@ header h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: visible;
+}
+.chart-box .vega-bindings {
+  margin-top: 50px;
+  margin-bottom: 0;
 }
 
 .chart-box {
@@ -60,12 +66,17 @@ header h1 {
   padding: 10px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   border-radius: 8px;
+  flex:unset;
+  min-height: 400px;
+  overflow: visible;
+  margin: auto
 }
 
 .chart-box h2 {
   font-size: 1.1em;
   margin-top: 0;
   text-align: center;
+  overflow: visible;
 }
 
 .main-chart {

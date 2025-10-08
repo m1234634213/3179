@@ -60,6 +60,8 @@ header h1 {
   padding: 10px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   border-radius: 8px;
+  flex:1;
+  overflow: visible;
 }
 
 .chart-box h2 {
@@ -79,6 +81,24 @@ header h1 {
   font-size: 0.85em;
   color: #333;
   margin-top: 8px;
+}
+
+/* Show Vega-Lite slider bindings under each chart */
+.vega-bindings {
+  display: block !important;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Style for the Vega-Lite slider controls */
+.vega-bindings input[type=range] {
+  width: 80%;
+  accent-color: #007ced;
+}
+
+.vega-bindings label {
+  color: #333;
+  font-weight: bold;
 }
 
 /* Cloud animation */

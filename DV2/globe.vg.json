@@ -6,27 +6,16 @@
   "data": {
     "url": "citypairs.csv"
   },
+  
   "projection": {
     "type": "orthographic",
     "rotate": [-135, 25],
     "scale": 450
   },
-  "params": [
-    {
-      "name": "selectedYear",
-      "value": 2020,
-      "bind": {
-        "input": "range",
-        "min": 2000,
-        "max": 2025,
-        "step": 1,
-        "name": "Year: "
-      }
-    }
-  ],
+  "params": [],
   "transform": [
     {
-      "filter": "datum.Year == selectedYear && datum['Lat  Aus'] != null && datum['Lat International'] != null"
+      "filter": "datum.Year == yearSignal && datum['Lat  Aus'] != null && datum['Lat International'] != null"
     },
     {
       "window": [{"op":"rank","as":"routeRank","sort":[{"field":"(b) OutFlightsAll","order":"descending"}]}]
