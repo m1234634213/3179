@@ -81,6 +81,24 @@ header h1 {
   margin-top: 8px;
 }
 
+/* Show Vega-Lite slider bindings under each chart */
+.vega-bindings {
+  display: block !important;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Style for the Vega-Lite slider controls */
+.vega-bindings input[type=range] {
+  width: 80%;
+  accent-color: #007ced;
+}
+
+.vega-bindings label {
+  color: #333;
+  font-weight: bold;
+}
+
 /* Cloud animation */
 .cloud {
   position: absolute;

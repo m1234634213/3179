@@ -75,52 +75,47 @@
   </main>
 
   <script>
-    const charts = [
-      { id: "mainChart", file: "globe.vg.json" },
-      { id: "domesticAirlines", file: "domestic_airlines.vg.json" },
-      { id: "domestic", file: "Domestic.vg.json" },
-      { id: "emissionsMap", file: "Emissions_map.vg.json" },
-      { id: "cityInt", file: "city_int.vg.json" },
-      { id: "gas", file: "gas.vg.json" },
-      { id: "week9Homework", file: "week_9_homework.vg.json" },
-    ];
+  const charts = [
+    { id: "mainChart", file: "globe.vg.json" },
+    { id: "domesticAirlines", file: "domestic_airlines.vg.json" },
+    { id: "domestic", file: "Domestic.vg.json" },
+    { id: "emissionsMap", file: "Emissions_map.vg.json" },
+    { id: "cityInt", file: "city_int.vg.json" },
+    { id: "gas", file: "gas.vg.json" },
+    { id: "week9Homework", file: "week_9_homework.vg.json" },
+  ];
 
-    let chartViews = {};
-    const yearSlider = document.getElementById("yearSlider");
-    const yearLabel = document.getElementById("yearLabel");
+  let chartViews = {};
+  const yearSlider = document.getElementById("yearSlider");
+  const yearLabel = document.getElementById("yearLabel");
 
-    // Function to update all charts
-    function updateCharts(year) {
-      yearLabel.textContent = year;
-      Object.values(chartViews).forEach(view => {
-        // Try to find any available signal that represents the year
-        const signals = view.getState({ signals: true }).signals;
-        if (signals.yearSignal !== undefined) {
-          view.signal("yearSignal", year).runAsync();
-        } else if (signals.selectedYear !== undefined) {
-          view.signal("selectedYear", year).runAsync();
-        }
-      });
-    }
-
-    // Load each chart
-    charts.forEach(chart => {
-      fetch(chart.file)
-        .then(r => r.json())
-        .then(spec => {
-          // Don’t remove local slider params — keep them visible
-          vegaEmbed('#' + chart.id, spec, { actions: false })
-            .then(res => {
-              chartViews[chart.id] = res.view;
-              // Initialize the chart with the current global slider value
-              updateCharts(parseInt(yearSlider.value));
-            });
-        });
+  function updateCharts(year) {
+    yearLabel.textContent = year;
+    Object.values(chartViews).forEach(view => {
+      const signals = view.getState({ signals: true }).signals;
+      if (signals.yearSignal !== undefined) {
+        view.signal("yearSignal", year).runAsync();
+      } else if (signals.selectedYear !== undefined) {
+        view.signal("selectedYear", year).runAsync();
+      }
     });
+  }
 
-    // When global slider moves, update all charts
-    yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
-  </script>
+  charts.forEach(chart => {
+    fetch(chart.file)
+      .then(r => r.json())
+      .then(spec => {
+        vegaEmbed('#' + chart.id, spec, { actions: false })
+          .then(res => {
+            chartViews[chart.id] = res.view;
+            updateCharts(parseInt(yearSlider.value));
+          });
+      });
+  });
+
+  yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
+</script>
+
 </body>
 
 </html>
