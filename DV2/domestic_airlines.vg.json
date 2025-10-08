@@ -25,7 +25,7 @@
       "sort": [{"field": "Year", "order": "ascending"}]
     },
     {
-      "filter": "datum.Year <= max(2010, yearSignal)"
+      "filter": "datum.Year <= yearSignal"
     }
   ],
   "mark": "rect",
