@@ -97,17 +97,17 @@
         }
       })};
 
-    // charts.forEach(chart => {
-    //   fetch(chart.file)
-    //     .then(r => r.json())
-    //     .then(spec => {
-    //       spec.params = spec.params || [];
-    //       spec.params.push({name:"selectedYear", value:parseInt(yearSlider.value), bind:false});
-    //       vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
-    //         chartViews[chart.id] = res.view;
-    //       });
-    //     });
-    // });
+    charts.forEach(chart => {
+      fetch(chart.file)
+        .then(r => r.json())
+        .then(spec => {
+          spec.params = spec.params || [];
+          spec.params.push({name:"yearSignal", value:parseInt(yearSlider.value), bind:false});
+          vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
+            chartViews[chart.id] = res.view;
+          });
+        });
+    });
 
 
   //  charts.forEach(chart => {
@@ -122,23 +122,23 @@
   //     });
   // });
 
-    charts.forEach(chart => {
-    fetch(chart.file)
-      .then(r => r.json())
-      .then(spec => {
-        // Remove any existing year param in JSON
-        if (spec.params) {
-          spec.params = spec.params.filter(p => p.name !== "yearSignal");
-        }
+  //   charts.forEach(chart => {
+  //   fetch(chart.file)
+  //     .then(r => r.json())
+  //     .then(spec => {
+  //       // Remove any existing year param in JSON
+  //       if (spec.params) {
+  //         spec.params = spec.params.filter(p => p.name !== "yearSignal");
+  //       }
 
-        vegaEmbed('#' + chart.id, spec, {actions:false})
-          .then(res => {
-            chartViews[chart.id] = res.view;
-            // Initialize signal on load
-            updateCharts(parseInt(yearSlider.value));
-          });
-      });
-  });
+  //       vegaEmbed('#' + chart.id, spec, {actions:false})
+  //         .then(res => {
+  //           chartViews[chart.id] = res.view;
+  //           // Initialize signal on load
+  //           updateCharts(parseInt(yearSlider.value));
+  //         });
+  //     });
+  // });
     yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));;
   </script>
 </body>
