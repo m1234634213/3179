@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Simplified Australian outbound flights with top routes and cleaner arcs",
-  "width": 800,
-  "height": 800,
+  "width": "container",
+  "height": "container",
   "data": {
     "url": "citypairs.csv"
   },
