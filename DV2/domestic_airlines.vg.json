@@ -8,7 +8,7 @@
   },
   "params": [
     {
-      "name": "globalYear",
+      "name": "selectedYear",
       "value": 2010
     }
   ],
@@ -30,7 +30,7 @@
       "sort": [{"field": "Year", "order": "ascending"}]
     },
     {
-      "filter": "datum.Year <= globalYear"
+      "filter": "datum.Year <= max(2010, selectedYear)"
     }
   ],
   "mark": "rect",
