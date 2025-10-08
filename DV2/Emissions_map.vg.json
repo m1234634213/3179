@@ -4,7 +4,7 @@
   "width": 900,
   "height": 500,
   "data": {
-    "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
+    "url": "m1234634213/3179/DV2/ne_110m_admin_0_australia.topojson",
     "format": {"type": "topojson", "feature": "countries"}
   },
   "transform": [
