@@ -4,7 +4,7 @@
   "width": 900,
   "height": 500,
   "data": {
-    "url": "m1234634213/3179/DV2/ne_110m_admin_0_australia.topojson",
+    "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/3_choropleth_map/js/ne_110m_admin_0_countries.topojson",
     "format": {"type": "topojson", "feature": "countries"}
   },
   "transform": [
