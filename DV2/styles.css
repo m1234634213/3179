@@ -60,12 +60,14 @@ header h1 {
   padding: 10px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   border-radius: 8px;
+  overflow: visible;
 }
 
 .chart-box h2 {
   font-size: 1.1em;
   margin-top: 0;
   text-align: center;
+  overflow: visible;
 }
 
 .main-chart {
