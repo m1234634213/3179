@@ -4,7 +4,14 @@
   "width": 900,
   "height": 500,
   "data": {
-    "url": "domestic_airlines_flights.csv"
+    "url": "domestic_airlines_flights.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "Year": "number",
+        "Total Flights": "number"
+      }
+    }
   },
   "params": [],
   "transform": [

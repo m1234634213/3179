@@ -13,7 +13,7 @@
       }
     }
   },
-  "params": [  ],
+  "params": [],
   "transform": [
     {
       "filter": "datum.Year <= yearSignal"
