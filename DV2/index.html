@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Data Visualisation 2</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styler.css">
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
@@ -89,12 +89,11 @@
     const yearSlider = document.getElementById("yearSlider");
     const yearLabel = document.getElementById("yearLabel");
 
-    function updateCharts(year) {
+    function updateCharts(year){
       yearLabel.textContent = year;
       Object.values(chartViews).forEach(view => {
         view.signal("yearSignal", year).run();
-      })
-    };
+      })};
 
     charts.forEach(chart => {
       fetch(chart.file)
@@ -114,9 +113,9 @@
         });
     });
     yearSlider.addEventListener("input", e => {
-      const year = parseInt(e.target.value);
-      updateCharts(year);
-    })
+  const year = parseInt(e.target.value);
+  updateCharts(year);
+})
   </script>
 </body>
 

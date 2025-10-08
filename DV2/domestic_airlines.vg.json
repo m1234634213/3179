@@ -8,12 +8,10 @@
     "name": "yearSignal",
     "value": 2010,
     "bind": {
-      "input": "range",
-      "min": 2000,
-      "max": 2025,
-      "step": 1,
-      "name": "Year: "
-    }
+        "input": "select",
+        "options": [2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
+        "name": "Max Year: "
+      }
   }
 ],
 "data": {
