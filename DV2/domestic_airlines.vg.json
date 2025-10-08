@@ -52,14 +52,13 @@
   "mark": "bar",
   "encoding": {
     "x": {
-      "field": "CumulativeFlights",
-      "type": "quantitative",
-      "axis": {"title": "Cumulative Flights"}
+      "field": "Year",
+      "type": "ordinal",
+      "axis": {"title": "Year"}
     },
     "y": {
       "field": "Airline",
       "type": "nominal",
-      "sort": "-x",
       "axis": {"title": "Airline"}
     },
     "color": {
