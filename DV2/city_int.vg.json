@@ -3,16 +3,6 @@
   "description": "Top 15 airlines horizontal bar chart with flights summed per airline, dynamic per selected year",
   "width": 900,
   "height": 500,
-  "data": {
-    "url": "city_int_airline.csv",
-    "format": {
-      "type": "csv",
-      "parse": {
-        "Year": "number",
-        "Total Flights": "number"
-      }
-    }
-  },
   "params": [
     {
       "name": "yearSignal",
@@ -25,7 +15,16 @@
         "name": "Select Year: "
       }
     }
-  ],
+  ],"data": {
+    "url": "city_int_airline.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "Year": "number",
+        "Total Flights": "number"
+      }
+    }
+  },
   "transform": [
     {
       "filter": "datum.Year <= yearSignal"
