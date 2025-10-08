@@ -109,7 +109,7 @@
       if (!view) return;
 
       // Domestic Airlines should never show data before 2010
-      const filterYear = chartId === "domesticAirlines" ? Math.max(year, 2010) : year;
+      const filterYear = chartId === "domesticAirlines" ? Math.max(2010,year) : year;
 
       // Replace data with filtered values
       const dataName = view._runtime.data?.[0]?.name || 'source_0';
