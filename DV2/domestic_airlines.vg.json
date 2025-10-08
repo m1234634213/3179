@@ -12,7 +12,19 @@
         "Total Flights": "number"
       }
     }
-  },
+  },"params": [
+  {
+    "name": "selectedYear",
+    "value": 2010,
+    "bind": {
+      "input": "range",
+      "min": 2000,
+      "max": 2025,
+      "step": 1,
+      "name": "Year"
+    }
+  }
+],
   "transform": [
     {"filter": "datum.Airline != 'All Airlines'"},
     {
