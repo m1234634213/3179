@@ -3,7 +3,7 @@
   "description": "Simplified Australian outbound flights with top routes and cleaner arcs",
   "width": "container",
   "height": "container",
-  "autosize": {"type": "fit", "contains": "padding"},
+  "autosize": {"type": "fit"},
   "data": {
     "url": "citypairs.csv"
   },
