@@ -4,6 +4,7 @@
   "width": 800,
   "height": 500,
   "projection": {"type": "equirectangular"},
+  "params": [],
   "layer": [
     {
       "data": {

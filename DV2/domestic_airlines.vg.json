@@ -6,13 +6,7 @@
   "data": {
     "url": "domestic_airlines_flights.csv"
   },
-  "params": [
-    {
-      "name": "selectedYear",
-      "value": 2010
-      
-    }
-  ],
+  "params": [],
   "transform": [
     {
       "filter": "datum.Airline != 'All Airlines'"
