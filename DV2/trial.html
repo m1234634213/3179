@@ -73,7 +73,7 @@
   </main>
 
   <script>
-  const charts = [
+    const charts = [
     {id: "mainChart", file: "globe.vg.json"},
     {id: "domesticAirlines", file: "domestic_airlines.vg.json"},
     {id: "domestic", file: "Domestic.vg.json"},
@@ -83,38 +83,42 @@
     {id: "week9Homework", file: "week_9_homework.vg.json"},
   ];
 
-  const chartViews = {};
-  const yearSlider = document.getElementById("yearSlider");
-  const yearLabel = document.getElementById("yearLabel");
+    let chartViews = {};
+    const yearSlider = document.getElementById("yearSlider");
+    const yearLabel = document.getElementById("yearLabel");
 
-  function updateCharts(globalYear) {
-    yearLabel.textContent = globalYear;
-    Object.entries(chartViews).forEach(([id, view]) => {
-      const signals = view.signalNames ? view.signalNames() : [];
-      if (signals.includes("globalYear")) {
-        // clamp to 2010 only for domesticAirlines chart
-        const value = id === "domesticAirlines" ? Math.max(2010, globalYear) : globalYear;
-        view.signal("globalYear", value).run();
-      }
-    });
-  }
+    function updateCharts(year) {
+      yearLabel.textContent = year;
+      Object.values(chartViews).forEach(view => {
+        view.signal("selectedYear", year).run();
+      });
+    }
 
- charts.forEach(chart => {
+    // charts.forEach(chart => {
+    //   fetch(chart.file)
+    //     .then(r => r.json())
+    //     .then(spec => {
+    //       spec.params = spec.params || [];
+    //       spec.params.push({name:"selectedYear", value:parseInt(yearSlider.value), bind:false});
+    //       vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
+    //         chartViews[chart.id] = res.view;
+    //       });
+    //     });
+    // });
+    charts.forEach(chart => {
   fetch(chart.file)
     .then(r => r.json())
     .then(spec => {
-      // No need to modify params here if already defined in JSON
+      // Remove any extra param push if already in JSON
       vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
         chartViews[chart.id] = res.view;
         // initialize chart with slider value
-        res.view.signal("globalYear", parseInt(yearSlider.value)).run();
+        res.view.signal("selectedYear", parseInt(yearSlider.value)).run();
       });
     });
 });
 
-
-  yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
-</script>
-
+    yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));;
+  </script>
 </body>
 </html>
