@@ -97,31 +97,6 @@
         }
       })};
 
-    // charts.forEach(chart => {
-    //   fetch(chart.file)
-    //     .then(r => r.json())
-    //     .then(spec => {
-    //       spec.params = spec.params || [];
-    //       spec.params.push({name:"selectedYear", value:parseInt(yearSlider.value), bind:false});
-    //       vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
-    //         chartViews[chart.id] = res.view;
-    //       });
-    //     });
-    // });
-
-
-  //  charts.forEach(chart => {
-  //   fetch(chart.file)
-  //     .then(r => r.json())
-  //     .then(spec => {
-  //       // Remove any params inside JSON for selectedYear
-  //       vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
-  //         chartViews[chart.id] = res.view;
-  //         res.view.signal("yearSignal", parseInt(yearSlider.value)).runAsync();
-  //       });
-  //     });
-  // });
-
     charts.forEach(chart => {
     fetch(chart.file)
       .then(r => r.json())
