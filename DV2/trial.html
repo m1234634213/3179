@@ -86,34 +86,7 @@
   ];
 
   let chartViews = {};
-  const yearSlider = document.getElementById("yearSlider");
-  const yearLabel = document.getElementById("yearLabel");
-
-  function updateCharts(year) {
-    yearLabel.textContent = year;
-    Object.values(chartViews).forEach(view => {
-      const signals = view.getState({ signals: true }).signals;
-      if (signals.yearSignal !== undefined) {
-        view.signal("yearSignal", year).runAsync();
-      } else if (signals.selectedYear !== undefined) {
-        view.signal("selectedYear", year).runAsync();
-      }
-    });
-  }
-
-  charts.forEach(chart => {
-    fetch(chart.file)
-      .then(r => r.json())
-      .then(spec => {
-        vegaEmbed('#' + chart.id, spec, { actions: false })
-          .then(res => {
-            chartViews[chart.id] = res.view;
-            updateCharts(parseInt(yearSlider.value));
-          });
-      });
-  });
-
-  yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
+ 
 </script>
 
 </body>
