@@ -1,10 +1,16 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Cumulative airline flight heat map, showing at least 2010 if slider is lower",
+  "description": "Cumulative airline flight heat map (cumulative up to selectedYear).",
   "width": 900,
   "height": 500,
   "data": {
-    "url": "domestic_airlines_flights.csv"
+    "url": "domestic_airlines_flights.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "Year": "number"
+      }
+    }
   },
   "params": [
     {
@@ -14,24 +20,28 @@
     }
   ],
   "transform": [
-    {
-      "filter": "datum.Airline != 'All Airlines'"
-    },
+    { "filter": "datum.Airline != 'All Airlines'" },
+
+   
     {
       "aggregate": [
-        {"op": "count", "as": "Flights"}
+        { "op": "count", "as": "Flights" }
       ],
       "groupby": ["Airline", "Year"]
     },
+
+   
+    {
+      "filter": "datum.Year <= selectedYear"
+    },
+
+   
     {
       "window": [
-        {"op": "sum", "field": "Flights", "as": "CumulativeFlights"}
+        { "op": "sum", "field": "Flights", "as": "CumulativeFlights" }
       ],
       "groupby": ["Airline"],
-      "sort": [{"field": "Year", "order": "ascending"}]
-    },
-    {
-      "filter": "datum.Year <= max(2010, selectedYear)"
+      "sort": [{ "field": "Year", "order": "ascending" }]
     }
   ],
   "mark": "rect",
@@ -39,23 +49,23 @@
     "x": {
       "field": "Year",
       "type": "ordinal",
-      "axis": {"title": "Year"}
+      "axis": { "title": "Year" }
     },
     "y": {
       "field": "Airline",
       "type": "nominal",
-      "axis": {"title": "Airline"}
+      "axis": { "title": "Airline" }
     },
     "color": {
       "field": "CumulativeFlights",
       "type": "quantitative",
-      "scale": {"scheme": "purplered"},
-      "legend": {"title": "Cumulative Flights"}
+      "scale": { "scheme": "purplered" },
+      "legend": { "title": "Cumulative Flights" }
     },
     "tooltip": [
-      {"field": "Airline", "type": "nominal"},
-      {"field": "Year", "type": "ordinal"},
-      {"field": "CumulativeFlights", "type": "quantitative"}
+      { "field": "Airline", "type": "nominal" },
+      { "field": "Year", "type": "ordinal" },
+      { "field": "CumulativeFlights", "type": "quantitative" }
     ]
   }
 }
