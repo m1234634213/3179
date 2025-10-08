@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,13 +10,14 @@
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
+
 <body>
   <header>
     <h1>Data Visualisation 2</h1>
     <!-- Animated plane -->
     <div class="cloud">
       <div class="light"></div>
-      <img src="05cd33059a006bf49006097af4ccba98-plane-in-flight-by-vexels.png" alt="Plane"/>
+      <img src="05cd33059a006bf49006097af4ccba98-plane-in-flight-by-vexels.png" alt="Plane" />
     </div>
   </header>
 
@@ -74,58 +76,59 @@
 
   <script>
     const charts = [
-    {id: "mainChart", file: "globe.vg.json"},
-    {id: "domesticAirlines", file: "domestic_airlines.vg.json"},
-    {id: "domestic", file: "Domestic.vg.json"},
-    {id: "emissionsMap", file: "Emissions_map.vg.json"},
-    {id: "cityInt", file: "city_int.vg.json"},
-    {id: "gas", file: "gas.vg.json"},
-    {id: "week9Homework", file: "week_9_homework.vg.json"},
-  ];
+      { id: "mainChart", file: "globe.vg.json" },
+      { id: "domesticAirlines", file: "domestic_airlines.vg.json" },
+      { id: "domestic", file: "Domestic.vg.json" },
+      { id: "emissionsMap", file: "Emissions_map.vg.json" },
+      { id: "cityInt", file: "city_int.vg.json" },
+      { id: "gas", file: "gas.vg.json" },
+      { id: "week9Homework", file: "week_9_homework.vg.json" },
+    ];
 
     let chartViews = {};
     const yearSlider = document.getElementById("yearSlider");
     const yearLabel = document.getElementById("yearLabel");
 
-    function updateCharts(year) {
-      yearLabel.textContent = year;
-      Object.values(chartViews).forEach(view => {
-        view.signal("yearSignal", year).run();
-      });
+    // Load all charts
+    charts.forEach(chart => {
+      fetch(chart.file)
+        .then(r => r.json())
+        .then(spec => {
+          vegaEmbed('#' + chart.id, spec, { actions: false }).then(res => {
+            chartViews[chart.id] = res.view;
+
+            // Initialize chart with slider value
+            filterChartData(chart.id, parseInt(yearSlider.value));
+          });
+        });
+    });
+
+    // Function to filter chart data based on slider
+    function filterChartData(chartId, year) {
+      const view = chartViews[chartId];
+      if (!view) return;
+
+      // Domestic Airlines should never show data before 2010
+      const filterYear = chartId === "domesticAirlines" ? Math.max(year, 2010) : year;
+
+      // Replace data with filtered values
+      const dataName = view._runtime.data?.[0]?.name || 'source_0';
+      const originalData = view.data(dataName)._values; // original dataset
+
+      const filtered = originalData.filter(d => d.Year <= filterYear);
+      view.change(dataName, vega.changeset().remove(() => true).insert(filtered)).run();
     }
 
-    // charts.forEach(chart => {
-    //   fetch(chart.file)
-    //     .then(r => r.json())
-    //     .then(spec => {
-    //       spec.params = spec.params || [];
-    //       spec.params.push({name:"selectedYear", value:parseInt(yearSlider.value), bind:false});
-    //       vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
-    //         chartViews[chart.id] = res.view;
-    //       });
-    //     });
-    // });
-    charts.forEach(chart => {
-  fetch(chart.file)
-    .then(r => r.json())
-    .then(spec => {
-      // Initialize the chart
-      vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
-        chartViews[chart.id] = res.view;
-        // Create signal dynamically
-        res.view.signal("yearSignal", parseInt(yearSlider.value)).run();
+    // Slider event
+    yearSlider.addEventListener("input", e => {
+      const year = parseInt(e.target.value);
+      yearLabel.textContent = year;
+
+      Object.keys(chartViews).forEach(chartId => {
+        filterChartData(chartId, year);
       });
     });
-});
-
-    yearSlider.addEventListener("input", e => {
-  const year = parseInt(e.target.value);
-  yearLabel.textContent = year;
-  Object.values(chartViews).forEach(view => {
-    view.signal("yearSignal", year).run();
-  });
-});
-
   </script>
 </body>
+
 </html>
