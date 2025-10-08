@@ -72,7 +72,7 @@
     </div>
   </main>
 
-<script>
+  <script>
   const charts = [
     {id: "mainChart", file: "global.vg.json"},
     {id: "domesticAirlines", file: "domestic_airlines.vg.json"},
@@ -87,52 +87,38 @@
   const yearSlider = document.getElementById("yearSlider");
   const yearLabel = document.getElementById("yearLabel");
 
-  // Helper: initialize a single spec into its container
-  async function embedChart(chart) {
-    try {
-      const res = await fetch(chart.file);
-      if (!res.ok) throw new Error(`Failed to fetch ${chart.file} (${res.status})`);
-      const spec = await res.json();
-
-      // DON'T push a selectedYear param here — the spec should declare it itself.
-      const embed = await vegaEmbed('#' + chart.id, spec, { actions: false });
-
-      // store the view
-      chartViews[chart.id] = embed.view;
-
-      // If this view has selectedYear signal, initialize it with appropriate value.
-      const sigNames = embed.view.signalNames();
-      if (sigNames && sigNames.includes("selectedYear")) {
-        // clamp domesticAirlines to 2010 minimum
-        const initYear = chart.id === "domesticAirlines" ?
-          Math.max(2010, parseInt(yearSlider.value)) :
-          parseInt(yearSlider.value);
-        embed.view.signal("selectedYear", initYear).run();
-      }
-    } catch (err) {
-      console.error("Error embedding", chart.file, err);
-    }
-  }
-
-  // Load all charts
-  charts.forEach(embedChart);
-
-  // Global update function - updates only views that actually have the signal
   function updateCharts(globalYear) {
     yearLabel.textContent = globalYear;
     Object.entries(chartViews).forEach(([id, view]) => {
-      const sigs = view.signalNames ? view.signalNames() : [];
-      if (sigs && sigs.includes("selectedYear")) {
-        const yearToSend = id === "domesticAirlines" ? Math.max(2010, globalYear) : globalYear;
-        view.signal("selectedYear", yearToSend).run();
+      const signals = view.signalNames ? view.signalNames() : [];
+      if (signals.includes("globalYear")) {
+        // clamp to 2010 only for domesticAirlines chart
+        const value = id === "domesticAirlines" ? Math.max(2010, globalYear) : globalYear;
+        view.signal("globalYear", value).run();
       }
     });
   }
 
-  yearSlider.addEventListener("input", e => {
-    const val = parseInt(e.target.value);
-    updateCharts(val);
+  charts.forEach(chart => {
+    fetch(chart.file)
+      .then(r => r.json())
+      .then(spec => {
+        vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
+          chartViews[chart.id] = res.view;
+
+          // Initialize signal value if it exists
+          const signals = res.view.signalNames ? res.view.signalNames() : [];
+          if (signals.includes("globalYear")) {
+            const initValue = chart.id === "domesticAirlines"
+              ? Math.max(2010, parseInt(yearSlider.value))
+              : parseInt(yearSlider.value);
+            res.view.signal("globalYear", initValue).run();
+          }
+        });
+      });
   });
+
+  yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
 </script>
 
 </body>
