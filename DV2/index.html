@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,13 +10,14 @@
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
+
 <body>
   <header>
     <h1>Data Visualisation 2</h1>
     <!-- Animated plane -->
     <div class="cloud">
       <div class="light"></div>
-      <img src="05cd33059a006bf49006097af4ccba98-plane-in-flight-by-vexels.png" alt="Plane"/>
+      <img src="05cd33059a006bf49006097af4ccba98-plane-in-flight-by-vexels.png" alt="Plane" />
     </div>
   </header>
 
@@ -74,45 +76,44 @@
 
   <script>
     const charts = [
-    {id: "mainChart", file: "globe.vg.json"},
-    {id: "domesticAirlines", file: "domestic_airlines.vg.json"},
-    {id: "domestic", file: "Domestic.vg.json"},
-    {id: "emissionsMap", file: "Emissions_map.vg.json"},
-    {id: "cityInt", file: "city_int.vg.json"},
-    {id: "gas", file: "gas.vg.json"},
-    {id: "week9Homework", file: "week_9_homework.vg.json"},
-  ];
+      { id: "mainChart", file: "globe.vg.json" },
+      { id: "domesticAirlines", file: "domestic_airlines.vg.json" },
+      { id: "domestic", file: "Domestic.vg.json" },
+      { id: "emissionsMap", file: "Emissions_map.vg.json" },
+      { id: "cityInt", file: "city_int.vg.json" },
+      { id: "gas", file: "gas.vg.json" },
+      { id: "week9Homework", file: "week_9_homework.vg.json" },
+    ];
 
     let chartViews = {};
     const yearSlider = document.getElementById("yearSlider");
     const yearLabel = document.getElementById("yearLabel");
 
-    function updateCharts(year) {
+    function updateCharts(year){
       yearLabel.textContent = year;
       Object.values(chartViews).forEach(view => {
-      view.signal("yearSignal", selectedYear).run();
-
-        }
-      };
+        view.signal("yearSignal", year).run();
+      })};
 
     charts.forEach(chart => {
-    fetch(chart.file)
-      .then(r => r.json())
-      .then(spec => {
-        // Remove any existing year param in JSON
-        if (spec.params) {
-          spec.params = spec.params.filter(p => p.name !== "yearSignal");
-        }
+      fetch(chart.file)
+        .then(r => r.json())
+        .then(spec => {
+          // Remove any existing year param in JSON
+          if (spec.params) {
+            spec.params = spec.params.filter(p => p.name !== "yearSignal");
+          }
 
-        vegaEmbed('#' + chart.id, spec, {actions:false})
-          .then(res => {
-            chartViews[chart.id] = res.view;
-            // Initialize signal on load
-            updateCharts(parseInt(yearSlider.value));
-          });
-      });
-  });
+          vegaEmbed('#' + chart.id, spec, { actions: false })
+            .then(res => {
+              chartViews[chart.id] = res.view;
+              // Initialize signal on load
+              updateCharts(parseInt(yearSlider.value));
+            });
+        });
+    });
     yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));;
   </script>
 </body>
+
 </html>
