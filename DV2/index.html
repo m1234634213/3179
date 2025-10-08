@@ -89,11 +89,12 @@
     const yearSlider = document.getElementById("yearSlider");
     const yearLabel = document.getElementById("yearLabel");
 
-    function updateCharts(year){
+    function updateCharts(year) {
       yearLabel.textContent = year;
       Object.values(chartViews).forEach(view => {
         view.signal("yearSignal", year).run();
-      })};
+      })
+    };
 
     charts.forEach(chart => {
       fetch(chart.file)
@@ -112,7 +113,10 @@
             });
         });
     });
-    yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));;
+    yearSlider.addEventListener("input", e => {
+      const year = parseInt(e.target.value);
+      updateCharts(year);
+    })
   </script>
 </body>
 
