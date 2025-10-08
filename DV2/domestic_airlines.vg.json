@@ -12,9 +12,9 @@
         "Total Flights": "number"
       }
     }
-  },"signals": [
+  },"params": [
   {
-    "name": "selectedYear",
+    "name": "yearSignal",
     "value": 2010,
     "bind": {
       "input": "range",
@@ -25,6 +25,7 @@
     }
   }
 ],
+
   "transform": [
     {"filter": "datum.Airline != 'All Airlines'"},
     {
@@ -41,7 +42,7 @@
       "sort": [{"field": "Year", "order": "ascending"}]
     },
     {
-      "filter": "datum.Year <= yearSignal"
+      "filter": "datum.Year <= max(yearSignal,2010)"
     },
     {
       "window": [{"op": "rank", "as": "rank"}],
