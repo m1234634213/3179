@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Top 15 domestic airlines cumulative flights up to yearSignal",
-  "width": "900",
-  "height": "500",
+  "width": 900,
+  "height": 500,
   "data": {
     "url": "domestic_airlines_flights.csv",
     "format": {
@@ -13,12 +13,7 @@
       }
     }
   },
-  "params": [
-    {
-      "name": "yearSignal",
-      "value": 2010
-    }
-  ],
+  "params": [],
   "transform": [
     {"filter": "datum.Airline != 'All Airlines'"},
     {

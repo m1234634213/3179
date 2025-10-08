@@ -117,7 +117,7 @@
         // Remove any params inside JSON for selectedYear
         vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
           chartViews[chart.id] = res.view;
-          res.view.signal("yearSignal", parseInt(yearSlider.value)).run();
+          res.view.signal("yearSignal", parseInt(yearSlider.value)).runAsync();
         });
       });
   });
