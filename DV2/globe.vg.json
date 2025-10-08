@@ -11,12 +11,7 @@
     "rotate": [-135, 25],
     "scale": 450
   },
-  "params": [
-    {
-      "name": "yearSignal",
-      "value": 2010
-    }
-  ],
+  "params": [],
   "transform": [
     {
       "filter": "datum.Year == yearSignal && datum['Lat  Aus'] != null && datum['Lat International'] != null"
