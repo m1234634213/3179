@@ -90,7 +90,7 @@
     function updateCharts(year) {
       yearLabel.textContent = year;
       Object.values(chartViews).forEach(view => {
-        view.signal("selectedYear", year).run();
+        view.signal("yearSignal", year).run();
       });
     }
 
@@ -112,7 +112,7 @@
       // Remove any params inside JSON for selectedYear
       vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
         chartViews[chart.id] = res.view;
-        res.view.signal("selectedYear", parseInt(yearSlider.value)).runAsync();
+        res.view.signal("yearSignal", parseInt(yearSlider.value)).runAsync();
       });
     });
 });
