@@ -90,12 +90,10 @@
     function updateCharts(year) {
       yearLabel.textContent = year;
       Object.values(chartViews).forEach(view => {
-        if(!view.signal("yearSignal")) {
-          view.addSignal("yearSignal", year);
-        } else {
-          view.signal("yearSignal", year).run();
+      view.signal("yearSignal", selectedYear).run();
+
         }
-      })};
+      };
 
     charts.forEach(chart => {
     fetch(chart.file)
