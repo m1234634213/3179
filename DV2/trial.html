@@ -74,46 +74,49 @@
 
   <script>
     const charts = [
-  {id: "mainChart", file: "global.vg.json"},
-  {id: "domesticAirlines", file: "domestic_airlines.vg.json"},
-  {id: "domestic", file: "domestic.vg.json"},
-  {id: "emissionsMap", file: "emissions_map.vg.json"},
-  {id: "cityInt", file: "city_int.vg.json"},
-  {id: "gas", file: "gas.vg.json"},
-  {id: "week9Homework", file: "week_9_homework.vg.json"},
-];
+    {id: "mainChart", file: "globe.vg.json"},
+    {id: "domesticAirlines", file: "domestic_airlines.vg.json"},
+    {id: "domestic", file: "Domestic.vg.json"},
+    {id: "emissionsMap", file: "Emissions_map.vg.json"},
+    {id: "cityInt", file: "city_int.vg.json"},
+    {id: "gas", file: "gas.vg.json"},
+    {id: "week9Homework", file: "week_9_homework.vg.json"},
+  ];
 
-  let chartViews = {};
-  const yearSlider = document.getElementById("yearSlider");
-  const yearLabel = document.getElementById("yearLabel");
+    let chartViews = {};
+    const yearSlider = document.getElementById("yearSlider");
+    const yearLabel = document.getElementById("yearLabel");
 
-  function updateCharts(year) {
-    yearLabel.textContent = year;
-    Object.values(chartViews).forEach(view => {
-      // use runAsync to ensure all charts update properly
-      view.signal("selectedYear", year).runAsync();
-    });
-  }
-
-  charts.forEach(chart => {
-    fetch(chart.file)
-      .then(r => r.json())
-      .then(spec => {
-        // Remove any "selectedYear" params if they exist
-        if (spec.params) {
-          spec.params = spec.params.filter(p => p.name !== "selectedYear");
-        }
-
-        vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
-          chartViews[chart.id] = res.view;
-          // initialize with slider value
-          res.view.signal("selectedYear", parseInt(yearSlider.value)).runAsync();
-        });
+    function updateCharts(year) {
+      yearLabel.textContent = year;
+      Object.values(chartViews).forEach(view => {
+        view.signal("selectedYear", year).run();
       });
-  });
+    }
 
-  yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
-
+    // charts.forEach(chart => {
+    //   fetch(chart.file)
+    //     .then(r => r.json())
+    //     .then(spec => {
+    //       spec.params = spec.params || [];
+    //       spec.params.push({name:"selectedYear", value:parseInt(yearSlider.value), bind:false});
+    //       vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
+    //         chartViews[chart.id] = res.view;
+    //       });
+    //     });
+    // });
+   charts.forEach(chart => {
+  fetch(chart.file)
+    .then(r => r.json())
+    .then(spec => {
+      // Remove any params inside JSON for selectedYear
+      vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
+        chartViews[chart.id] = res.view;
+        res.view.signal("selectedYear", parseInt(yearSlider.value)).runAsync();
+      });
+    });
+});
+    yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));;
   </script>
 </body>
 </html>

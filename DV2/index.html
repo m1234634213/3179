@@ -94,29 +94,29 @@
       });
     }
 
+    // charts.forEach(chart => {
+    //   fetch(chart.file)
+    //     .then(r => r.json())
+    //     .then(spec => {
+    //       spec.params = spec.params || [];
+    //       spec.params.push({name:"selectedYear", value:parseInt(yearSlider.value), bind:false});
+    //       vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
+    //         chartViews[chart.id] = res.view;
+    //       });
+    //     });
+    // });
     charts.forEach(chart => {
-      fetch(chart.file)
-        .then(r => r.json())
-        .then(spec => {
-          spec.params = spec.params || [];
-          spec.params.push({name:"selectedYear", value:parseInt(yearSlider.value), bind:false});
-          vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
-            chartViews[chart.id] = res.view;
-          });
-        });
+  fetch(chart.file)
+    .then(r => r.json())
+    .then(spec => {
+      // Remove any extra param push if already in JSON
+      vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
+        chartViews[chart.id] = res.view;
+        // initialize chart with slider value
+        res.view.signal("selectedYear", parseInt(yearSlider.value)).run();
+      });
     });
-//     charts.forEach(chart => {
-//   fetch(chart.file)
-//     .then(r => r.json())
-//     .then(spec => {
-//       // Remove any extra param push if already in JSON
-//       vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
-//         chartViews[chart.id] = res.view;
-//         // initialize chart with slider value
-//         res.view.signal("selectedYear", parseInt(yearSlider.value)).run();
-//       });
-//     });
-// });
+});
 
     yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));;
   </script>
