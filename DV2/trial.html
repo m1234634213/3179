@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Visualisation 2</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <header>
+    <h1>Data Visualisation 2</h1>
+    <!-- Animated plane -->
+    <div class="cloud">
+      <div class="light"></div>
+      <img src="05cd33059a006bf49006097af4ccba98-plane-in-flight-by-vexels.png" alt="Plane"/>
+    </div>
+  </header>
+
+  <!-- Global year slider -->
+  <div id="sliderContainer">
+    <label for="yearSlider"><strong>Select Year:</strong></label>
+    <input type="range" id="yearSlider" min="2000" max="2025" step="1" value="2010">
+    <span id="yearLabel">2010</span>
+  </div>
+
+  <!-- Layout -->
+  <main class="dashboard">
+    <div class="side-column">
+      <div class="chart-box">
+        <h2>Domestic Airlines</h2>
+        <div id="domesticAirlines"></div>
+        <p class="notes">Notes: (Fill later)</p>
+      </div>
+      <div class="chart-box">
+        <h2>Domestic</h2>
+        <div id="domestic"></div>
+        <p class="notes">Notes: (Fill later)</p>
+      </div>
+      <div class="chart-box">
+        <h2>Emissions Map</h2>
+        <div id="emissionsMap"></div>
+        <p class="notes">Notes: (Fill later)</p>
+      </div>
+    </div>
+
+    <div class="main-column">
+      <div class="chart-box main-chart">
+        <h2>Global Globe</h2>
+        <div id="mainChart"></div>
+      </div>
+    </div>
+
+    <div class="side-column">
+      <div class="chart-box">
+        <h2>City International</h2>
+        <div id="cityInt"></div>
+        <p class="notes">Notes: (Fill later)</p>
+      </div>
+      <div class="chart-box">
+        <h2>Gas</h2>
+        <div id="gas"></div>
+        <p class="notes">Notes: (Fill later)</p>
+      </div>
+      <div class="chart-box">
+        <h2>Week 9 Homework</h2>
+        <div id="week9Homework"></div>
+        <p class="notes">Notes: (Fill later)</p>
+      </div>
+    </div>
+  </main>
+
+<script>
+  const charts = [
+    {id: "mainChart", file: "global.vg.json"},
+    {id: "domesticAirlines", file: "domestic_airlines.vg.json"},
+    {id: "domestic", file: "domestic.vg.json"},
+    {id: "emissionsMap", file: "emissions_map.vg.json"},
+    {id: "cityInt", file: "city_int.vg.json"},
+    {id: "gas", file: "gas.vg.json"},
+    {id: "week9Homework", file: "week_9_homework.vg.json"},
+  ];
+
+  const chartViews = {};
+  const yearSlider = document.getElementById("yearSlider");
+  const yearLabel = document.getElementById("yearLabel");
+
+  // Helper: initialize a single spec into its container
+  async function embedChart(chart) {
+    try {
+      const res = await fetch(chart.file);
+      if (!res.ok) throw new Error(`Failed to fetch ${chart.file} (${res.status})`);
+      const spec = await res.json();
+
+      // DON'T push a selectedYear param here — the spec should declare it itself.
+      const embed = await vegaEmbed('#' + chart.id, spec, { actions: false });
+
+      // store the view
+      chartViews[chart.id] = embed.view;
+
+      // If this view has selectedYear signal, initialize it with appropriate value.
+      const sigNames = embed.view.signalNames();
+      if (sigNames && sigNames.includes("selectedYear")) {
+        // clamp domesticAirlines to 2010 minimum
+        const initYear = chart.id === "domesticAirlines" ?
+          Math.max(2010, parseInt(yearSlider.value)) :
+          parseInt(yearSlider.value);
+        embed.view.signal("selectedYear", initYear).run();
+      }
+    } catch (err) {
+      console.error("Error embedding", chart.file, err);
+    }
+  }
+
+  // Load all charts
+  charts.forEach(embedChart);
+
+  // Global update function - updates only views that actually have the signal
+  function updateCharts(globalYear) {
+    yearLabel.textContent = globalYear;
+    Object.entries(chartViews).forEach(([id, view]) => {
+      const sigs = view.signalNames ? view.signalNames() : [];
+      if (sigs && sigs.includes("selectedYear")) {
+        const yearToSend = id === "domesticAirlines" ? Math.max(2010, globalYear) : globalYear;
+        view.signal("selectedYear", yearToSend).run();
+      }
+    });
+  }
+
+  yearSlider.addEventListener("input", e => {
+    const val = parseInt(e.target.value);
+    updateCharts(val);
+  });
+</script>
+
+</body>
+</html>
