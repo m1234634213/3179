@@ -8,7 +8,7 @@
   },
   "params": [
     {
-      "name": "yearSignal",
+      "name": "maxYear",
       "value": 2025,
       "bind": {
         "input": "select",
@@ -35,7 +35,7 @@
       "sort": [{"field": "Year", "order": "ascending"}]
     },
     {
-      "filter": "datum.Year >= 2010 && datum.Year <= yearSignal"
+      "filter": "datum.Year >= 2010 && datum.Year <= maxYear"
     }
   ],
   "mark": "rect",
