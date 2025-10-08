@@ -109,15 +109,23 @@
   fetch(chart.file)
     .then(r => r.json())
     .then(spec => {
-      // Remove any extra param push if already in JSON
+      // Initialize the chart
       vegaEmbed('#' + chart.id, spec, {actions:false}).then(res => {
         chartViews[chart.id] = res.view;
-        // initialize chart with slider value
-        res.view.signal("selectedYear", parseInt(yearSlider.value)).run();
+        // Create signal dynamically
+        res.view.signal("yearSignal", parseInt(yearSlider.value)).run();
       });
     });
 });
-    yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));;
+
+    yearSlider.addEventListener("input", e => {
+  const year = parseInt(e.target.value);
+  yearLabel.textContent = year;
+  Object.values(chartViews).forEach(view => {
+    view.signal("yearSignal", year).run();
+  });
+});
+
   </script>
 </body>
 </html>
