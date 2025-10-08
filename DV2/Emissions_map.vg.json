@@ -29,7 +29,7 @@
       "scale": {"type": "log", "scheme": "magma", "reverse": true, "nice": true}
     },
     "tooltip": [
-      {"field": "Entity", "type": "qualitative"},
+      {"field": "Entity", "type": "nominal"},
       {"field": "Total", "type": "quantitative", "format": ","}
     ]
   }
