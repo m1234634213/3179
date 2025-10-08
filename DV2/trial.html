@@ -89,33 +89,36 @@
     const yearSlider = document.getElementById("yearSlider");
     const yearLabel = document.getElementById("yearLabel");
 
+    // Function to update all charts
     function updateCharts(year) {
       yearLabel.textContent = year;
       Object.values(chartViews).forEach(view => {
-        view.signal("yearSignal", year).run();
-      })
-    };
+        // Try to find any available signal that represents the year
+        const signals = view.getState({ signals: true }).signals;
+        if (signals.yearSignal !== undefined) {
+          view.signal("yearSignal", year).runAsync();
+        } else if (signals.selectedYear !== undefined) {
+          view.signal("selectedYear", year).runAsync();
+        }
+      });
+    }
 
+    // Load each chart
     charts.forEach(chart => {
       fetch(chart.file)
         .then(r => r.json())
         .then(spec => {
-          // Optional: remove yearSignal param if you are injecting it differently
-          // Otherwise, make sure it's defined in the spec!
-          // if (spec.params) spec.params = spec.params.filter(p => p.name !== "yearSignal");
-
-          vegaEmbed('#' + chart.id, spec, { actions: false }).then(res => {
-            chartViews[chart.id] = res.view;
-
-            try {
-              res.view.signal("yearSignal", parseInt(yearSlider.value)).run();
-            } catch (e) {
-              console.warn(`yearSignal not defined in ${chart.id} — skipping signal update`);
-            }
-          });
+          // Don’t remove local slider params — keep them visible
+          vegaEmbed('#' + chart.id, spec, { actions: false })
+            .then(res => {
+              chartViews[chart.id] = res.view;
+              // Initialize the chart with the current global slider value
+              updateCharts(parseInt(yearSlider.value));
+            });
         });
     });
 
+    // When global slider moves, update all charts
     yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
   </script>
 </body>
