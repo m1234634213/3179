@@ -117,8 +117,19 @@
       const year = parseInt(e.target.value);
       updateCharts(year);
     })
-    vegaEmbed('#week9Homework', 'week_9_homework.vg.json', { actions: false, renderer: 'svg' });
+    let globeView;
+    vegaEmbed('#week9Homework', 'week_9_homework.vg.json', { actions: false })
+      .then(res => {
+        globeView = res.view;
 
+        // Auto-rotation
+        let angle = 0;
+        const rotationSpeed = 0.2; // degrees per frame
+        setInterval(() => {
+          angle += rotationSpeed;
+          globeView.signal("rotate0", angle).run();
+        }, 50); // update every 50ms
+      });
   </script>
 </body>
 
