@@ -1,76 +1,72 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Flat map showing all Australian outbound flights with straight lines",
-  "width": 1000,
-  "height": 600,
-
-  "data": {
-    "url": "citypairs.csv"
+  "description": "Australian outbound international flights",
+  "width": 800,
+  "height": 500,
+  "projection": {
+    "type": "mercator",
+    "center": [135, -25],
+    "scale": 200
   },
-
   "params": [
     {
       "name": "selectedYear",
-      "value": 2020,
+      "value": 2003,
       "bind": {
         "input": "range",
-        "min": 2000,
-        "max": 2025,
+        "min": 2003,
+        "max": 2023,
         "step": 1,
         "name": "Year: "
       }
     }
   ],
-
-  "projection": {
-    "type": "naturalEarth1",
-    "scale": 200,
-    "center": [135, -25]   
-  },
-
-  "transform": [
-    {
-      "filter": "datum.Year == selectedYear && datum['Lat  Aus'] != null && datum['Lat International'] != null"
-    }
-  ],
-
   "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+        "format": {"type": "topojson", "feature": "oceans"}
+      },
+      "mark": {"type": "geoshape", "fill": "lightblue", "stroke": "white"}
+    },
     {
       "data": {
         "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
         "format": {"type": "topojson", "feature": "countries"}
       },
-      "mark": {"type": "geoshape", "fill": "#e0f7fa", "stroke": "#aaa"}
+      "mark": {"type": "geoshape", "fill": "#f2f2f2", "stroke": "#999"}
     },
     {
-      "transform": [
-        {
-          "fold": ["Lon Aus", "Lon International"],
-          "as": ["step", "longitude"]
-        },
-        {
-          "calculate": "datum.step == 'Lon Aus' ? datum['Lat  Aus'] : datum['Lat International']",
-          "as": "latitude"
-        }
-      ],
-      "mark": {"type": "line", "interpolate": "linear", "strokeOpacity": 0.8},
+      "data": {"url": "citypairs.csv"},
+      "transform": [{"filter": "datum.Year == selectedYear"}],
+      "mark": {"type": "line", "tooltip": true, "interpolate": "linear"},
       "encoding": {
-        "longitude": {"field": "longitude", "type": "quantitative"},
-        "latitude": {"field": "latitude", "type": "quantitative"},
-        "size": {"field": "OutSeatsMax", "type": "quantitative", "scale": {"range": [0.5, 5]}},
-        "color": {"field": "OutSeatsMax", "type": "quantitative", "scale": {"scheme": "orangered"}},
+        "longitude": {"field": "Lon Aus", "type": "quantitative"},
+        "latitude": {"field": "Lat Aus", "type": "quantitative"},
+        "longitude2": {"field": "Lon International"},
+        "latitude2": {"field": "Lat International"},
+        "size": {"field": "OutFlightsAll", "type": "quantitative"},
+        "color": {"value": "orange"},
         "tooltip": [
-          {"field": "Australian", "type": "nominal", "title": "From"},
-          {"field": "International", "type": "nominal", "title": "To"},
-          {"field": "OutSeatsMax", "type": "quantitative", "title": "Passengers"}
+          {"field": "Australian", "type": "nominal"},
+          {"field": "International", "type": "nominal"},
+          {"field": "OutFlightsAll", "type": "quantitative"},
+          {"field": "OutSeatsMax", "type": "quantitative"}
         ]
       }
     },
     {
-      "mark": {"type": "point", "filled": true, "shape": "triangle", "size": 60, "color": "#ff9a00"},
+      "data": {"url": "citypairs.csv"},
+      "transform": [{"filter": "datum.Year == selectedYear"}],
+      "mark": {"type": "circle", "tooltip": true, "color": "red"},
       "encoding": {
-        "longitude": {"field": "Lon International", "type": "quantitative"},
-        "latitude": {"field": "Lat International", "type": "quantitative"}
+        "longitude": {"field": "Lon Aus", "type": "quantitative"},
+        "latitude": {"field": "Lat Aus", "type": "quantitative"},
+        "size": {"field": "OutFlightsAll", "type": "quantitative"},
+        "tooltip": [
+          {"field": "Australian", "type": "nominal"},
+          {"field": "OutFlightsAll", "type": "quantitative"}
+        ]
       }
     }
   ]
