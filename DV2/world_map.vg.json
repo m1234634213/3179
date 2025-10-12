@@ -1,13 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Interactive globe + Australian outbound flights with adjustable rotation longitude",
+  "description": "Interactive globe + Australian outbound flights with adjustable rotation longitude and curved arcs",
   "width": 800,
   "height": 800,
-
   "data": {
     "url": "citypairs.csv"
   },
-
   "params": [
     {
       "name": "selectedYear",
@@ -32,16 +30,38 @@
       }
     }
   ],
-
   "projection": {
     "type": "orthographic",
     "rotate": [{"signal": "rotLon"}, 0, 0],
     "scale": 450
   },
-
   "transform": [
     {
       "filter": "datum.Year == selectedYear && datum['Lat  Aus'] != null && datum['Lat International'] != null"
+    },
+    {
+      "calculate": "datum['Lon Aus'] + 0.25 * (datum['Lon International'] - datum['Lon Aus'])",
+      "as": "lon25"
+    },
+    {
+      "calculate": "datum['Lat  Aus'] + 0.25 * (datum['Lat International'] - datum['Lat  Aus']) + 5",
+      "as": "lat25"
+    },
+    {
+      "calculate": "datum['Lon Aus'] + 0.5 * (datum['Lon International'] - datum['Lon Aus'])",
+      "as": "lon50"
+    },
+    {
+      "calculate": "datum['Lat  Aus'] + 0.5 * (datum['Lat International'] - datum['Lat  Aus']) + 10",
+      "as": "lat50"
+    },
+    {
+      "calculate": "datum['Lon Aus'] + 0.75 * (datum['Lon International'] - datum['Lon Aus'])",
+      "as": "lon75"
+    },
+    {
+      "calculate": "datum['Lat  Aus'] + 0.75 * (datum['Lat International'] - datum['Lat  Aus']) + 5",
+      "as": "lat75"
     },
     {
       "window": [
@@ -52,19 +72,8 @@
         }
       ]
     },
-    {
-      "filter": "datum.routeRank <= 30"
-    },
-    {
-      "calculate": "(datum['Lon International'] - datum['Lon Aus']) * 0.5 + datum['Lon Aus']",
-      "as": "lon50"
-    },
-    {
-      "calculate": "(datum['Lat International'] - datum['Lat  Aus']) * 0.5 + datum['Lat  Aus']",
-      "as": "lat50"
-    }
+    { "filter": "datum.routeRank <= 30" }
   ],
-
   "layer": [
     {
       "data": {
@@ -76,29 +85,20 @@
     {
       "transform": [
         {
-          "fold": ["Lon Aus", "lon50", "Lon International"],
+          "fold": ["Lon Aus", "lon25", "lon50", "lon75", "Lon International"],
           "as": ["step", "longitude"]
         },
         {
-          "calculate": "datum.step == 'Lon Aus' ? datum['Lat  Aus'] : (datum.step == 'lon50' ? datum.lat50 : datum['Lat International'])",
+          "calculate": "datum.step == 'Lon Aus' ? datum['Lat  Aus'] : datum.step == 'lon25' ? datum.lat25 : datum.step == 'lon50' ? datum.lat50 : datum.step == 'lon75' ? datum.lat75 : datum['Lat International']",
           "as": "latitude"
         }
       ],
-      "mark": {"type": "line", "interpolate": "bundle", "tension": 0.5},
+      "mark": {"type": "line", "interpolate": "monotone", "tension": 0.5},
       "encoding": {
         "longitude": {"field": "longitude", "type": "quantitative"},
         "latitude": {"field": "latitude", "type": "quantitative"},
-        "size": {
-          "field": "OutSeatsMax",
-          "type": "quantitative",
-          "scale": {"range": [1, 8]}
-        },
-        "color": {
-          "field": "OutSeatsMax",
-          "type": "quantitative",
-          "scale": {"scheme": "orangered"},
-          "legend": {"title": "Passengers"}
-        },
+        "size": {"field": "OutSeatsMax", "type": "quantitative", "scale": {"range": [1, 8]}},
+        "color": {"field": "OutSeatsMax", "type": "quantitative", "scale": {"scheme": "orangered"}},
         "tooltip": [
           {"field": "Australian", "type": "nominal", "title": "From"},
           {"field": "International", "type": "nominal", "title": "To"},
