@@ -68,7 +68,7 @@
       </div>
       <div class="chart-box">
         <h2>Week 9 Homework</h2>
-        <div id="week9Homework"></div>
+        <div id="week9Homework" class="rotating-globe"></div>
         <p class="notes">Notes: (Fill later)</p>
       </div>
     </div>
@@ -117,6 +117,8 @@
       const year = parseInt(e.target.value);
       updateCharts(year);
     })
+    vegaEmbed('#week9Homework', 'week_9_homework.vg.json');
+
   </script>
 </body>
 
