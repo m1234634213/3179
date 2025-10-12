@@ -1,129 +1,129 @@
 {
-  "$schema": "https://vega.github.io/schema/vega/v5.json",
-  "description": "Australian outbound flights following great-circle arcs over a rotating globe.",
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Interactive globe + Australian outbound flights with adjustable rotation longitude, curved arcs over globe, and oceans layer",
   "width": 800,
   "height": 800,
-  "autosize": "none",
-  "signals": [
+  "data": {
+    "url": "citypairs.csv"
+  },
+  "params": [
     {
       "name": "selectedYear",
       "value": 2020,
-      "bind": {"input": "range", "min": 2000, "max": 2025, "step": 1, "name": "Year: "}
+      "bind": {
+        "input": "range",
+        "min": 2000,
+        "max": 2025,
+        "step": 1,
+        "name": "Year: "
+      }
     },
     {
       "name": "rotLon",
       "value": -135,
-      "bind": {"input": "range", "min": -180, "max": 180, "step": 1, "name": "Rotate Longitude"}
-    },
-    {
-      "name": "projection",
-      "update": "projection('orthographic').rotate([rotLon,0,0]).scale(350).translate([width/2, height/2])"
+      "bind": {
+        "input": "range",
+        "min": -180,
+        "max": 180,
+        "step": 1,
+        "name": "Rotate Longitude"
+      }
     }
   ],
-  "data": [
+  "projection": {
+    "type": "orthographic",
+    "rotate": [{"signal": "rotLon"}, 0, 0],
+    "scale": 450
+  },
+  "transform": [
     {
-      "name": "countries",
-      "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
-      "format": {"type": "topojson", "feature": "countries"}
+      "filter": "datum.Year == selectedYear && datum['Lat  Aus'] != null && datum['Lat International'] != null"
     },
     {
-      "name": "oceans",
-      "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
-      "format": {"type": "topojson", "feature": "oceans"}
-    },
-    {
-      "name": "flights",
-      "url": "citypairs.csv",
-      "transform": [
-        {"type": "filter", "expr": "datum.Year == selectedYear"},
+      "window": [
         {
-          "type": "window",
-          "sort": {"field": "OutSeatsMax", "order": "descending"},
-          "ops": ["rank"],
-          "as": ["routeRank"]
+          "op": "rank",
+          "as": "routeRank",
+          "sort": [{"field": "OutSeatsMax", "order": "descending"}]
+        }
+      ]
+    },
+    { "filter": "datum.routeRank <= 30" },
+    {
+      "calculate": "datum['Lon Aus'] + 0.25 * (datum['Lon International'] - datum['Lon Aus'])",
+      "as": "lon25"
+    },
+    {
+      "calculate": "datum['Lat  Aus'] + 0.25 * (datum['Lat International'] - datum['Lat  Aus']) + 15",
+      "as": "lat25"
+    },
+    {
+      "calculate": "datum['Lon Aus'] + 0.5 * (datum['Lon International'] - datum['Lon Aus'])",
+      "as": "lon50"
+    },
+    {
+      "calculate": "datum['Lat  Aus'] + 0.5 * (datum['Lat International'] - datum['Lat  Aus']) + 30",
+      "as": "lat50"
+    },
+    {
+      "calculate": "datum['Lon Aus'] + 0.75 * (datum['Lon International'] - datum['Lon Aus'])",
+      "as": "lon75"
+    },
+    {
+      "calculate": "datum['Lat  Aus'] + 0.75 * (datum['Lat International'] - datum['Lat  Aus']) + 15",
+      "as": "lat75"
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+        "format": {"type": "topojson", "feature": "oceans"}
+      },
+      "mark": {"type": "geoshape", "fill": "skyblue"}
+    },
+    {
+      "data": {
+        "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
+        "format": {"type": "topojson", "feature": "countries"}
+      },
+      "mark": {"type": "geoshape", "fill": "#1b263b", "stroke": "#888"}
+    },
+    {
+      "transform": [
+        {
+          "fold": ["Lon Aus", "lon25", "lon50", "lon75", "Lon International"],
+          "as": ["step", "longitude"]
         },
-        {"type": "filter", "expr": "datum.routeRank <= 30"},
         {
-          "type": "formula",
-          "as": "route",
-          "expr": "{'type': 'LineString', 'coordinates': greatCircle(datum['Lon Aus'], datum['Lat  Aus'], datum['Lon International'], datum['Lat International'], 40)}"
+          "calculate": "datum.step == 'Lon Aus' ? datum['Lat  Aus'] : datum.step == 'lon25' ? datum.lat25 : datum.step == 'lon50' ? datum.lat50 : datum.step == 'lon75' ? datum.lat75 : datum['Lat International']",
+          "as": "latitude"
         }
-      ]
+      ],
+      "mark": {"type": "line", "interpolate": "monotone", "tension": 0.7},
+      "encoding": {
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude": {"field": "latitude", "type": "quantitative"},
+        "size": {"field": "OutSeatsMax", "type": "quantitative", "scale": {"range": [1, 8]}},
+        "color": {"field": "OutSeatsMax", "type": "quantitative", "scale": {"scheme": "orangered"}},
+        "tooltip": [
+          {"field": "Australian", "type": "nominal", "title": "From"},
+          {"field": "International", "type": "nominal", "title": "To"},
+          {"field": "OutSeatsMax", "type": "quantitative", "title": "Passengers"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "point", "filled": true, "shape": "triangle", "size": 50, "color": "#ff9a00"},
+      "encoding": {
+        "longitude": {"field": "Lon International", "type": "quantitative"},
+        "latitude": {"field": "Lat International", "type": "quantitative"},
+        "tooltip": [
+          {"field": "Australian", "type": "nominal", "title": "From"},
+          {"field": "International", "type": "nominal", "title": "To"},
+          {"field": "OutSeatsMax", "type": "quantitative", "title": "Passengers"}
+        ]
+      }
     }
-  ],
-
-  "marks": [
-    {
-      "type": "shape",
-      "from": {"data": "oceans"},
-      "encode": {"update": {"fill": {"value": "skyblue"}}},
-      "transform": [{"type": "geoshape", "projection": {"signal": "projection"}}]
-    },
-    {
-      "type": "shape",
-      "from": {"data": "countries"},
-      "encode": {
-        "update": {
-          "fill": {"value": "#1b263b"},
-          "stroke": {"value": "#888"},
-          "strokeWidth": {"value": 0.5}
-        }
-      },
-      "transform": [{"type": "geoshape", "projection": {"signal": "projection"}}]
-    },
-    {
-      "type": "shape",
-      "from": {"data": "flights"},
-      "encode": {
-        "update": {
-          "stroke": {"scale": "color", "field": "OutSeatsMax"},
-          "strokeWidth": {"scale": "size", "field": "OutSeatsMax"},
-          "strokeOpacity": {"value": 0.9},
-          "tooltip": {"signal": "datum.Australian + ' → ' + datum.International"}
-        }
-      },
-      "transform": [
-        {"type": "geoshape", "projection": {"signal": "projection"}, "field": "route"}
-      ]
-    },
-    {
-      "type": "symbol",
-      "from": {"data": "flights"},
-      "encode": {
-        "update": {
-          "fill": {"value": "#ff9a00"},
-          "shape": {"value": "triangle"},
-          "size": {"value": 70},
-          "opacity": {"value": 0.9},
-          "tooltip": {"signal": "datum.International"}
-        }
-      },
-      "transform": [
-        {
-          "type": "geopoint",
-          "projection": {"signal": "projection"},
-          "fields": ["Lon International", "Lat International"]
-        }
-      ]
-    }
-  ],
-
-  "scales": [
-    {
-      "name": "size",
-      "type": "linear",
-      "domain": {"data": "flights", "field": "OutSeatsMax"},
-      "range": [1, 6]
-    },
-    {
-      "name": "color",
-      "type": "linear",
-      "domain": {"data": "flights", "field": "OutSeatsMax"},
-      "range": ["#ffb380", "#ff0000"]
-    }
-  ],
-
-  "expressions": {
-    "greatCircle": "function(lon1, lat1, lon2, lat2, steps) { var points = []; var toRad = Math.PI / 180; var toDeg = 180 / Math.PI; lon1 *= toRad; lat1 *= toRad; lon2 *= toRad; lat2 *= toRad; for (var i = 0; i <= steps; i++) { var f = i / steps; var A = Math.sin((1-f)*d3.geoDistance([lon1,toDeg(lat1)],[lon2,toDeg(lat2)]))/Math.sin(d3.geoDistance([lon1,lat1],[lon2,lat2)])); var B = Math.sin(f*d3.geoDistance([lon1,lat1],[lon2,lat2)]))/Math.sin(d3.geoDistance([lon1,lat1],[lon2,lat2)]); var x = A*Math.cos(lat1)*Math.cos(lon1) + B*Math.cos(lat2)*Math.cos(lon2); var y = A*Math.cos(lat1)*Math.sin(lon1) + B*Math.cos(lat2)*Math.sin(lon2); var z = A*Math.sin(lat1) + B*Math.sin(lat2); var phi = Math.atan2(y,x); var theta = Math.atan2(z,Math.sqrt(x*x+y*y)); points.push([phi*toDeg, theta*toDeg]); } return points; }"
-  }
+  ]
 }
