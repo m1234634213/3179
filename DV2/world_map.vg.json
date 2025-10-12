@@ -1,35 +1,47 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Australian outbound flights with top routes, arcs, and year dropdown selector",
-  "width": 650,
-  "height": 650,
+  "description": "Interactive globe + Australian outbound flights with adjustable rotation longitude",
+  "width": 800,
+  "height": 800,
+
   "data": {
     "url": "citypairs.csv"
   },
+
   "params": [
     {
-      "name": "yearSignal",
-      "value": 2003,
+      "name": "selectedYear",
+      "value": 2020,
       "bind": {
-        "input": "select",
-        "options": [
-          2003, 2004, 2005, 2006, 2007, 2008, 2009,
-          2010, 2011, 2012, 2013, 2014, 2015,
-          2016, 2017, 2018, 2019, 2020, 2021,
-          2022, 2023, 2024, 2025
-        ],
-        "name": "Select Year: "
+        "input": "range",
+        "min": 2000,
+        "max": 2025,
+        "step": 1,
+        "name": "Year: "
+      }
+    },
+    {
+      "name": "rotLon",
+      "value": -135,
+      "bind": {
+        "input": "range",
+        "min": -180,
+        "max": 180,
+        "step": 1,
+        "name": "Rotate Longitude"
       }
     }
   ],
+
   "projection": {
     "type": "orthographic",
-    "rotate": [-135, 25],
+    "rotate": [{"signal": "rotLon"}, 0, 0],
     "scale": 450
   },
+
   "transform": [
     {
-      "filter": "datum.Year == yearSignal && datum['Lat  Aus'] != null && datum['Lat International'] != null"
+      "filter": "datum.Year == selectedYear && datum['Lat  Aus'] != null && datum['Lat International'] != null"
     },
     {
       "window": [
@@ -40,7 +52,9 @@
         }
       ]
     },
-    {"filter": "datum.routeRank <= 30"},
+    {
+      "filter": "datum.routeRank <= 30"
+    },
     {
       "calculate": "(datum['Lon International'] - datum['Lon Aus']) * 0.5 + datum['Lon Aus']",
       "as": "lon50"
@@ -50,6 +64,7 @@
       "as": "lat50"
     }
   ],
+
   "layer": [
     {
       "data": {
@@ -65,7 +80,7 @@
           "as": ["step", "longitude"]
         },
         {
-          "calculate": "datum.step=='Lon Aus'?datum['Lat  Aus']:(datum.step=='lon50'?datum.lat50:datum['Lat International'])",
+          "calculate": "datum.step == 'Lon Aus' ? datum['Lat  Aus'] : (datum.step == 'lon50' ? datum.lat50 : datum['Lat International'])",
           "as": "latitude"
         }
       ],
@@ -92,13 +107,7 @@
       }
     },
     {
-      "mark": {
-        "type": "point",
-        "filled": true,
-        "shape": "triangle",
-        "size": 50,
-        "color": "#ff9a00"
-      },
+      "mark": {"type": "point", "filled": true, "shape": "triangle", "size": 50, "color": "#ff9a00"},
       "encoding": {
         "longitude": {"field": "Lon International", "type": "quantitative"},
         "latitude": {"field": "Lat International", "type": "quantitative"},
