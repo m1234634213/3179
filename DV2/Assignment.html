@@ -73,7 +73,7 @@
 
   <script>
   const charts = [
-    {id: "mainChart", file: "globe.vg.json"},
+    {id: "mainChart", file: "world_map.vg.json"},
     {id: "domesticAirlines", file: "domestic_airlines.vg.json"},
     {id: "domestic", file: "Domestic.vg.json"},
     {id: "emissionsMap", file: "Emissions_map.vg.json"},
@@ -106,6 +106,19 @@
   });
 
   yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
+  let globeView;
+    vegaEmbed('#week9Homework', 'week_9_homework.vg.json', { actions: false })
+      .then(res => {
+        globeView = res.view;
+
+        // Auto-rotation
+        let angle = 0;
+        const rotationSpeed = 0.2; // degrees per frame
+        setInterval(() => {
+          angle += rotationSpeed;
+          globeView.signal("rotate0", angle).run();
+        }, 50); // update every 50ms
+      });
   </script>
 </body>
 </html>
