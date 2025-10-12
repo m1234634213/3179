@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Flat world map with oceans and countries colored by aviation CO₂ emissions (latest year, log scale, reversed magma)",
+  "description": "World map with oceans and countries colored by aviation CO₂ emissions (log scale, reversed magma)",
   "width": 900,
   "height": 500,
   "projection": {"type": "mercator"},
@@ -14,8 +14,8 @@
     },
     {
       "data": {
-        "url": "ne_110m_admin_0_countries.topojson",
-        "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+        "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
+        "format": {"type": "topojson", "feature": "countries"}
       },
       "transform": [
         {
@@ -23,14 +23,11 @@
           "from": {
             "data": {"url": "emissions.csv"},
             "key": "numeric",
-            "fields": ["Total","Entity","Year"]
+            "fields": ["Total", "Entity"]
           }
-        },
-        {
-          "filter": "datum.properties.NAME != 'Antarctica' && datum.Year == 2019"
         }
       ],
-      "mark": {"type": "geoshape", "stroke": "#555"},
+      "mark": "geoshape",
       "encoding": {
         "color": {
           "field": "Total",
@@ -40,8 +37,7 @@
         },
         "tooltip": [
           {"field": "Entity", "type": "nominal"},
-          {"field": "Total", "type": "quantitative", "format": ","},
-          {"field": "Year", "type": "quantitative"}
+          {"field": "Total", "type": "quantitative", "format": ","}
         ]
       }
     }
