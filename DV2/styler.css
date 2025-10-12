@@ -127,12 +127,3 @@ header h1 {
 }
 
 
-.rotating-globe svg {
-  transform-origin: 50% 50%;
-  animation: spin 60s linear infinite; /* full rotation in 60s */
-}
-
-@keyframes spin {
-  from { transform: rotateY(0deg); }
-  to   { transform: rotateY(360deg); }
-}
