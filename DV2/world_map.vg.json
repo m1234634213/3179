@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Interactive globe + Australian outbound flights with adjustable rotation longitude and curved arcs",
+  "description": "Interactive globe + Australian outbound flights with adjustable rotation longitude, curved arcs over globe, and oceans layer",
   "width": 800,
   "height": 800,
   "data": {
@@ -40,30 +40,6 @@
       "filter": "datum.Year == selectedYear && datum['Lat  Aus'] != null && datum['Lat International'] != null"
     },
     {
-      "calculate": "datum['Lon Aus'] + 0.25 * (datum['Lon International'] - datum['Lon Aus'])",
-      "as": "lon25"
-    },
-    {
-      "calculate": "datum['Lat  Aus'] + 0.25 * (datum['Lat International'] - datum['Lat  Aus']) + 5",
-      "as": "lat25"
-    },
-    {
-      "calculate": "datum['Lon Aus'] + 0.5 * (datum['Lon International'] - datum['Lon Aus'])",
-      "as": "lon50"
-    },
-    {
-      "calculate": "datum['Lat  Aus'] + 0.5 * (datum['Lat International'] - datum['Lat  Aus']) + 10",
-      "as": "lat50"
-    },
-    {
-      "calculate": "datum['Lon Aus'] + 0.75 * (datum['Lon International'] - datum['Lon Aus'])",
-      "as": "lon75"
-    },
-    {
-      "calculate": "datum['Lat  Aus'] + 0.75 * (datum['Lat International'] - datum['Lat  Aus']) + 5",
-      "as": "lat75"
-    },
-    {
       "window": [
         {
           "op": "rank",
@@ -72,7 +48,31 @@
         }
       ]
     },
-    { "filter": "datum.routeRank <= 30" }
+    { "filter": "datum.routeRank <= 30" },
+    {
+      "calculate": "datum['Lon Aus'] + 0.25 * (datum['Lon International'] - datum['Lon Aus'])",
+      "as": "lon25"
+    },
+    {
+      "calculate": "datum['Lat  Aus'] + 0.25 * (datum['Lat International'] - datum['Lat  Aus']) + 15",
+      "as": "lat25"
+    },
+    {
+      "calculate": "datum['Lon Aus'] + 0.5 * (datum['Lon International'] - datum['Lon Aus'])",
+      "as": "lon50"
+    },
+    {
+      "calculate": "datum['Lat  Aus'] + 0.5 * (datum['Lat International'] - datum['Lat  Aus']) + 30",
+      "as": "lat50"
+    },
+    {
+      "calculate": "datum['Lon Aus'] + 0.75 * (datum['Lon International'] - datum['Lon Aus'])",
+      "as": "lon75"
+    },
+    {
+      "calculate": "datum['Lat  Aus'] + 0.75 * (datum['Lat International'] - datum['Lat  Aus']) + 15",
+      "as": "lat75"
+    }
   ],
   "layer": [
     {
@@ -93,7 +93,7 @@
           "as": "latitude"
         }
       ],
-      "mark": {"type": "line", "interpolate": "monotone", "tension": 0.5},
+      "mark": {"type": "line", "interpolate": "monotone", "tension": 0.7},
       "encoding": {
         "longitude": {"field": "longitude", "type": "quantitative"},
         "latitude": {"field": "latitude", "type": "quantitative"},
@@ -117,6 +117,13 @@
           {"field": "OutSeatsMax", "type": "quantitative", "title": "Passengers"}
         ]
       }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+        "format": {"type": "topojson", "feature": "oceans"}
+      },
+      "mark": {"type": "geoshape", "fill": "skyblue"}
     }
   ]
 }
