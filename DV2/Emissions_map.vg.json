@@ -3,27 +3,47 @@
   "description": "World map with oceans and countries colored by aviation CO₂ emissions (log scale, reversed magma)",
   "width": 900,
   "height": 500,
-  "projection": {"type": "mercator"},
+  "projection": {
+    "type": "mercator"
+  },
   "layer": [
     {
       "data": {
         "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
-        "format": {"type": "topojson", "feature": "oceans"}
+        "format": {
+          "type": "topojson",
+          "feature": "oceans"
+        }
       },
-      "mark": {"type": "geoshape", "fill": "skyblue"}
+      "mark": {
+        "type": "geoshape",
+        "fill": "skyblue"
+      }
     },
     {
       "data": {
         "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
-        "format": {"type": "topojson", "feature": "countries"}
+        "format": {
+          "type": "topojson",
+          "feature": "countries"
+        }
       },
       "transform": [
         {
+          "calculate": "toNumber(datum.numeric)",
+          "as": "numericNum"
+        },
+        {
           "lookup": "id",
           "from": {
-            "data": {"url": "emissions.csv"},
-            "key": "numeric",
-            "fields": ["Total", "Entity"]
+            "data": {
+              "url": "emissions.csv"
+            },
+            "key": "numericNum",
+            "fields": [
+              "Total",
+              "Entity"
+            ]
           }
         }
       ],
@@ -33,11 +53,23 @@
           "field": "Total",
           "type": "quantitative",
           "title": "CO₂ Emissions",
-          "scale": {"type": "log", "scheme": "magma", "reverse": true, "nice": true}
+          "scale": {
+            "type": "log",
+            "scheme": "magma",
+            "reverse": true,
+            "nice": true
+          }
         },
         "tooltip": [
-          {"field": "Entity", "type": "nominal"},
-          {"field": "Total", "type": "quantitative", "format": ","}
+          {
+            "field": "Entity",
+            "type": "nominal"
+          },
+          {
+            "field": "Total",
+            "type": "quantitative",
+            "format": ","
+          }
         ]
       }
     }
