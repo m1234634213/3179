@@ -1,129 +1,120 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Interactive globe + Australian outbound flights with adjustable rotation longitude, curved arcs over globe, and oceans layer",
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "description": "Globe of Australian outbound flights with curved geodesic arcs following the Earth's surface.",
   "width": 800,
   "height": 800,
-  "data": {
-    "url": "citypairs.csv"
-  },
-  "params": [
+  "autosize": "none",
+  "signals": [
     {
       "name": "selectedYear",
       "value": 2020,
-      "bind": {
-        "input": "range",
-        "min": 2000,
-        "max": 2025,
-        "step": 1,
-        "name": "Year: "
-      }
+      "bind": {"input": "range", "min": 2000, "max": 2025, "step": 1, "name": "Year: "}
     },
     {
       "name": "rotLon",
       "value": -135,
-      "bind": {
-        "input": "range",
-        "min": -180,
-        "max": 180,
-        "step": 1,
-        "name": "Rotate Longitude"
-      }
-    }
-  ],
-  "projection": {
-    "type": "orthographic",
-    "rotate": [{"signal": "rotLon"}, 0, 0],
-    "scale": 450
-  },
-  "transform": [
-    {
-      "filter": "datum.Year == selectedYear && datum['Lat  Aus'] != null && datum['Lat International'] != null"
+      "bind": {"input": "range", "min": -180, "max": 180, "step": 1, "name": "Rotate Longitude"}
     },
     {
-      "window": [
+      "name": "projection",
+      "update": "projection('orthographic').rotate([rotLon,0,0]).scale(350).translate([width/2, height/2])"
+    }
+  ],
+  "data": [
+    {
+      "name": "countries",
+      "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
+      "format": {"type": "topojson", "feature": "countries"}
+    },
+    {
+      "name": "oceans",
+      "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+      "format": {"type": "topojson", "feature": "oceans"}
+    },
+    {
+      "name": "flights",
+      "url": "citypairs.csv",
+      "transform": [
+        {"type": "filter", "expr": "datum.Year == selectedYear"},
         {
-          "op": "rank",
-          "as": "routeRank",
-          "sort": [{"field": "OutSeatsMax", "order": "descending"}]
+          "type": "window",
+          "sort": {"field": "OutSeatsMax", "order": "descending"},
+          "ops": ["rank"],
+          "as": ["routeRank"]
+        },
+        {"type": "filter", "expr": "datum.routeRank <= 30"},
+        {
+          "type": "formula",
+          "as": "route",
+          "expr": "{'type':'LineString','coordinates':[[datum['Lon Aus'], datum['Lat  Aus']],[datum['Lon International'], datum['Lat International']]]}"
         }
       ]
-    },
-    { "filter": "datum.routeRank <= 30" },
-    {
-      "calculate": "datum['Lon Aus'] + 0.25 * (datum['Lon International'] - datum['Lon Aus'])",
-      "as": "lon25"
-    },
-    {
-      "calculate": "datum['Lat  Aus'] + 0.25 * (datum['Lat International'] - datum['Lat  Aus']) + 15",
-      "as": "lat25"
-    },
-    {
-      "calculate": "datum['Lon Aus'] + 0.5 * (datum['Lon International'] - datum['Lon Aus'])",
-      "as": "lon50"
-    },
-    {
-      "calculate": "datum['Lat  Aus'] + 0.5 * (datum['Lat International'] - datum['Lat  Aus']) + 30",
-      "as": "lat50"
-    },
-    {
-      "calculate": "datum['Lon Aus'] + 0.75 * (datum['Lon International'] - datum['Lon Aus'])",
-      "as": "lon75"
-    },
-    {
-      "calculate": "datum['Lat  Aus'] + 0.75 * (datum['Lat International'] - datum['Lat  Aus']) + 15",
-      "as": "lat75"
     }
   ],
-  "layer": [
+  "marks": [
     {
-      "data": {
-        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
-        "format": {"type": "topojson", "feature": "oceans"}
+      "type": "shape",
+      "from": {"data": "oceans"},
+      "encode": {
+        "update": {"fill": {"value": "skyblue"}}
       },
-      "mark": {"type": "geoshape", "fill": "skyblue"}
+      "transform": [{"type": "geoshape", "projection": {"signal": "projection"}}]
     },
     {
-      "data": {
-        "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
-        "format": {"type": "topojson", "feature": "countries"}
+      "type": "shape",
+      "from": {"data": "countries"},
+      "encode": {
+        "update": {"fill": {"value": "#1b263b"}, "stroke": {"value": "#777"}, "strokeWidth": {"value": 0.5}}
       },
-      "mark": {"type": "geoshape", "fill": "#1b263b", "stroke": "#888"}
+      "transform": [{"type": "geoshape", "projection": {"signal": "projection"}}]
     },
     {
+      "type": "shape",
+      "from": {"data": "flights"},
+      "encode": {
+        "enter": {"tooltip": {"signal": "datum.Australian + ' → ' + datum.International"}},
+        "update": {
+          "stroke": {"scale": "color", "field": "OutSeatsMax"},
+          "strokeWidth": {"scale": "size", "field": "OutSeatsMax"},
+          "strokeOpacity": {"value": 0.8}
+        }
+      },
+      "transform": [
+        {"type": "geoshape", "projection": {"signal": "projection"}, "field": "route"}
+      ]
+    },
+    {
+      "type": "symbol",
+      "from": {"data": "flights"},
+      "encode": {
+        "enter": {
+          "tooltip": {"signal": "datum.International"},
+          "fill": {"value": "#ff9a00"},
+          "shape": {"value": "triangle"}
+        },
+        "update": {"size": {"value": 80}, "opacity": {"value": 0.9}}
+      },
       "transform": [
         {
-          "fold": ["Lon Aus", "lon25", "lon50", "lon75", "Lon International"],
-          "as": ["step", "longitude"]
-        },
-        {
-          "calculate": "datum.step == 'Lon Aus' ? datum['Lat  Aus'] : datum.step == 'lon25' ? datum.lat25 : datum.step == 'lon50' ? datum.lat50 : datum.step == 'lon75' ? datum.lat75 : datum['Lat International']",
-          "as": "latitude"
+          "type": "geopoint",
+          "projection": {"signal": "projection"},
+          "fields": ["Lon International", "Lat International"]
         }
-      ],
-      "mark": {"type": "line", "interpolate": "monotone", "tension": 0.7},
-      "encoding": {
-        "longitude": {"field": "longitude", "type": "quantitative"},
-        "latitude": {"field": "latitude", "type": "quantitative"},
-        "size": {"field": "OutSeatsMax", "type": "quantitative", "scale": {"range": [1, 8]}},
-        "color": {"field": "OutSeatsMax", "type": "quantitative", "scale": {"scheme": "orangered"}},
-        "tooltip": [
-          {"field": "Australian", "type": "nominal", "title": "From"},
-          {"field": "International", "type": "nominal", "title": "To"},
-          {"field": "OutSeatsMax", "type": "quantitative", "title": "Passengers"}
-        ]
-      }
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "size",
+      "type": "linear",
+      "domain": {"data": "flights", "field": "OutSeatsMax"},
+      "range": [1, 6]
     },
     {
-      "mark": {"type": "point", "filled": true, "shape": "triangle", "size": 50, "color": "#ff9a00"},
-      "encoding": {
-        "longitude": {"field": "Lon International", "type": "quantitative"},
-        "latitude": {"field": "Lat International", "type": "quantitative"},
-        "tooltip": [
-          {"field": "Australian", "type": "nominal", "title": "From"},
-          {"field": "International", "type": "nominal", "title": "To"},
-          {"field": "OutSeatsMax", "type": "quantitative", "title": "Passengers"}
-        ]
-      }
+      "name": "color",
+      "type": "linear",
+      "domain": {"data": "flights", "field": "OutSeatsMax"},
+      "range": ["#ffb380", "#ff0000"]
     }
   ]
 }
