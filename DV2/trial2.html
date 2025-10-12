@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualisation 2</title>
+    <link rel="stylesheet" href="styler.css">
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Data Visualisation 2</h1>
+        <!-- Animated plane -->
+        <div class="cloud">
+            <div class="light"></div>
+            <img src="05cd33059a006bf49006097af4ccba98-plane-in-flight-by-vexels.png" alt="Plane" />
+        </div>
+    </header>
+
+    <!-- Global year slider -->
+    <div id="sliderContainer">
+        <label for="yearSlider"><strong>Select Year:</strong></label>
+        <input type="range" id="yearSlider" min="2000" max="2025" step="1" value="2010">
+        <span id="yearLabel">2010</span>
+    </div>
+
+    <!-- Layout -->
+    <main class="dashboard">
+        <div class="side-column">
+            <div class="chart-box">
+                <h2>Domestic Airlines</h2>
+                <div id="domesticAirlines"></div>
+                <p class="notes">Notes: (Fill later)</p>
+            </div>
+            <div class="chart-box">
+                <h2>Domestic</h2>
+                <div id="domestic"></div>
+                <p class="notes">Notes: (Fill later)</p>
+            </div>
+            <div class="chart-box">
+                <h2>Emissions Map</h2>
+
+                <!-- Container wraps Vega map + overlay -->
+                <div class="map-overlay-container">
+                    <div id="emissionsMap"></div>
+
+                    <!-- Plane animation layer -->
+                    <div class="plane-overlay">
+                        <div class="plane plane-1"><img src="https://raw.githubusercontent.com/deepali-tothenew/aeroplane-css-animation/681089be25437c3afc438223db4096efd6fdddcb/aeroplane.svg" class="plane plane-1"></div>
+                        <div class="plane plane-2"><img src="https://raw.githubusercontent.com/deepali-tothenew/aeroplane-css-animation/681089be25437c3afc438223db4096efd6fdddcb/aeroplane.svg" class="plane plane-1"></div>
+                        <div class="plane plane-3"><img src="https://raw.githubusercontent.com/deepali-tothenew/aeroplane-css-animation/681089be25437c3afc438223db4096efd6fdddcb/aeroplane.svg" class="plane plane-1"></div>
+                    </div>
+                </div>
+
+                <p class="notes">Notes: (Fill later)</p>
+            </div>
+        </div>
+
+        <div class="main-column">
+            <div class="chart-box main-chart">
+                <h2>Global Globe</h2>
+                <div id="mainChart"></div>
+            </div>
+        </div>
+
+        <div class="side-column">
+            <div class="chart-box">
+                <h2>City International</h2>
+                <div id="cityInt"></div>
+                <p class="notes">Notes: (Fill later)</p>
+            </div>
+            <div class="chart-box">
+                <h2>Gas</h2>
+                <div id="gas"></div>
+                <p class="notes">Notes: (Fill later)</p>
+            </div>
+            <div class="chart-box">
+                <h2>Week 9 Homework</h2>
+                <div id="week9Homework"></div>
+                <p class="notes">Notes: (Fill later)</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const charts = [
+            { id: "mainChart", file: "world_map.vg.json" },
+            { id: "domesticAirlines", file: "domestic_airlines.vg.json" },
+            { id: "domestic", file: "Domestic.vg.json" },
+            { id: "emissionsMap", file: "Emissions_map.vg.json" },
+            { id: "cityInt", file: "city_int.vg.json" },
+            { id: "gas", file: "gas.vg.json" },
+            { id: "week9Homework", file: "week_9_homework.vg.json" },
+        ];
+
+        let chartViews = {};
+        const yearSlider = document.getElementById("yearSlider");
+        const yearLabel = document.getElementById("yearLabel");
+
+        function updateCharts(year) {
+            yearLabel.textContent = year;
+            Object.values(chartViews).forEach(view => {
+                view.signal("yearSignal", year).run();
+            })
+        };
+
+        charts.forEach(chart => {
+            fetch(chart.file)
+                .then(r => r.json())
+                .then(spec => {
+                    // Remove any existing year param in JSON
+                    if (spec.params) {
+                        spec.params = spec.params.filter(p => p.name !== "yearSignal");
+                    }
+
+                    vegaEmbed('#' + chart.id, spec, { actions: false })
+                        .then(res => {
+                            chartViews[chart.id] = res.view;
+                            // Initialize signal on load
+                            res.view.signal("yearSignal", parseInt(yearSlider.value)).run();
+                        });
+                });
+        });
+        yearSlider.addEventListener("input", e => {
+            const year = parseInt(e.target.value);
+            updateCharts(year);
+        })
+    </script>
+</body>
+
+</html>>
