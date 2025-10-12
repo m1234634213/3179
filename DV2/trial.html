@@ -118,13 +118,13 @@
       updateCharts(year);
     })
     let globeView;
-    vegaEmbed('#week9Homework', 'week_9_homework.vg.json', { actions: false })
+    vegaEmbed('#week9Homework', 'week_9_homework.vg.json', { actions: false, renderer: 'svg' })
       .then(res => {
         globeView = res.view;
 
         // Auto-rotation
         let angle = 0;
-        const rotationSpeed = 0.2; // degrees per frame
+        const rotationSpeed = 0.2; // degrees per update
         setInterval(() => {
           angle += rotationSpeed;
           globeView.signal("rotate0", angle).run();

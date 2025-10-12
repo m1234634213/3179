@@ -37,6 +37,9 @@
         {
           "calculate": "toNumber(datum['Traffic Category']) < 30000000 ? 'Low' : toNumber(datum['Traffic Category']) <= 60000000 ? 'Medium' : 'High'",
           "as": "TrafficBucket"
+        },
+        {
+          "filter": "abs(datum.Longitude + rotate0) <= 90"
         }
       ],
       "mark": {"type": "circle", "size": 80},
