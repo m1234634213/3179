@@ -1,4 +1,4 @@
-﻿Year,Australian,International,(a) InFlightsExc,(b) InFlightsAll,(a) OutFlightsExc,(b) OutFlightsAll,(a) InSeatsMin,(b) InSeatsMax,(a) OutSeatsMin,(b) OutSeatsMax,Lat  Aus,Lon Aus,Lat International,Lon International
+﻿Year,Australian,International,InFlightsExc,InFlightsAll,OutFlightsExc,OutFlightsAll,InSeatsMin,InSeatsMax,OutSeatsMin,OutSeatsMax,Lat  Aus,Lon Aus,Lat International,Lon International
 2003,Adelaide,Denpasar,0,13,0,13,0,3809,0,3809,-34.9287,138.5986,-8.6500,115.2167
 2003,Adelaide,Hong Kong,0,8,0,8,0,2008,0,2008,-34.9287,138.5986,22.3193,114.1694
 2003,Adelaide,Kuala Lumpur,17,17,17,17,4726,4726,4726,4726,-34.9287,138.5986,3.1390,101.6869
