@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v5.json",
-  "description": "Globe of Australian outbound flights with curved geodesic arcs following the Earth's surface.",
+  "description": "Australian outbound flights following great-circle arcs over a rotating globe.",
   "width": 800,
   "height": 800,
   "autosize": "none",
@@ -46,25 +46,28 @@
         {
           "type": "formula",
           "as": "route",
-          "expr": "{'type':'LineString','coordinates':[[datum['Lon Aus'], datum['Lat  Aus']],[datum['Lon International'], datum['Lat International']]]}"
+          "expr": "{'type': 'LineString', 'coordinates': greatCircle(datum['Lon Aus'], datum['Lat  Aus'], datum['Lon International'], datum['Lat International'], 40)}"
         }
       ]
     }
   ],
+
   "marks": [
     {
       "type": "shape",
       "from": {"data": "oceans"},
-      "encode": {
-        "update": {"fill": {"value": "skyblue"}}
-      },
+      "encode": {"update": {"fill": {"value": "skyblue"}}},
       "transform": [{"type": "geoshape", "projection": {"signal": "projection"}}]
     },
     {
       "type": "shape",
       "from": {"data": "countries"},
       "encode": {
-        "update": {"fill": {"value": "#1b263b"}, "stroke": {"value": "#777"}, "strokeWidth": {"value": 0.5}}
+        "update": {
+          "fill": {"value": "#1b263b"},
+          "stroke": {"value": "#888"},
+          "strokeWidth": {"value": 0.5}
+        }
       },
       "transform": [{"type": "geoshape", "projection": {"signal": "projection"}}]
     },
@@ -72,11 +75,11 @@
       "type": "shape",
       "from": {"data": "flights"},
       "encode": {
-        "enter": {"tooltip": {"signal": "datum.Australian + ' → ' + datum.International"}},
         "update": {
           "stroke": {"scale": "color", "field": "OutSeatsMax"},
           "strokeWidth": {"scale": "size", "field": "OutSeatsMax"},
-          "strokeOpacity": {"value": 0.8}
+          "strokeOpacity": {"value": 0.9},
+          "tooltip": {"signal": "datum.Australian + ' → ' + datum.International"}
         }
       },
       "transform": [
@@ -87,12 +90,13 @@
       "type": "symbol",
       "from": {"data": "flights"},
       "encode": {
-        "enter": {
-          "tooltip": {"signal": "datum.International"},
+        "update": {
           "fill": {"value": "#ff9a00"},
-          "shape": {"value": "triangle"}
-        },
-        "update": {"size": {"value": 80}, "opacity": {"value": 0.9}}
+          "shape": {"value": "triangle"},
+          "size": {"value": 70},
+          "opacity": {"value": 0.9},
+          "tooltip": {"signal": "datum.International"}
+        }
       },
       "transform": [
         {
@@ -103,6 +107,7 @@
       ]
     }
   ],
+
   "scales": [
     {
       "name": "size",
@@ -116,5 +121,9 @@
       "domain": {"data": "flights", "field": "OutSeatsMax"},
       "range": ["#ffb380", "#ff0000"]
     }
-  ]
+  ],
+
+  "expressions": {
+    "greatCircle": "function(lon1, lat1, lon2, lat2, steps) { var points = []; var toRad = Math.PI / 180; var toDeg = 180 / Math.PI; lon1 *= toRad; lat1 *= toRad; lon2 *= toRad; lat2 *= toRad; for (var i = 0; i <= steps; i++) { var f = i / steps; var A = Math.sin((1-f)*d3.geoDistance([lon1,toDeg(lat1)],[lon2,toDeg(lat2)]))/Math.sin(d3.geoDistance([lon1,lat1],[lon2,lat2)])); var B = Math.sin(f*d3.geoDistance([lon1,lat1],[lon2,lat2)]))/Math.sin(d3.geoDistance([lon1,lat1],[lon2,lat2)]); var x = A*Math.cos(lat1)*Math.cos(lon1) + B*Math.cos(lat2)*Math.cos(lon2); var y = A*Math.cos(lat1)*Math.sin(lon1) + B*Math.cos(lat2)*Math.sin(lon2); var z = A*Math.sin(lat1) + B*Math.sin(lat2); var phi = Math.atan2(y,x); var theta = Math.atan2(z,Math.sqrt(x*x+y*y)); points.push([phi*toDeg, theta*toDeg]); } return points; }"
+  }
 }
