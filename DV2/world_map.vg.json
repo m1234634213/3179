@@ -48,7 +48,7 @@
         {
           "op": "rank",
           "as": "routeRank",
-          "sort": [{"field": "OutFlightsAll", "order": "descending"}]
+          "sort": [{"field": "OutSeatsMax", "order": "descending"}]
         }
       ]
     },
@@ -89,12 +89,12 @@
         "longitude": {"field": "longitude", "type": "quantitative"},
         "latitude": {"field": "latitude", "type": "quantitative"},
         "size": {
-          "field": "OutFlightsAll",
+          "field": "OutSeatsMax",
           "type": "quantitative",
           "scale": {"range": [1, 8]}
         },
         "color": {
-          "field": "OutFlightsAll",
+          "field": "OutSeatsMax",
           "type": "quantitative",
           "scale": {"scheme": "orangered"},
           "legend": {"title": "Passengers"}
@@ -102,7 +102,7 @@
         "tooltip": [
           {"field": "Australian", "type": "nominal", "title": "From"},
           {"field": "International", "type": "nominal", "title": "To"},
-          {"field": "OutFlightsAll", "type": "quantitative", "title": "Passengers"}
+          {"field": "OutSeatsMax", "type": "quantitative", "title": "Passengers"}
         ]
       }
     },
@@ -114,7 +114,7 @@
         "tooltip": [
           {"field": "Australian", "type": "nominal", "title": "From"},
           {"field": "International", "type": "nominal", "title": "To"},
-          {"field": "OutFlightsAll", "type": "quantitative", "title": "Passengers"}
+          {"field": "OutSeatsMax", "type": "quantitative", "title": "Passengers"}
         ]
       }
     }
