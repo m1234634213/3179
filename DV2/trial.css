@@ -29,7 +29,7 @@ header h1 {
   top: 20px;         /* vertical position over header */
   right: -500px;     /* start off-screen right */
   opacity: 0.9;
-  animation: cloud 10s linear infinite; /* keep your working fly */
+  animation: cloud 10s linear infinite reverse; /* keep your working fly */
   z-index: 5;       /* in front of header */
 }
 
@@ -41,8 +41,8 @@ header h1 {
 
 /* Horizontal fly across screen (your original working animation) */
 @keyframes cloud {
-  from { right: 110px; }
-  to { right: -500%; } /* fly past right edge */
+  from { right: -500px; }
+  to { right: 110%; } /* fly past right edge */
 }
 
 /* Gentle vertical bobbing */
