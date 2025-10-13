@@ -139,3 +139,20 @@ header h1 {
     height: 400px;
   }
 }
+
+
+
+.row {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+.row.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chart-box:hover {
+  box-shadow: 0 10px 25px rgba(0, 124, 237, 0.5);
+}
