@@ -23,30 +23,34 @@ header h1 {
   z-index: 5;
 }
 
+/* Cloud animation */
 .cloud {
   position: absolute;
-  top: 20px;       /* vertical position */
-  left: 0;         /* starting point for transform */
-  z-index: 10;     /* above header text */
+  top: 20px;         /* vertical position over header */
+  right: -500px;     /* start off-screen right */
+  opacity: 0.9;
+  animation: cloud 12s linear infinite; /* keep your working fly */
+  z-index: 10;       /* in front of header */
 }
 
 .cloud img {
-  width: 150px;
+  width: 200px;
   height: auto;
-  animation: flyLoop 12s linear infinite, bob 3s ease-in-out infinite alternate;
+  animation: bob 3s ease-in-out infinite alternate; /* optional bob */
 }
 
-/* Smooth horizontal fly loop using transform */
-@keyframes flyLoop {
-  0% { transform: translateX(-250px); }
-  100% { transform: translateX(110vw); } /* vw = viewport width, ensures full travel */
+/* Horizontal fly across screen (your original working animation) */
+@keyframes cloud {
+  from { right: -500px; }
+  to { right: 110%; } /* fly past right edge */
 }
 
-/* Small vertical bobbing */
+/* Gentle vertical bobbing */
 @keyframes bob {
   0% { transform: translateY(0); }
   100% { transform: translateY(-15px); }
 }
+
 
 
 
