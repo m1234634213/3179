@@ -23,30 +23,32 @@ header h1 {
   z-index: 5;
 }
 
-/* Cloud animation */
 .cloud {
   position: absolute;
-  top: 0px;
-  right: -500px;
-  opacity: .8;
-  animation: cloud 10s linear 0s infinite reverse;
-  z-index: 0;
+  top: 20px;       /* vertical position */
+  left: 0;         /* starting point for transform */
+  z-index: 10;     /* above header text */
 }
 
 .cloud img {
-  width: 200px;
+  width: 150px;
   height: auto;
+  animation: flyLoop 12s linear infinite, bob 3s ease-in-out infinite alternate;
 }
 
-@keyframes light {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+/* Smooth horizontal fly loop using transform */
+@keyframes flyLoop {
+  0% { transform: translateX(-250px); }
+  100% { transform: translateX(110vw); } /* vw = viewport width, ensures full travel */
 }
 
-@keyframes cloud {
-  from { right: -500px; }
-  to { right: 102%; }
+/* Small vertical bobbing */
+@keyframes bob {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-15px); }
 }
+
+
 
 /* Slider */
 #sliderContainer {
