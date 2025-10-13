@@ -20,6 +20,7 @@
     </div>
   </header>
 
+  <!-- Year slider -->
   <div id="sliderContainer">
     <label for="yearSlider"><strong>Select Year:</strong></label>
     <input type="range" id="yearSlider" min="2000" max="2025" step="1" value="2010">
@@ -27,12 +28,13 @@
   </div>
 
   <main class="dashboard">
-
     <!-- Row 1 -->
     <div class="row">
       <div class="story-box">
         <h2>Global Flight Trends</h2>
-        <p>The global aviation network shows how Australia connects with major cities worldwide. Key hubs dominate traffic, while new routes emerge over time.</p>
+        <p>The global aviation network shows how Australia connects with major cities worldwide. Major hubs dominate
+          traffic, while new routes emerge over time. The visual highlights the dynamic shifts in international
+          connectivity and the growing importance of Asia-Pacific routes.</p>
       </div>
       <div class="chart-box main-chart">
         <div id="mainChart"></div>
@@ -46,69 +48,76 @@
         <div id="domesticAirlines"></div>
       </div>
       <div class="story-box">
-        <h2>Competition in the Skies</h2>
-        <p>Domestic airlines in Australia have evolved, with Qantas and Virgin dominating. Smaller airlines like Skywest disappeared, while newcomers like Bonza entered the market.</p>
+        <h2>Evolution of Domestic Airlines</h2>
+        <p>Qantas and Virgin Australia continue to dominate the domestic market. Over the years, smaller carriers like
+          Skywest disappeared due to strong competition, while new players such as Bonza have recently entered to shake
+          up the landscape.</p>
       </div>
     </div>
 
     <!-- Row 3 -->
     <div class="row">
       <div class="story-box">
-        <h2>Passenger Movements</h2>
-        <p>Domestic passenger patterns reveal how Australia’s internal travel network adjusts to economic and social shifts — from mining booms to pandemic recovery.</p>
+        <h2>Domestic Passenger Patterns</h2>
+        <p>Domestic passenger numbers reflect internal travel demands. Spikes coincide with holiday periods and major
+          events, while declines mark economic downturns and border restrictions during global disruptions.</p>
       </div>
-      <div class="chart-box">
+      <div class="chart-box full-width">
+        <h2>Passenger Trends</h2>
         <div id="domestic"></div>
       </div>
     </div>
 
     <!-- Row 4 -->
     <div class="row">
-      <div class="chart-box">
-        <h2>International Routes</h2>
-        <div id="cityInt"></div>
-      </div>
       <div class="story-box">
-        <h2>Expanding Horizons</h2>
-        <p>Australia’s international connections have grown towards Asia and the Middle East, while long-haul routes to Europe and North America remain vital for tourism and trade.</p>
+        <h2>International Routes</h2>
+        <p>Australia’s outbound and inbound connections have evolved, reflecting tourism, business, and migration
+          trends. Growing links to Asia highlight the region’s rising economic importance and travel demand.</p>
+      </div>
+      <div class="chart-box">
+        <div id="cityInt"></div>
       </div>
     </div>
 
     <!-- Row 5 -->
     <div class="row">
+      <div class="chart-box">
+        <h2>Emissions Impact</h2>
+        <div id="emissionsMap"></div>
+      </div>
       <div class="story-box">
         <h2>Environmental Impact</h2>
-        <p>The emissions map highlights aviation’s growing responsibility in global climate targets. It visualizes the CO₂ intensity of major routes across decades.</p>
-      </div>
-      <div class="chart-box">
-        <h2>Emissions Map</h2>
-        <div id="emissionsMap"></div>
+        <p>The emissions map reveals the environmental footprint of air routes. Longer international flights
+          disproportionately affect total emissions, driving the need for fuel-efficient technologies and sustainable
+          aviation policies.</p>
       </div>
     </div>
 
     <!-- Row 6 -->
     <div class="row">
-      <div class="chart-box">
-        <h2>Fuel & Gas Trends</h2>
-        <div id="gas"></div>
-      </div>
       <div class="story-box">
-        <h2>Energy Efficiency Over Time</h2>
-        <p>Fuel usage reveals both the environmental and economic side of aviation. Efficiency gains offset some emissions growth, but total output keeps climbing.</p>
+        <h2>Energy and Fuel Trends</h2>
+        <p>Fluctuations in jet fuel and gas prices directly influence airline ticket costs and operational decisions.
+          Energy trends are pivotal in shaping the sustainability and pricing of air travel.</p>
+      </div>
+      <div class="chart-box full-width">
+        <h2>Gas Trends</h2>
+        <div id="gas"></div>
       </div>
     </div>
 
     <!-- Row 7 -->
     <div class="row">
       <div class="story-box">
-        <h2>Interactive Globe</h2>
-        <p>This rotating 3D globe offers a live view of flight paths evolving over time — a compelling visual to explore the world’s interconnected skies.</p>
+        <h2>Rotating Globe Visualisation</h2>
+        <p>This rotating 3D globe visualises aviation pathways, revealing how geography and distance influence air
+          connectivity. It captures the beauty and complexity of global travel networks in motion.</p>
       </div>
       <div class="chart-box main-chart">
         <div id="week9Homework" class="rotating-globe"></div>
       </div>
     </div>
-
   </main>
 
   <script>
@@ -160,4 +169,5 @@
       });
   </script>
 </body>
+
 </html>

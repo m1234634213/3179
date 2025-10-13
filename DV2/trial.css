@@ -1,102 +1,136 @@
 body {
-  font-family: "Segoe UI", Roboto, sans-serif;
   margin: 0;
-  background-color: #f5f7fa;
-  color: #333;
+  font-family: "Segoe UI", sans-serif;
+  color: #222;
+  background: linear-gradient(to bottom, #007ced 1%, #cce7ff 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
 }
 
 header {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.15);
+  color: white;
+  padding: 1.5rem 0;
   position: relative;
-  text-align: center;
-  padding: 2rem 1rem;
-  background: linear-gradient(to bottom, #007ced 1%, #cce7ff 100%);
   overflow: hidden;
+  backdrop-filter: blur(3px);
 }
 
-header h1 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  letter-spacing: 1px;
 }
 
-/* Plane animation */
-.cloud img {
-  width: 150px;
-  position: absolute;
-  top: 20px;
-  left: -180px;
-  animation: planeFly 20s linear infinite;
-}
-
-@keyframes planeFly {
-  from { left: -180px; top: 30px; }
-  to { left: 110%; top: 50px; }
-}
-
-/* Slider */
 #sliderContainer {
-  text-align: center;
-  margin: 1.5rem 0 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 1rem;
+  font-size: 1.1rem;
+  border-bottom: 2px solid #90e0ef;
 }
 
-#yearSlider {
-  width: 300px;
-  margin: 0 10px;
-}
-
-/* Dashboard layout */
 .dashboard {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-  max-width: 90%;
+  gap: 4rem;
+  max-width: 1600px;
   margin: 0 auto;
-  padding-bottom: 3rem;
+  padding: 2rem 3rem;
 }
 
 .row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  align-items: stretch;
+  align-items: center;
   justify-content: space-between;
+  gap: 3rem;
+  flex-wrap: wrap;
 }
 
-.chart-box, .story-box {
+.story-box,
+.chart-box {
   flex: 1 1 48%;
-  background-color: #fff;
-  padding: 1.8rem;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.chart-box:hover, .story-box:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-}
-
-.main-chart {
-  min-height: 500px;
+  min-width: 450px;
+  background: white;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 .story-box h2 {
+  color: #023e8a;
   margin-top: 0;
 }
 
 .story-box p {
+  font-size: 1.1rem;
   line-height: 1.7;
-  font-size: 1.05rem;
-  color: #444;
+  margin-top: 0.5rem;
 }
 
-@media (max-width: 1000px) {
+.chart-box h2 {
+  margin-top: 0;
+  color: #0077b6;
+}
+
+.chart-box.full-width {
+  flex: 1 1 100%;
+  min-width: unset;
+  padding: 2rem 3rem;
+}
+
+#mainChart,
+#domesticAirlines,
+#domestic,
+#cityInt,
+#emissionsMap,
+#gas,
+#week9Homework {
+  width: 100%;
+  height: 500px;
+}
+
+/* Plane animation */
+.cloud img {
+  position: absolute;
+  top: 20px;
+  left: -150px;
+  width: 150px;
+  animation: planeMove 25s linear infinite;
+}
+
+@keyframes planeMove {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(1800px);
+  }
+}
+
+/* Responsive layout */
+@media (max-width: 900px) {
   .row {
     flex-direction: column;
   }
-  .chart-box, .story-box {
-    flex: 1 1 100%;
+
+  .story-box,
+  .chart-box {
+    width: 100%;
   }
-  .dashboard {
-    max-width: 95%;
+
+  #mainChart,
+  #domesticAirlines,
+  #domestic,
+  #cityInt,
+  #emissionsMap,
+  #gas,
+  #week9Homework {
+    height: 400px;
   }
 }
