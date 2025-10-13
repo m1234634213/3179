@@ -101,3 +101,28 @@ header h1 {
     flex-direction: column;
   }
 }
+
+/* Cloud animation */
+.cloud {
+  position: absolute;
+  top: 0px;
+  right: -500px;
+  opacity: .8;
+  animation: cloud 10s linear 0s infinite reverse;
+  z-index: 0;
+}
+
+.cloud img {
+  width: 200px;
+  height: auto;
+}
+
+@keyframes light {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes cloud {
+  from { right: -500px; }
+  to { right: 102%; }
+}
