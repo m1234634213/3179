@@ -41,8 +41,8 @@ header h1 {
 
 /* Horizontal fly across screen (your original working animation) */
 @keyframes cloud {
-  from { right: -500px; }
-  to { right: 110%; } /* fly past right edge */
+  from { right: 110px; }
+  to { right: -500%; } /* fly past right edge */
 }
 
 /* Gentle vertical bobbing */
