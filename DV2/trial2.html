@@ -20,7 +20,7 @@
     </div>
   </header>
 
-  <!-- Year slider -->
+  <!-- Global year slider -->
   <div id="sliderContainer">
     <label for="yearSlider"><strong>Select Year:</strong></label>
     <input type="range" id="yearSlider" min="2000" max="2025" step="1" value="2010">
@@ -28,15 +28,14 @@
   </div>
 
   <main class="dashboard">
+
     <!-- Row 1 -->
     <div class="row">
       <div class="story-box">
         <h2>Global Flight Trends</h2>
-        <p>The global aviation network shows how Australia connects with major cities worldwide. Major hubs dominate
-          traffic, while new routes emerge over time. The visual highlights the dynamic shifts in international
-          connectivity and the growing importance of Asia-Pacific routes.</p>
+        <p>The global aviation network shows how Australia connects with major cities worldwide. Key hubs dominate traffic, while new routes emerge over time.</p>
       </div>
-      <div class="chart-box main-chart">
+      <div class="chart-box">
         <div id="mainChart"></div>
       </div>
     </div>
@@ -48,22 +47,14 @@
         <div id="domesticAirlines"></div>
       </div>
       <div class="story-box">
-        <h2>Evolution of Domestic Airlines</h2>
-        <p>Qantas and Virgin Australia continue to dominate the domestic market. Over the years, smaller carriers like
-          Skywest disappeared due to strong competition, while new players such as Bonza have recently entered to shake
-          up the landscape.</p>
+        <p>Domestic airlines in Australia have evolved, with Qantas and Virgin dominating. Smaller airlines disappeared, while newcomers like Bonza entered the market.</p>
       </div>
     </div>
 
-    <!-- Row 3 -->
-    <div class="row">
-      <div class="story-box">
-        <h2>Domestic Passenger Patterns</h2>
-        <p>Domestic passenger numbers reflect internal travel demands. Spikes coincide with holiday periods and major
-          events, while declines mark economic downturns and border restrictions during global disruptions.</p>
-      </div>
-      <div class="chart-box full-width">
-        <h2>Passenger Trends</h2>
+    <!-- Row 3 (Full width) -->
+    <div class="row full-width">
+      <div class="chart-box">
+        <h2>Domestic Passenger Trends</h2>
         <div id="domestic"></div>
       </div>
     </div>
@@ -72,8 +63,7 @@
     <div class="row">
       <div class="story-box">
         <h2>International Routes</h2>
-        <p>Australia’s outbound and inbound connections have evolved, reflecting tourism, business, and migration
-          trends. Growing links to Asia highlight the region’s rising economic importance and travel demand.</p>
+        <p>International city connectivity demonstrates growth in outbound and inbound travel from Australia. Some destinations rise in popularity, while others decline.</p>
       </div>
       <div class="chart-box">
         <div id="cityInt"></div>
@@ -83,25 +73,17 @@
     <!-- Row 5 -->
     <div class="row">
       <div class="chart-box">
-        <h2>Emissions Impact</h2>
+        <h2>Emissions Map</h2>
         <div id="emissionsMap"></div>
       </div>
       <div class="story-box">
-        <h2>Environmental Impact</h2>
-        <p>The emissions map reveals the environmental footprint of air routes. Longer international flights
-          disproportionately affect total emissions, driving the need for fuel-efficient technologies and sustainable
-          aviation policies.</p>
+        <p>The emissions map highlights environmental impact by airline route. Patterns show which routes contribute most to aviation emissions over time.</p>
       </div>
     </div>
 
-    <!-- Row 6 -->
-    <div class="row">
-      <div class="story-box">
-        <h2>Energy and Fuel Trends</h2>
-        <p>Fluctuations in jet fuel and gas prices directly influence airline ticket costs and operational decisions.
-          Energy trends are pivotal in shaping the sustainability and pricing of air travel.</p>
-      </div>
-      <div class="chart-box full-width">
+    <!-- Row 6 (Full width) -->
+    <div class="row full-width">
+      <div class="chart-box">
         <h2>Gas Trends</h2>
         <div id="gas"></div>
       </div>
@@ -110,14 +92,14 @@
     <!-- Row 7 -->
     <div class="row">
       <div class="story-box">
-        <h2>Rotating Globe Visualisation</h2>
-        <p>This rotating 3D globe visualises aviation pathways, revealing how geography and distance influence air
-          connectivity. It captures the beauty and complexity of global travel networks in motion.</p>
+        <h2>Week 9 Homework</h2>
+        <p>This interactive globe demonstrates flight paths and rotation effects, offering a visual way to explore aviation networks and trends.</p>
       </div>
-      <div class="chart-box main-chart">
+      <div class="chart-box">
         <div id="week9Homework" class="rotating-globe"></div>
       </div>
     </div>
+
   </main>
 
   <script>
@@ -169,5 +151,4 @@
       });
   </script>
 </body>
-
 </html>
