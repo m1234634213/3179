@@ -9,7 +9,7 @@ header {
   position: relative;
   text-align: center;
   padding: 2rem 1rem;
-  background: linear-gradient(120deg, #cce5ff, #e2f3ff);
+  background: linear-gradient(to bottom, #007ced 1%, #cce7ff 100%);
   overflow: hidden;
 }
 
