@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Visualisation 2</title>
-    <link rel="stylesheet" href="styler.css">
+    <link rel="stylesheet" href="trial.css">
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
@@ -14,8 +14,7 @@
 <body>
     <header>
         <h1>Data Visualisation 2</h1>
-        <!-- Animated plane -->
-        <div class="cloud">
+        <div class="cloud cloud1">
             <div class="light"></div>
             <img src="05cd33059a006bf49006097af4ccba98-plane-in-flight-by-vexels.png" alt="Plane" />
         </div>
@@ -30,74 +29,85 @@
 
     <!-- Layout -->
     <main class="dashboard">
-        <div class="side-column">
-            <div class="chart-box">
-                <h2>Domestic Airlines</h2>
-                <div id="domesticAirlines"></div>
-                <p class="notes">Notes: (Fill later)</p>
+
+        <!-- Row 1: Text Left, Chart Right -->
+        <div class="row">
+            <div class="story-box">
+                <h2>Global Flight Trends</h2>
+                <p>The global aviation network shows how Australia connects with major cities worldwide. Key hubs
+                    dominate traffic, while new routes emerge over time.</p>
             </div>
-            <div class="chart-box">
-                <h2>Domestic</h2>
-                <div id="domestic"></div>
-                <p class="notes">Notes: (Fill later)</p>
-            </div>
-            <div class="chart-box">
-                <h2>Emissions Map</h2>
-
-                <!-- Container wraps Vega map + overlay -->
-                <div class="map-overlay-container">
-                    <div id="emissionsMap"></div>
-
-                    <!-- Plane animation layer -->
-                    <div class="plane-overlay">
-                        <svg id="plane1" class="plane" viewBox="0 0 1000 220">
-                            <path class="planePath" d="M 0 10 C 200 222 250 50 550 150 C 850 250 700 190 1000 200" />
-                            <g class="plane">
-                                <polygon class="fill1" points="-141,-10 199,0 -198,-72 -188,-61 -171,-57 -184,-57" />
-                                <polygon class="fill2" points="199,0 -141,-10 -163,63 -123,9" />
-                                <polygon class="fill3"
-                                    points="-95,39 -113,32 -123,9 -163,63 -105,53 -108,45 -87,48 -90,45 -103,41 -94,41" />
-                                <path class="fill4"
-                                    d="M-87 48l-21 -3 3 8 19 -4 -1 -1zm-26 -16l18 7 -2 -1 32 -7 -29 1 11 -4 -24 -1 -16 -18 10 23zm10 9l13 4 -4 -4 -9 0z" />
-                                <polygon class="fill1"
-                                    points="-83,28 -94,32 -65,31 -97,38 -86,49 -67,70 199,0 -123,9 -107,27" />
-                            </g>
-                            <animateMotion dur="6s" repeatCount="indefinite" rotate="auto">
-                                <mpath href="#planePath" />
-                            </animateMotion>
-                        </svg>
-                    </div>
-                </div>
-
-                <p class="notes">Notes: (Fill later)</p>
-            </div>
-        </div>
-
-        <div class="main-column">
             <div class="chart-box main-chart">
-                <h2>Global Globe</h2>
                 <div id="mainChart"></div>
             </div>
         </div>
 
-        <div class="side-column">
+        <!-- Row 2: Chart Left, Text Right -->
+        <div class="row">
             <div class="chart-box">
-                <h2>City International</h2>
-                <div id="cityInt"></div>
-                <p class="notes">Notes: (Fill later)</p>
+                <h2>Domestic Airlines</h2>
+                <div id="domesticAirlines"></div>
             </div>
-            <div class="chart-box">
-                <h2>Gas</h2>
-                <div id="gas"></div>
-                <p class="notes">Notes: (Fill later)</p>
-            </div>
-            <div class="chart-box">
-                <h2>Week 9 Homework</h2>
-                <div id="week9Homework"></div>
-                <p class="notes">Notes: (Fill later)</p>
+            <div class="story-box">
+                <p>Domestic airlines in Australia have evolved, with Qantas and Virgin dominating. Smaller airlines
+                    disappeared, while newcomers like Bonza entered the market.</p>
             </div>
         </div>
+
+        <!-- Row 3: Full-width Chart -->
+        <div class="row">
+            <div class="chart-box full-width">
+                <h2>Domestic Passenger Trends</h2>
+                <div id="domestic"></div>
+            </div>
+        </div>
+
+        <!-- Row 4: Text Left, Chart Right -->
+        <div class="row">
+            <div class="story-box">
+                <h2>International Routes</h2>
+                <p>International city connectivity demonstrates growth in outbound and inbound travel from Australia.
+                    Some destinations rise in popularity, while others decline.</p>
+            </div>
+            <div class="chart-box">
+                <div id="cityInt"></div>
+            </div>
+        </div>
+
+        <!-- Row 5: Chart Left, Text Right -->
+        <div class="row">
+            <div class="chart-box">
+                <h2>Emissions Map</h2>
+                <div id="emissionsMap"></div>
+            </div>
+            <div class="story-box">
+                <p>The emissions map highlights environmental impact by airline route. Patterns show which routes
+                    contribute most to aviation emissions over time.</p>
+            </div>
+        </div>
+
+        <!-- Row 6: Full-width Chart -->
+        <div class="row">
+            <div class="chart-box full-width">
+                <h2>Gas Trends</h2>
+                <div id="gas"></div>
+            </div>
+        </div>
+
+        <!-- Row 7: Text Left, Chart Right -->
+        <div class="row">
+            <div class="story-box">
+                <h2>Week 9 Homework</h2>
+                <p>This interactive globe demonstrates flight paths and rotation effects, offering a visual way to
+                    explore aviation networks and trends.</p>
+            </div>
+            <div class="chart-box main-chart">
+                <div id="week9Homework" class="rotating-globe"></div>
+            </div>
+        </div>
+
     </main>
+
 
     <script>
         const charts = [
@@ -117,32 +127,37 @@
         function updateCharts(year) {
             yearLabel.textContent = year;
             Object.values(chartViews).forEach(view => {
-                view.signal("yearSignal", year).run();
-            })
-        };
+                view.signal("selectedYear", year).run();
+            });
+        }
 
         charts.forEach(chart => {
             fetch(chart.file)
                 .then(r => r.json())
                 .then(spec => {
-                    // Remove any existing year param in JSON
-                    if (spec.params) {
-                        spec.params = spec.params.filter(p => p.name !== "yearSignal");
-                    }
-
-                    vegaEmbed('#' + chart.id, spec, { actions: false })
-                        .then(res => {
-                            chartViews[chart.id] = res.view;
-                            // Initialize signal on load
-                            res.view.signal("yearSignal", parseInt(yearSlider.value)).run();
-                        });
+                    spec.params = spec.params || [];
+                    spec.params.push({ name: "selectedYear", value: parseInt(yearSlider.value), bind: false });
+                    vegaEmbed('#' + chart.id, spec, { actions: false }).then(res => {
+                        chartViews[chart.id] = res.view;
+                    });
                 });
         });
-        yearSlider.addEventListener("input", e => {
-            const year = parseInt(e.target.value);
-            updateCharts(year);
-        })
+
+        yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
+        let globeView;
+        vegaEmbed('#week9Homework', 'week_9_homework.vg.json', { actions: false })
+            .then(res => {
+                globeView = res.view;
+
+                // Auto-rotation
+                let angle = 0;
+                const rotationSpeed = 0.2; // degrees per frame
+                setInterval(() => {
+                    angle += rotationSpeed;
+                    globeView.signal("rotate0", angle).run();
+                }, 50); // update every 50ms
+            });
     </script>
 </body>
 
-</html>>
+</html>
