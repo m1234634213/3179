@@ -156,3 +156,34 @@ header h1 {
 .chart-box:hover {
   box-shadow: 0 10px 25px rgba(0, 124, 237, 0.5);
 }
+
+
+
+/* Fullscreen overlay for chart */
+.chart-box.fullscreen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 90vw;
+  height: 90vh;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  background: white;
+  padding: 2rem;
+  transition: all 0.4s ease;
+  overflow: auto;
+}
+
+/* Optional: slightly dim background when chart is fullscreen */
+body.fullscreen-active::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.3);
+  z-index: 998;
+}

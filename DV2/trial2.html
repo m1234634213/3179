@@ -33,7 +33,8 @@
     <div class="row">
       <div class="story-box">
         <h2>Global Flight Trends</h2>
-        <p>The global aviation network shows how Australia connects with major cities worldwide. Key hubs dominate traffic, while new routes emerge over time.</p>
+        <p>The global aviation network shows how Australia connects with major cities worldwide. Key hubs dominate
+          traffic, while new routes emerge over time.</p>
       </div>
       <div class="chart-box">
         <div id="mainChart"></div>
@@ -47,7 +48,8 @@
         <div id="domesticAirlines"></div>
       </div>
       <div class="story-box">
-        <p>Domestic airlines in Australia have evolved, with Qantas and Virgin dominating. Smaller airlines disappeared, while newcomers like Bonza entered the market.</p>
+        <p>Domestic airlines in Australia have evolved, with Qantas and Virgin dominating. Smaller airlines disappeared,
+          while newcomers like Bonza entered the market.</p>
       </div>
     </div>
 
@@ -63,7 +65,8 @@
     <div class="row">
       <div class="story-box">
         <h2>International Routes</h2>
-        <p>International city connectivity demonstrates growth in outbound and inbound travel from Australia. Some destinations rise in popularity, while others decline.</p>
+        <p>International city connectivity demonstrates growth in outbound and inbound travel from Australia. Some
+          destinations rise in popularity, while others decline.</p>
       </div>
       <div class="chart-box">
         <div id="cityInt"></div>
@@ -77,7 +80,8 @@
         <div id="emissionsMap"></div>
       </div>
       <div class="story-box">
-        <p>The emissions map highlights environmental impact by airline route. Patterns show which routes contribute most to aviation emissions over time.</p>
+        <p>The emissions map highlights environmental impact by airline route. Patterns show which routes contribute
+          most to aviation emissions over time.</p>
       </div>
     </div>
 
@@ -93,7 +97,8 @@
     <div class="row">
       <div class="story-box">
         <h2>Week 9 Homework</h2>
-        <p>This interactive globe demonstrates flight paths and rotation effects, offering a visual way to explore aviation networks and trends.</p>
+        <p>This interactive globe demonstrates flight paths and rotation effects, offering a visual way to explore
+          aviation networks and trends.</p>
       </div>
       <div class="chart-box">
         <div id="week9Homework" class="rotating-globe"></div>
@@ -149,6 +154,21 @@
           globeView.signal("rotate0", angle).run();
         }, 50);
       });
+
+    charts.forEach(chart => {
+      chart.addEventListener('click', () => {
+        const isFull = chart.classList.contains('fullscreen');
+        if (isFull) {
+          chart.classList.remove('fullscreen');
+          document.body.classList.remove('fullscreen-active');
+        } else {
+          chart.classList.add('fullscreen');
+          document.body.classList.add('fullscreen-active');
+        }
+      });
+    });
+
   </script>
 </body>
+
 </html>
