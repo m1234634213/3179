@@ -30,7 +30,7 @@ header h1 {
   right: -500px;     /* start off-screen right */
   opacity: 0.9;
   animation: cloud 10s linear infinite; /* keep your working fly */
-  z-index: 10;       /* in front of header */
+  z-index: 5;       /* in front of header */
 }
 
 .cloud img {
@@ -41,8 +41,8 @@ header h1 {
 
 /* Horizontal fly across screen (your original working animation) */
 @keyframes cloud {
-  from { left: -500px; }
-  to { left: 110%; } /* fly past right edge */
+  from { right: -500px; }
+  to { right: 110%; } /* fly past right edge */
 }
 
 /* Gentle vertical bobbing */
