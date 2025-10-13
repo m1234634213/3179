@@ -23,30 +23,29 @@ header h1 {
   z-index: 5;
 }
 
-/* Flying plane */
+/* Cloud animation */
 .cloud {
   position: absolute;
-  top: 20px;       /* vertical position */
-  left: -250px;    /* start off-screen left */
-  z-index: 10;     /* above header text */
+  top: 0px;
+  right: -500px;
+  opacity: .8;
+  animation: cloud 10s linear 0s infinite reverse;
+  z-index: 0;
 }
 
 .cloud img {
-  width: 150px;
+  width: 200px;
   height: auto;
-  animation: flyAcross 12s linear infinite, bob 3s ease-in-out infinite alternate;
 }
 
-/* Horizontal movement across the screen */
-@keyframes flyAcross {
-  0% { left: -250px; }
-  100% { left: 110%; } /* move past right edge */
+@keyframes light {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
-/* Small vertical bobbing for realism */
-@keyframes bob {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-15px); }
+@keyframes cloud {
+  from { right: -500px; }
+  to { right: 102%; }
 }
 
 /* Slider */
