@@ -104,7 +104,15 @@
         });
       });
   });
-
+  vegaEmbed('#mainChart', 'world_map.vg.json', { actions: false })
+  .then(res => {
+    const mainView = res.view;
+    let angle = 0;
+    setInterval(() => {
+      angle += 0.2;
+      mainView.signal("rotLon", angle).run();
+    }, 50);
+  });
   yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
   let globeView;
     vegaEmbed('#week9Homework', 'week_9_homework.vg.json', { actions: false })
