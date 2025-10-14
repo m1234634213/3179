@@ -130,6 +130,15 @@
           globeView.signal("rotate0", angle).run();
         }, 50); // update every 50ms
       });
+    vegaEmbed('#mainChart', 'world_map.vg.json', { actions: false })
+      .then(res => {
+        const mainView = res.view;
+        let angle = 0;
+        setInterval(() => {
+          angle += 0.2;
+          mainView.signal("rotLon", angle).run();
+        }, 50);
+      });
   </script>
 </body>
 
