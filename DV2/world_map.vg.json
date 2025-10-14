@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Interactive globe + Australian outbound flights with adjustable rotation longitude, curved arcs over globe, and oceans layer",
-  "width": 800,
-  "height": 800,
+  "width": "container",
+  "height": "container",
   "data": {
     "url": "citypairs.csv"
   },
