@@ -7,29 +7,23 @@
     "url": "citypairs.csv"
   },
   "params": [
-    {
-      "name": "selectedYear",
-      "value": 2020,
-      "bind": {
-        "input": "range",
-        "min": 2000,
-        "max": 2025,
-        "step": 1,
-        "name": "Year: "
-      }
-    },
-    {
-      "name": "rotLon",
-      "value": -135,
-      "bind": {
-        "input": "range",
-        "min": -180,
-        "max": 180,
-        "step": 1,
-        "name": "Rotate Longitude"
-      }
+  {
+    "name": "selectedYear",
+    "value": 2020,
+    "bind": {
+      "input": "range",
+      "min": 2000,
+      "max": 2025,
+      "step": 1,
+      "name": "Year: "
     }
-  ],
+  },
+  {
+    "name": "rotLon",
+    "value": -135,
+    "bind": false
+  }
+],
   "projection": {
     "type": "orthographic",
     "rotate": [{"signal": "rotLon"}, 0, 0],
