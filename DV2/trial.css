@@ -187,3 +187,20 @@ body.fullscreen-active::before {
   background: rgba(0,0,0,0.3);
   z-index: 998;
 }
+
+
+.globe-chart {
+  width: 100%;            /* fill container width */
+  height: 0;              /* use padding-bottom to maintain aspect ratio */
+  padding-bottom: 80%;    /* adjust ratio for globe (taller) */
+  position: relative;     /* necessary for absolute children */
+}
+
+.globe-chart > svg,
+.globe-chart > canvas {
+  position: absolute;     /* fill the container completely */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
