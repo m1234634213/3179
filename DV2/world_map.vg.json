@@ -3,6 +3,10 @@
   "description": "Interactive globe + Australian outbound flights with adjustable rotation longitude, curved arcs over globe, and oceans layer",
   "width": "container",
   "height": "container",
+  "autosize": {
+  "type": "fit",
+  "contains": "padding"
+},
   "data": {
     "url": "citypairs.csv"
   },
