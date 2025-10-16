@@ -64,7 +64,7 @@
       "mark": {"type": "geoshape", "fill": "#1b263b", "stroke": "#888"}
     },
     {
-      "mark": {"type": "geoshape", "stroke": "orangered", "strokeWidth": 2},
+      "mark": {"type": "geoshape", "stroke": "orangered", "strokeWidth": 2,"fill": "transparent"},
       "encoding": {
         "shape": {"field": "geo", "type": "geojson"},
         "tooltip": [
