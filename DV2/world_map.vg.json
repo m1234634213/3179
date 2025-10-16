@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Interactive globe with Australian outbound flights as curved arcs that rotate with the globe",
+  "description": "Interactive globe with Australian outbound flights as proper geoshape arcs",
   "width": 900,
   "height": 900,
   "data": {
@@ -31,7 +31,7 @@
   },
   "transform": [
     {
-      "filter": "datum.Year == selectedYear && datum['Lat Aus'] != null && datum['Lat International'] != null"
+      "filter": "datum.Year == selectedYear && datum['Lat  Aus'] != null && datum['Lat International'] != null"
     },
     {
       "window": [
@@ -42,7 +42,11 @@
         }
       ]
     },
-    { "filter": "datum.routeRank <= 30" }
+    { "filter": "datum.routeRank <= 30" },
+    {
+      "calculate": "{ \"type\": \"Feature\", \"geometry\": { \"type\": \"LineString\", \"coordinates\": [[datum['Lon Aus'], datum['Lat  Aus']], [datum['Lon International'], datum['Lat International']]] }, \"properties\": {\"From\": datum.Australian, \"To\": datum.International, \"OutSeatsMax\": datum.OutSeatsMax} }",
+      "as": "geo"
+    }
   ],
   "layer": [
     {
@@ -64,8 +68,8 @@
       "encoding": {
         "shape": {"field": "geo", "type": "geojson"},
         "tooltip": [
-          {"field": "Australian", "type": "nominal"},
-          {"field": "International", "type": "nominal"},
+          {"field": "From", "type": "nominal"},
+          {"field": "To", "type": "nominal"},
           {"field": "OutSeatsMax", "type": "quantitative"}
         ]
       }
