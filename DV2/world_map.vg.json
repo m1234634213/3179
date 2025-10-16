@@ -64,7 +64,7 @@
       "mark": {"type": "geoshape", "fill": "#1b263b", "stroke": "#888"}
     },
     {
-      "mark": {"type": "geoshape", "stroke": "orangered", "strokeWidth": 2},
+      "mark": {"type": "geoshape", "stroke": "orangered", "strokeWidth": 3, "fill": "transparent"},
       "encoding": {
         "shape": {"field": "geo", "type": "geojson"},
         "tooltip": [
@@ -75,7 +75,7 @@
       }
     },
     {
-      "mark": {"type": "point", "filled": true, "shape": "triangle", "size": 50, "color": "#ff9a00"},
+      "mark": {"type": "point", "filled": true, "shape": "triangle", "size": 150, "color": "#ff9a00"},
       "encoding": {
         "longitude": {"field": "Lon International", "type": "quantitative"},
         "latitude": {"field": "Lat International", "type": "quantitative"},
