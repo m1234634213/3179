@@ -74,7 +74,15 @@
         ]
       }
     },
+    {"transform": [
     {
+      "calculate": "(datum['Lon International'] - rotLon + 540) % 360 - 180",
+      "as": "deltaLon"
+    },
+    {
+      "filter": "abs(datum.deltaLon) <= 90"
+    }
+   ],
       "mark": {"type": "point", "filled": true, "shape": "triangle", "size": 150, "color": "#ff9a00"},
       "encoding": {
         "longitude": {"field": "Lon International", "type": "quantitative"},
