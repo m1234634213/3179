@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Interactive globe with Australian outbound flights as curved arcs that rotate with the globe",
+  "description": "Interactive globe with Australian outbound flights as curved ribbons that rotate with the globe",
   "width": 900,
   "height": 900,
   "data": {
@@ -44,7 +44,7 @@
     },
     { "filter": "datum.routeRank <= 100" },
     {
-      "calculate": "{ \"type\": \"Feature\", \"geometry\": { \"type\": \"LineString\", \"coordinates\": (function(){ var start=[datum['Lon Aus'], datum['Lat  Aus']]; var end=[datum['Lon International'], datum['Lat International']]; var points=[]; for(var i=0;i<=20;i++){ var t=i/20; var lon=start[0]*(1-t)+end[0]*t; var lat=start[1]*(1-t)+end[1]*t + 10*Math.sin(Math.PI*t); points.push([lon,lat]); } return points; })() }, \"properties\": {\"From\": datum.Australian, \"To\": datum.International, \"OutSeatsMax\": datum.OutSeatsMax} }",
+      "calculate": "{ \"type\": \"Feature\", \"geometry\": { \"type\": \"Polygon\", \"coordinates\": [ (function(){ var start=[datum['Lon Aus'], datum['Lat  Aus']]; var end=[datum['Lon International'], datum['Lat International']]; var points_upper = []; var points_lower = []; var thickness = 2; for(var i=0;i<=20;i++){ var t=i/20; var lon=start[0]*(1-t)+end[0]*t; var lat=start[1]*(1-t)+end[1]*t + 10*Math.sin(Math.PI*t); points_upper.push([lon, lat + thickness]); points_lower.push([lon, lat - thickness]); } points_lower.reverse(); return [points_upper.concat(points_lower)]; })() ] }, \"properties\": {\"From\": datum.Australian, \"To\": datum.International, \"OutSeatsMax\": datum.OutSeatsMax} }",
       "as": "geo"
     }
   ],
@@ -64,7 +64,7 @@
       "mark": {"type": "geoshape", "fill": "#1b263b", "stroke": "#888"}
     },
     {
-      "mark": {"type": "geoshape", "stroke": "orangered", "strokeWidth": 3, "fill": "transparent"},
+      "mark": {"type": "geoshape", "stroke": "orangered", "strokeWidth": 1, "fill": "orangered", "fillOpacity": 0.3},
       "encoding": {
         "shape": {"field": "geo", "type": "geojson"},
         "tooltip": [
