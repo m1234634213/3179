@@ -81,10 +81,11 @@
         }
       ],
       "mark": {
-        "type": "geoshape", "filled": true, "shape": "triangle", "size": 150, "color": "#ff9a00"},
+        "type": "geoshape", "filled": true, "shape": "triangle", "size": 150, "stroke": "#ff9a00",
+        "strokeWidth": 0,
+        "fill": "#ff9a00"},
       "encoding": {
-        "longitude": {"field": "Lon International", "type": "quantitative"},
-        "latitude": {"field": "Lat International", "type": "quantitative"},
+        "shape": {"field": "geoPoint", "type": "geojson"},
         "tooltip": [
           {"field": "Australian", "type": "nominal", "title": "From"},
           {"field": "International", "type": "nominal", "title": "To"},
