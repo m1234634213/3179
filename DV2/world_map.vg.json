@@ -74,7 +74,15 @@
         ]
       }
     },
+    {"transform": [
     {
+      "calculate": "project([datum['Lon International'], datum['Lat International']], {type:'orthographic', rotate:[rotLon,0,0]} )[2]",
+      "as": "z"
+    },
+    {
+      "filter": "datum.z > 0"
+    }
+  ],
       "mark": {"type": "point", "filled": true, "shape": "triangle", "size": 150, "color": "#ff9a00"},
       "encoding": {
         "longitude": {"field": "Lon International", "type": "quantitative"},
