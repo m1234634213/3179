@@ -74,8 +74,14 @@
         ]
       }
     },
-    {
-      "mark": {"type": "point", "filled": true, "shape": "triangle", "size": 150, "color": "#ff9a00"},
+    {"transform": [
+        {
+          "calculate": "{ \"type\": \"Feature\", \"geometry\": { \"type\": \"Point\", \"coordinates\": [datum['Lon International'], datum['Lat International']] }, \"properties\": { \"From\": datum.Australian, \"To\": datum.International, \"OutSeatsMax\": datum.OutSeatsMax} }",
+          "as": "geoPoint"
+        }
+      ],
+      "mark": {
+        "type": "geoshape", "filled": true, "shape": "triangle", "size": 150, "color": "#ff9a00"},
       "encoding": {
         "longitude": {"field": "Lon International", "type": "quantitative"},
         "latitude": {"field": "Lat International", "type": "quantitative"},
