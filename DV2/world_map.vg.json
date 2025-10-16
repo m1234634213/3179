@@ -42,7 +42,7 @@
         }
       ]
     },
-    { "filter": "datum.routeRank <= 30" },
+    { "filter": "datum.routeRank <= 100" },
     {
       "calculate": "{ \"type\": \"Feature\", \"geometry\": { \"type\": \"LineString\", \"coordinates\": [[datum['Lon Aus'], datum['Lat  Aus']], [datum['Lon International'], datum['Lat International']]] }, \"properties\": {\"From\": datum.Australian, \"To\": datum.International, \"OutSeatsMax\": datum.OutSeatsMax} }",
       "as": "geo"
@@ -75,7 +75,7 @@
       }
     },
     {
-      "mark": {"type": "point", "filled": true, "shape": "triangle", "size": 50, "color": "#ff9a00"},
+      "mark": {"type": "point", "filled": true, "shape": "triangle", "size": 150, "color": "#ff9a00"},
       "encoding": {
         "longitude": {"field": "Lon International", "type": "quantitative"},
         "latitude": {"field": "Lat International", "type": "quantitative"},
