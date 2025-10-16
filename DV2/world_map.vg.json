@@ -81,7 +81,7 @@
         }
       ],
       "mark": {
-        "type": "geoshape", "filled": true, "shape": "triangle", "size": 150, "stroke": "#ff9a00",
+        "type": "geoshape", "filled": true, "shape": "triangle", "size": 600, "stroke": "#ff9a00",
         "strokeWidth": 0,
         "fill": "#ff9a00"},
       "encoding": {

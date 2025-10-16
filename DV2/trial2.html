@@ -199,17 +199,15 @@
       });
     });
     let mainChartView;
-    vegaEmbed('#mainChart', 'world_map.vg.json', { actions: false }).then(res => {
-      mainChartView = res.view;
-
-      let angle = -135; // starting longitude
-      const rotationSpeed = 0.2;
-
-      setInterval(() => {
-        angle += rotationSpeed;
-        mainChartView.signal("rotLon", angle).run();
-      }, 50);
-    });
+    vegaEmbed('#mainChart', 'world_map.vg.json', { actions: false })
+      .then(res => {
+        const mainView = res.view;
+        let angle = 0;
+        setInterval(() => {
+          angle += 0.6;
+          mainView.signal("rotLon", angle).run();
+        }, 50);
+      });
 
 
   </script>
