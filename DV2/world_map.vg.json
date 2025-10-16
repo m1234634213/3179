@@ -42,7 +42,7 @@
         }
       ]
     },
-    { "filter": "datum.routeRank <= 100" },
+    { "filter": "datum.routeRank <= 40" },
     {
       "calculate": "{ \"type\": \"Feature\", \"geometry\": { \"type\": \"LineString\", \"coordinates\": [[datum['Lon Aus'], datum['Lat  Aus']], [datum['Lon International'], datum['Lat International']]] }, \"properties\": {\"From\": datum.Australian, \"To\": datum.International, \"OutSeatsMax\": datum.OutSeatsMax} }",
       "as": "geo"

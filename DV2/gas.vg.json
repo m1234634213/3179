@@ -1,322 +1,141 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "description": "Simplified dashboard showing trends in aircraft engine emissions and fuel use",
-    "params": [
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Aircraft Engine Emissions Dashboard with Year Brush Filter on Total Emissions",
+  "params": [
+    {
+      "name": "manufacturerFilter",
+      "value": null,
+      "bind": {
+        "input": "select",
+        "options": [null,"Allied Signal","General Electric","Rolls-Royce","CFM International","Honeywell","Pratt & Whitney","International Aero Engines","Turbomeca","Williams International"],
+        "labels": ["All","Allied Signal","General Electric","Rolls-Royce","CFM International","Honeywell","Pratt & Whitney","International Aero Engines","Turbomeca","Williams International"],
+        "name": "Manufacturer: "
+      }
+    }
+  ],
+  "vconcat": [
+    {
+      "hconcat": [
         {
-            "name": "manufacturerFilter",
-            "value": null,
-            "bind": {
-                "input": "select",
-                "options": [
-                    null,
-                    "Allied Signal",
-                    "General Electric",
-                    "Rolls-Royce",
-                    "CFM International",
-                    "Honeywell",
-                    "Pratt & Whitney",
-                    "International Aero Engines",
-                    "Turbomeca",
-                    "Williams International"
-                ],
-                "labels": [
-                    "All",
-                    "Allied Signal",
-                    "General Electric",
-                    "Rolls-Royce",
-                    "CFM International",
-                    "Honeywell",
-                    "Pratt & Whitney",
-                    "International Aero Engines",
-                    "Turbomeca",
-                    "Williams International"
-                ],
-                "name": "Manufacturer: "
-            }
-        }
-    ],
-    "vconcat": [
-        {
-            "title": "Average Nitrogen Oxides (NOx) Emissions Over Time",
-            "data": {
-                "url": "gas.csv"
-            },
-            "transform": [
-                {
-                    "filter": "manufacturerFilter == null || datum['Manufacturer'] == manufacturerFilter"
-                }
-            ],
-            "layer": [
-                {
-                    "mark": "point",
-                    "encoding": {
-                        "x": {
-                            "field": "Initial Test Date",
-                            "type": "temporal",
-                            "title": "Year"
-                        },
-                        "y": {
-                            "field": "NOx Dp/Foo Avg (g/kN)",
-                            "type": "quantitative",
-                            "title": "Average NOx per Unit Thrust"
-                        },
-                        "color": {
-                            "field": "Engine Type",
-                            "type": "nominal"
-                        },
-                        "tooltip": [
-                            {
-                                "field": "Engine Identification"
-                            },
-                            {
-                                "field": "NOx Dp/Foo Avg (g/kN)"
-                            },
-                            {
-                                "field": "Rated Thrust (kN)"
-                            },
-                            {
-                                "field": "Initial Test Date"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "mark": {
-                        "type": "line",
-                        "color": "red"
-                    },
-                    "transform": [
-                        {
-                            "regression": "NOx Dp/Foo Avg (g/kN)",
-                            "on": "Initial Test Date"
-                        }
-                    ],
-                    "encoding": {
-                        "x": {
-                            "field": "Initial Test Date",
-                            "type": "temporal"
-                        },
-                        "y": {
-                            "field": "NOx Dp/Foo Avg (g/kN)",
-                            "type": "quantitative"
-                        }
-                    }
-                }
-            ],
-            "width": 800,
-            "height": 300
-        },
-        {
-            "title": "Average Emissions by Decade",
-            "data": {
-                "url": "gas.csv"
-            },
-            "transform": [
-                {
-                    "filter": "manufacturerFilter == null || datum['Manufacturer'] == manufacturerFilter"
-                },
-                {
-                    "timeUnit": "year",
-                    "field": "Initial Test Date",
-                    "as": "Year"
-                },
-                {
-                    "calculate": "floor(datum.Year/10)*10",
-                    "as": "Decade"
-                },
-                {
-                    "fold": [
-                        "HC LTO Total mass (g)",
-                        "CO LTO Total Mass (g)",
-                        "NOx LTO Total mass (g)"
-                    ],
-                    "as": [
-                        "Emission Type",
-                        "Value"
-                    ]
-                },
-                {
-                    "aggregate": [
-                        {
-                            "op": "mean",
-                            "field": "Value",
-                            "as": "Avg Value"
-                        }
-                    ],
-                    "groupby": [
-                        "Decade",
-                        "Emission Type"
-                    ]
-                }
-            ],
-            "mark": "bar",
-            "encoding": {
-                "x": {
-                    "field": "Decade",
-                    "type": "ordinal",
-                    "title": "Decade"
-                },
-                "y": {
-                    "field": "Avg Value",
-                    "type": "quantitative",
-                    "title": "Average Emissions per Flight (g)"
-                },
-                "color": {
-                    "field": "Emission Type",
-                    "type": "nominal",
-                    "title": "Emission Type"
-                },
+          "title": "Average NOx Emissions Over Time",
+          "data": {"url": "gas.csv"},
+          "transform": [
+            {"filter": "manufacturerFilter == null || datum['Manufacturer'] == manufacturerFilter"},
+            {"filter": {"param": "yearBrush"}}
+          ],
+          "layer": [
+            {
+              "mark": "point",
+              "encoding": {
+                "x": {"field": "Initial Test Date","type": "temporal","title": "Year"},
+                "y": {"field": "NOx Dp/Foo Avg (g/kN)","type": "quantitative","title": "Average NOx per Unit Thrust"},
+                "color": {"field": "Engine Type","type": "nominal"},
                 "tooltip": [
-                    {
-                        "field": "Decade"
-                    },
-                    {
-                        "field": "Emission Type"
-                    },
-                    {
-                        "field": "Avg Value"
-                    }
+                  {"field": "Engine Identification"},
+                  {"field": "NOx Dp/Foo Avg (g/kN)"},
+                  {"field": "Rated Thrust (kN)"},
+                  {"field": "Initial Test Date"}
                 ]
+              }
             },
-            "width": 800,
-            "height": 300
+            {
+              "mark": {"type": "line","color": "red"},
+              "transform": [{"regression": "NOx Dp/Foo Avg (g/kN)","on": "Initial Test Date"}],
+              "encoding": {
+                "x": {"field": "Initial Test Date","type": "temporal"},
+                "y": {"field": "NOx Dp/Foo Avg (g/kN)","type": "quantitative"}
+              }
+            }
+          ],
+          "width": 400,
+          "height": 300
         },
         {
-            "title": "Fuel Burn Rate vs NOx Emissions",
-            "data": {
-                "url": "gas.csv"
+          "title": "Fuel Burn Rate vs NOx Emissions",
+          "data": {"url": "gas.csv"},
+          "transform": [
+            {"filter": "manufacturerFilter == null || datum['Manufacturer'] == manufacturerFilter"},
+            {"filter": {"param": "yearBrush"}}
+          ],
+          "layer": [
+            {
+              "mark": "point",
+              "encoding": {
+                "x": {"field": "Fuel Flow T/O (kg/sec)","type": "quantitative","title": "Fuel Burn Rate During Takeoff (kg/sec)"},
+                "y": {"field": "NOx Dp/Foo Avg (g/kN)","type": "quantitative","title": "Average NOx per Unit Thrust"},
+                "color": {"field": "Engine Type","type": "nominal"},
+                "tooltip": [
+                  {"field": "Engine Identification"},
+                  {"field": "Fuel Flow T/O (kg/sec)"},
+                  {"field": "NOx Dp/Foo Avg (g/kN)"},
+                  {"field": "Initial Test Date"}
+                ]
+              }
             },
-            "transform": [
-                {
-                    "filter": "manufacturerFilter == null || datum['Manufacturer'] == manufacturerFilter"
-                }
-            ],
-            "layer": [
-                {
-                    "mark": "point",
-                    "encoding": {
-                        "x": {
-                            "field": "Fuel Flow T/O (kg/sec)",
-                            "type": "quantitative",
-                            "title": "Fuel Burn Rate During Takeoff (kg/sec)"
-                        },
-                        "y": {
-                            "field": "NOx Dp/Foo Avg (g/kN)",
-                            "type": "quantitative",
-                            "title": "Average NOx per Unit Thrust"
-                        },
-                        "color": {
-                            "field": "Engine Type",
-                            "type": "nominal"
-                        },
-                        "tooltip": [
-                            {
-                                "field": "Engine Identification"
-                            },
-                            {
-                                "field": "Fuel Flow T/O (kg/sec)"
-                            },
-                            {
-                                "field": "NOx Dp/Foo Avg (g/kN)"
-                            },
-                            {
-                                "field": "Initial Test Date"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "mark": {
-                        "type": "line",
-                        "color": "red"
-                    },
-                    "transform": [
-                        {
-                            "regression": "NOx Dp/Foo Avg (g/kN)",
-                            "on": "Fuel Flow T/O (kg/sec)"
-                        }
-                    ],
-                    "encoding": {
-                        "x": {
-                            "field": "Fuel Flow T/O (kg/sec)",
-                            "type": "quantitative"
-                        },
-                        "y": {
-                            "field": "NOx Dp/Foo Avg (g/kN)",
-                            "type": "quantitative"
-                        }
-                    }
-                }
-            ],
-            "width": 800,
-            "height": 300
-        },
-        {
-            "title": "Total Pollution per Flight Cycle Over Time",
-            "data": {
-                "url": "gas.csv"
-            },
-            "transform": [
-                {
-                    "filter": "manufacturerFilter == null || datum['Manufacturer'] == manufacturerFilter"
-                },
-                {
-                    "calculate": "datum['HC LTO Total mass (g)'] + datum['CO LTO Total Mass (g)'] + datum['NOx LTO Total mass (g)']",
-                    "as": "Total Emissions"
-                }
-            ],
-            "layer": [
-                {
-                    "mark": "point",
-                    "encoding": {
-                        "x": {
-                            "field": "Initial Test Date",
-                            "type": "temporal",
-                            "title": "Year"
-                        },
-                        "y": {
-                            "field": "Total Emissions",
-                            "type": "quantitative",
-                            "title": "Total Emissions per Flight Cycle (g)"
-                        },
-                        "tooltip": [
-                            {
-                                "field": "Engine Identification"
-                            },
-                            {
-                                "field": "Total Emissions"
-                            },
-                            {
-                                "field": "Initial Test Date"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "mark": {
-                        "type": "line",
-                        "color": "red"
-                    },
-                    "transform": [
-                        {
-                            "regression": "Total Emissions",
-                            "on": "Initial Test Date"
-                        }
-                    ],
-                    "encoding": {
-                        "x": {
-                            "field": "Initial Test Date",
-                            "type": "temporal"
-                        },
-                        "y": {
-                            "field": "Total Emissions",
-                            "type": "quantitative"
-                        }
-                    }
-                }
-            ],
-            "width": 800,
-            "height": 300
+            {
+              "mark": {"type": "line","color": "red"},
+              "transform": [{"regression": "NOx Dp/Foo Avg (g/kN)","on": "Fuel Flow T/O (kg/sec)"}],
+              "encoding": {
+                "x": {"field": "Fuel Flow T/O (kg/sec)","type": "quantitative"},
+                "y": {"field": "NOx Dp/Foo Avg (g/kN)","type": "quantitative"}
+              }
+            }
+          ],
+          "width": 400,
+          "height": 300
         }
-    ]
+      ]
+    },
+    {
+      "title": "Average Emissions by Decade",
+      "data": {"url": "gas.csv"},
+      "transform": [
+        {"filter": "manufacturerFilter == null || datum['Manufacturer'] == manufacturerFilter"},
+        {"filter": {"param": "yearBrush"}},
+        {"timeUnit": "year","field":"Initial Test Date","as":"Year"},
+        {"calculate":"floor(datum.Year/10)*10","as":"Decade"},
+        {"fold": ["HC LTO Total mass (g)","CO LTO Total Mass (g)","NOx LTO Total mass (g)"], "as":["Emission Type","Value"]},
+        {"aggregate":[{"op":"mean","field":"Value","as":"Avg Value"}],"groupby":["Decade","Emission Type"]}
+      ],
+      "mark": "bar",
+      "encoding": {
+        "x": {"field":"Decade","type":"ordinal","title":"Decade"},
+        "y": {"field":"Avg Value","type":"quantitative","title":"Average Emissions per Flight (g)"},
+        "color": {"field":"Emission Type","type":"nominal","title":"Emission Type"},
+        "tooltip": [
+          {"field":"Decade"},
+          {"field":"Emission Type"},
+          {"field":"Avg Value"}
+        ]
+      },
+      "width": 800,
+      "height": 300
+    },
+    {
+      "title": "Total Pollution per Flight Cycle",
+      "data": {"url": "gas.csv"},
+      "transform": [
+        {"filter": "manufacturerFilter == null || datum['Manufacturer'] == manufacturerFilter"},
+        {"calculate":"datum['HC LTO Total mass (g)'] + datum['CO LTO Total Mass (g)'] + datum['NOx LTO Total mass (g)']","as":"Total Emissions"}
+      ],
+      "mark": "point",
+      "encoding": {
+        "x": {"field":"Initial Test Date","type":"temporal","title":"Year"},
+        "y": {"field":"Total Emissions","type":"quantitative","title":"Total Emissions per Flight Cycle (g)"},
+        "tooltip": [
+          {"field":"Engine Identification"},
+          {"field":"Total Emissions"},
+          {"field":"Initial Test Date"}
+        ]
+      },
+      "width": 800,
+      "height": 150,
+      "params": [
+        {
+          "name": "yearBrush",
+          "select": {"type":"interval","encodings":["x"]}
+        }
+      ]
+    }
+  ]
 }
