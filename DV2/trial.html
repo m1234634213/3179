@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="content=" width=686,width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="content="width=686,width=device-width, initial-scale=1.0">
   <title>Data Visualisation 2</title>
   <link rel="stylesheet" href="styler.css">
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
@@ -133,22 +133,12 @@
     vegaEmbed('#mainChart', 'world_map.vg.json', { actions: false })
       .then(res => {
         const mainView = res.view;
-        let angle = -50; // starting longitude (adjust to your preference)
-        let direction = 0.2; // speed and direction
-
+        let angle = 0;
         setInterval(() => {
-          // update angle
-          angle += direction;
-
-          // limit rotation between -50 and 50 degrees
-          if (angle > 50 || angle < -50) {
-            direction = -direction; // reverse direction
-          }
-
+          angle += 0.2;
           mainView.signal("rotLon", angle).run();
         }, 50);
       });
-
   </script>
 </body>
 
