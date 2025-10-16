@@ -31,7 +31,7 @@
   },
   "transform": [
     {
-      "filter": "datum.Year == selectedYear && datum['Lat  Aus'] != null && datum['Lat International'] != null"
+      "filter": "datum.Year == selectedYear && datum['Lat Aus'] != null && datum['Lat International'] != null"
     },
     {
       "window": [
@@ -42,11 +42,7 @@
         }
       ]
     },
-    { "filter": "datum.routeRank <= 30" },
-    {
-      "calculate": "{ \"type\": \"Feature\", \"geometry\": { \"type\": \"LineString\", \"coordinates\": (function(){ var start=[datum['Lon Aus'], datum['Lat  Aus']]; var end=[datum['Lon International'], datum['Lat International']]; var points=[]; for(var i=0;i<=20;i++){ var t=i/20; var lon=start[0]*(1-t)+end[0]*t; var lat=start[1]*(1-t)+end[1]*t + 10*Math.sin(Math.PI*t); points.push([lon,lat]); } return points; })() }, \"properties\": {\"From\": datum.Australian, \"To\": datum.International, \"OutSeatsMax\": datum.OutSeatsMax} }",
-      "as": "geo"
-    }
+    { "filter": "datum.routeRank <= 30" }
   ],
   "layer": [
     {
@@ -68,8 +64,8 @@
       "encoding": {
         "shape": {"field": "geo", "type": "geojson"},
         "tooltip": [
-          {"field": "From", "type": "nominal"},
-          {"field": "To", "type": "nominal"},
+          {"field": "Australian", "type": "nominal"},
+          {"field": "International", "type": "nominal"},
           {"field": "OutSeatsMax", "type": "quantitative"}
         ]
       }
