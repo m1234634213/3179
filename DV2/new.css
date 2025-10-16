@@ -1,62 +1,68 @@
-/* -------------------------
-   Base Styles
-------------------------- */
+/* Background */
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   background: linear-gradient(to bottom, #007ced 1%, #cce7ff 100%);
   color: #222;
   overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+  padding: 0;
 }
 
-/* -------------------------
-   Header
-------------------------- */
+.vega-chart {
+  width: 100%;
+  height: 100%;
+}
+
+/* Header */
 header {
   text-align: center;
   padding: 2rem 0;
   position: relative;
   color: white;
+  overflow: visible;
 }
 
 header h1 {
   font-size: 2.8rem;
   margin-bottom: 1rem;
-  position: relative;
+  position: relative; /* for stacking context */
   z-index: 5;
 }
 
-/* -------------------------
-   Cloud Animation
-------------------------- */
+/* Cloud animation */
 .cloud {
   position: absolute;
-  top: 20px;
-  right: -500px;
+  top: 20px;         /* vertical position over header */
+  right: -500px;     /* start off-screen right */
   opacity: 0.9;
-  animation: cloud 10s linear infinite reverse;
-  z-index: 5;
+  animation: cloud 10s linear infinite reverse; /* keep your working fly */
+  z-index: 5;       /* in front of header */
 }
 
 .cloud img {
   width: 200px;
   height: auto;
-  animation: bob 3s ease-in-out infinite alternate;
+  animation: bob 3s ease-in-out infinite alternate; /* optional bob */
 }
 
+/* Horizontal fly across screen (your original working animation) */
 @keyframes cloud {
   from { right: -500px; }
-  to { right: 110%; }
+  to { right: 110%; } /* fly past right edge */
 }
 
+/* Gentle vertical bobbing */
 @keyframes bob {
   0% { transform: translateY(0); }
   100% { transform: translateY(-15px); }
 }
 
-/* -------------------------
-   Slider
-------------------------- */
+
+
+
+/* Slider */
 #sliderContainer {
   text-align: center;
   margin: 1.5rem auto;
@@ -64,9 +70,7 @@ header h1 {
   color: #003366;
 }
 
-/* -------------------------
-   Dashboard Layout
-------------------------- */
+/* Dashboard Layout */
 .dashboard {
   display: flex;
   flex-direction: column;
@@ -76,21 +80,16 @@ header h1 {
   gap: 3rem;
 }
 
-/* -------------------------
-   Rows and Boxes
-------------------------- */
+/* Each row */
 .row {
   display: flex;
   justify-content: space-between;
-  align-items: stretch; /* ensures charts stretch */
+  align-items: stretch;
   gap: 2rem;
   width: 100%;
 }
 
-.full-width {
-  flex-direction: column;
-}
-
+/* Make two per row visually balanced */
 .story-box, .chart-box {
   flex: 1;
   background: white;
@@ -98,8 +97,6 @@ header h1 {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   padding: 2rem;
   transition: transform 0.3s ease;
-  display: flex;
-  flex-direction: column;
 }
 
 .story-box:hover, .chart-box:hover {
@@ -111,65 +108,26 @@ header h1 {
   margin-bottom: 1rem;
 }
 
+.full-width {
+  flex-direction: column;
+}
+
+.full-width .chart-box {
+  width: 100%;
+}
+
+/* Charts */
+.chart-box {
+  min-height: 450px;
+}
+
+/* Text */
 .story-box p {
   line-height: 1.6;
   font-size: 1.1rem;
 }
 
-/* -------------------------
-   Charts
-------------------------- */
-.chart-box {
-  min-height: 450px;
-}
-
-.chart-box > div { 
-  /* ensures Vega fills the chart-box */
-  flex: 1 1 auto;
-  width: 100%;
-  height: 100%;
-}
-
-/* -------------------------
-   Fullscreen Overlay
-------------------------- */
-.chart-box.fullscreen {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 90vw;
-  height: 90vh;
-  z-index: 999;
-  transform: translate(-50%, -50%);
-  border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-  background: white;
-  padding: 2rem;
-  transition: all 0.4s ease;
-  overflow: auto;
-}
-
-body.fullscreen-active::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.3);
-  z-index: 998;
-}
-
-/* -------------------------
-   Hover Shadows
-------------------------- */
-.chart-box:hover {
-  box-shadow: 0 10px 25px rgba(0, 124, 237, 0.5);
-}
-
-/* -------------------------
-   Responsive
-------------------------- */
+/* Responsive */
 @media (max-width: 900px) {
   .row {
     flex-direction: column;
@@ -189,3 +147,53 @@ body.fullscreen-active::before {
     height: 400px;
   }
 }
+
+
+/* Fade-in + slide-up animation for all rows */
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chart-box:hover {
+  box-shadow: 0 10px 25px rgba(0, 124, 237, 0.5);
+}
+
+
+
+/* Fullscreen overlay for chart */
+.chart-box.fullscreen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 90vw;
+  height: 90vh;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  background: white;
+  padding: 2rem;
+  transition: all 0.4s ease;
+  overflow: auto;
+}
+
+/* Optional: slightly dim background when chart is fullscreen */
+body.fullscreen-active::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.3);
+  z-index: 998;
+}
+
+
