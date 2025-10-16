@@ -1,0 +1,191 @@
+/* -------------------------
+   Base Styles
+------------------------- */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(to bottom, #007ced 1%, #cce7ff 100%);
+  color: #222;
+  overflow-x: hidden;
+}
+
+/* -------------------------
+   Header
+------------------------- */
+header {
+  text-align: center;
+  padding: 2rem 0;
+  position: relative;
+  color: white;
+}
+
+header h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 5;
+}
+
+/* -------------------------
+   Cloud Animation
+------------------------- */
+.cloud {
+  position: absolute;
+  top: 20px;
+  right: -500px;
+  opacity: 0.9;
+  animation: cloud 10s linear infinite reverse;
+  z-index: 5;
+}
+
+.cloud img {
+  width: 200px;
+  height: auto;
+  animation: bob 3s ease-in-out infinite alternate;
+}
+
+@keyframes cloud {
+  from { right: -500px; }
+  to { right: 110%; }
+}
+
+@keyframes bob {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-15px); }
+}
+
+/* -------------------------
+   Slider
+------------------------- */
+#sliderContainer {
+  text-align: center;
+  margin: 1.5rem auto;
+  font-size: 1.1rem;
+  color: #003366;
+}
+
+/* -------------------------
+   Dashboard Layout
+------------------------- */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  margin: auto;
+  gap: 3rem;
+}
+
+/* -------------------------
+   Rows and Boxes
+------------------------- */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch; /* ensures charts stretch */
+  gap: 2rem;
+  width: 100%;
+}
+
+.full-width {
+  flex-direction: column;
+}
+
+.story-box, .chart-box {
+  flex: 1;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.story-box:hover, .chart-box:hover {
+  transform: translateY(-5px);
+}
+
+.story-box h2 {
+  color: #004c99;
+  margin-bottom: 1rem;
+}
+
+.story-box p {
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+/* -------------------------
+   Charts
+------------------------- */
+.chart-box {
+  min-height: 450px;
+}
+
+.chart-box > div { 
+  /* ensures Vega fills the chart-box */
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+}
+
+/* -------------------------
+   Fullscreen Overlay
+------------------------- */
+.chart-box.fullscreen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 90vw;
+  height: 90vh;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  background: white;
+  padding: 2rem;
+  transition: all 0.4s ease;
+  overflow: auto;
+}
+
+body.fullscreen-active::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.3);
+  z-index: 998;
+}
+
+/* -------------------------
+   Hover Shadows
+------------------------- */
+.chart-box:hover {
+  box-shadow: 0 10px 25px rgba(0, 124, 237, 0.5);
+}
+
+/* -------------------------
+   Responsive
+------------------------- */
+@media (max-width: 900px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .story-box, .chart-box {
+    width: 100%;
+  }
+
+  #mainChart,
+  #domesticAirlines,
+  #domestic,
+  #cityInt,
+  #emissionsMap,
+  #gas,
+  #week9Homework {
+    height: 400px;
+  }
+}
