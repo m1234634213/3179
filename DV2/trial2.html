@@ -163,7 +163,7 @@
       });
     }
 
-    charts.filter(c => c.id !== "mainChart").forEach(chart => {
+    charts.forEach(chart => {
       fetch(chart.file)
         .then(r => r.json())
         .then(spec => {
