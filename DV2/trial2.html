@@ -156,7 +156,10 @@
     function updateCharts(year) {
       yearLabel.textContent = year;
       Object.values(chartViews).forEach(view => {
-        view.signal("selectedYear", year).run();
+        // Only update charts that actually have a "selectedYear" signal
+        if (view.signalNames().includes("selectedYear")) {
+          view.signal("selectedYear", year).run();
+        }
       });
     }
 
@@ -164,12 +167,23 @@
       fetch(chart.file)
         .then(r => r.json())
         .then(spec => {
-          spec.params = spec.params || [];
-          spec.params.push({ name: "selectedYear", value: parseInt(yearSlider.value), bind: false });
-          vegaEmbed('#' + chart.id, spec, { actions: false }).then(res => {
-            chartViews[chart.id] = res.view;
-          });
-        });
+          // Only inject the "selectedYear" param if this chart needs it
+          if (chart.id !== "mainChart") {
+            spec.params = spec.params || [];
+            spec.params.push({
+              name: "selectedYear",
+              value: parseInt(yearSlider.value),
+              bind: false
+            });
+          }
+
+          vegaEmbed('#' + chart.id, spec, { actions: false })
+            .then(res => {
+              chartViews[chart.id] = res.view;
+            })
+            .catch(err => console.error(`Error embedding chart ${chart.id}:`, err));
+        })
+        .catch(err => console.error(`Error loading ${chart.file}:`, err));
     });
 
     yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
@@ -215,4 +229,3 @@
 
 
 </html>
-
