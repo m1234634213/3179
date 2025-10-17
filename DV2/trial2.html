@@ -21,7 +21,6 @@
   </header>
 
   <!-- Global year slider -->
- 
 
   <main class="dashboard">
 
@@ -164,13 +163,8 @@
         .then(r => r.json())
         .then(spec => {
           // Only inject the "selectedYear" param if this chart needs it
-          if (chart.id !== "mainChart") {
-            spec.params = spec.params || [];
-            spec.params.push({
-              name: "selectedYear",
-              value: parseInt(yearSlider.value),
-              bind: false
-            });
+          if (spec.params) {
+            spec.params = spec.params.filter(p => p.name !== "yearSignal");
           }
 
           vegaEmbed('#' + chart.id, spec, { actions: false })
