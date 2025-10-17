@@ -9,7 +9,7 @@
       "value": 2010,
       "bind": {
         "input": "range",
-        "min": 2000,
+        "min": 2003,
         "max": 2025,
         "step": 1,
         "name": "Select Year: "
