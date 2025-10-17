@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Rotating globe with capital city airports, hiding points on back side",
+  "description": "Capital City Airports with Traffic Categories",
   "width": 800,
   "height": 800,
   "params": [
@@ -37,13 +37,6 @@
         {
           "calculate": "toNumber(datum['Traffic Category']) < 30000000 ? 'Low' : toNumber(datum['Traffic Category']) <= 60000000 ? 'Medium' : 'High'",
           "as": "TrafficBucket"
-        },
-        {
-          "calculate": "(cos(radians(datum.Latitude)) * cos(radians(datum.Longitude - rotate0))) > 0 ? 1 : 0",
-          "as": "frontHemisphere"
-        },
-        {
-          "filter": "datum.frontHemisphere == 1"
         }
       ],
       "mark": {"type": "circle", "size": 80},
