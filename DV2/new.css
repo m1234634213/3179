@@ -12,7 +12,6 @@ body {
 .scale-wrapper {
  position: absolute;
   top: 0;
-  left: 50%;                 /* move left edge to center */
   transform: translateX(-50%) scale(0.67); /* center & scale */
   transform-origin: top center;
   width: auto;             /* center horizontally */
