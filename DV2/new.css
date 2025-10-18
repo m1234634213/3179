@@ -12,9 +12,8 @@ body {
 .scale-wrapper {
  position: absolute;
   top: 0;
-  transform: translateX(-50%) scale(0.67); /* center & scale */
+  transform:scale(0.67); /* center & scale */
   transform-origin: top center;
-  width: auto;             /* center horizontally */
 }
 .vega-chart {
   width: 100%;
