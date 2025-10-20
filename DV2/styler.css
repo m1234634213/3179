@@ -210,3 +210,24 @@ body.fullscreen-active::before {
     /* extra for slider/legend */
   }
 }
+.source-attribution {
+  width: 100%;
+  background: #f8f8f8; /* optional light background */
+  padding: 1rem 2%;
+  box-sizing: border-box;
+  font-size: 0.9rem;
+  color: #333;
+  text-align: left;
+  margin-top: 2rem;
+}
+
+/* Push it to bottom if page content is short */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.dashboard-wrapper {
+  flex: 1; /* takes remaining space above footer */
+}
