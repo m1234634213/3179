@@ -6,6 +6,7 @@
     "type": "fit",
     "contains": "padding"
   },
+  "padding": {"top": 5, "left": 5, "right": 5, "bottom": 30},
   "title": "Australian Domestic Flight Routes (Passenger Weighted)",
   "projection": {
     "type": "mercator",
