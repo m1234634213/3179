@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Interactive globe with Australian outbound flights as proper geoshape arcs",
-  "width": 700,   
-  "height": 700,
+  "width": 900,
+  "height": 900,
   "data": {
     "url": "citypairs.csv"
   },
@@ -27,8 +27,7 @@
   "projection": {
     "type": "orthographic",
     "rotate": {"signal": "[rotLon,0,0]"},
-    "center": [0, 0],
-    "scale":450
+    "scale": 450
   },
   "transform": [
     {
