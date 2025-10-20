@@ -1,8 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "World map with oceans and countries colored by aviation CO₂ emissions (log scale, reversed magma)",
-  "width": 900,
-  "height": 500,
+   "width": "container",
+  "height": "container",
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  },
   "projection": {"type": "naturalEarth1"},
   "layer": [
     {

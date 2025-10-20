@@ -1,8 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Cumulative airline flight heat map with max year dropdown",
-  "width": 900,
-  "height": 500,
+   "width": "container",
+  "height": "container",
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  },
   "data": {
     "url": "domestic_airlines_flights.csv"
   },
