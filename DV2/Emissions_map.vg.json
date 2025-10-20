@@ -8,6 +8,7 @@
     "contains": "padding"
   },
   "projection": {"type": "naturalEarth1"},
+  "title":"Emmissions of Planes Per Capita",
   "layer": [
     {
       "data": {
