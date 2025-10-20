@@ -94,7 +94,7 @@ header h1 {
   background: white;
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  padding: 1rem;
+  padding: 1rem 1rem 2rem 1rem;
   min-width: 600px; /* prevent too small chart */
   height: 700px;    /* fixed chart height */
   display: flex;
@@ -171,5 +171,6 @@ body.fullscreen-active::before {
   }
   .chart-box {
     height: 500px;
+    padding-bottom: 2rem; /* extra for slider/legend */
   }
 }
