@@ -1,12 +1,13 @@
-/* Background & general layout */
+/* Background */
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   background: linear-gradient(to bottom, #007ced 1%, #cce7ff 100%);
   color: #222;
-  overflow-x: auto; /* horizontal scroll only when needed */
+  overflow-x: auto; /* horizontal scroll only if needed */
 }
 
+/* Header */
 header {
   text-align: center;
   padding: 2rem 0;
@@ -17,6 +18,8 @@ header {
 header h1 {
   font-size: 2.8rem;
   margin-bottom: 1rem;
+  position: relative;
+  z-index: 5;
 }
 
 /* Cloud animation */
@@ -26,6 +29,7 @@ header h1 {
   right: -500px;
   opacity: 0.9;
   animation: cloud 10s linear infinite reverse;
+  z-index: 5;
 }
 
 .cloud img {
@@ -45,14 +49,17 @@ header h1 {
   color: #003366;
 }
 
-/* Dashboard */
+/* Dashboard layout */
 .dashboard {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* horizontal scroll works */
-  width: max-content;
+  align-items: center; /* center rows when screen is wide */
+  width: 100%;
+  max-width: 1400px; /* wide max-width */
+  margin: 0 auto;
   gap: 2rem;
   padding: 0 2%;
+  box-sizing: border-box;
 }
 
 /* Rows */
@@ -62,56 +69,53 @@ header h1 {
   align-items: stretch;
   gap: 1rem;
   width: 100%;
+  overflow: visible;
 }
 
+/* Full-width rows span container */
 .row.full-width {
   flex-direction: column;
   gap: 1rem;
-  width: 100%
+  width: 100%;
 }
 
 /* Boxes */
-.story-box, .chart-box {
+.story-box {
+  flex: 0 0 400px; /* fixed width for text boxes */
   background: white;
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   padding: 1rem;
-  flex: 0 0 auto; /* prevent shrinking */
+  height: auto; /* adjusts to content */
 }
 
-/* Text box min/max widths */
-.story-box { min-width: 300px; max-width: 400px; height: 700px; }
-
-/* Chart box sizing */
 .chart-box {
-  min-width: 600px;   /* adjust for largest chart if needed */
-  max-width: 900px;   /* prevents excessively large globe */
-  height: 700px;
+  flex: 1 1 auto; /* expand to fill remaining space */
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  padding: 1rem;
+  min-width: 600px; /* prevent too small chart */
+  height: 700px;    /* fixed chart height */
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  overflow: hidden;
+  overflow: hidden; /* contain the chart */
 }
 
-.chart-box h2 {
-  width: 100%;
-  text-align: center;
-  margin-bottom: 0.5rem;
-}
-
-.chart-container {
+/* Chart containers */
+.chart-box > div {
   width: 100%;
   height: 100%;
-  flex: 1 1 auto;
   position: relative;
 }
 
-.chart-container > div {
+.chart-box > div > div {
   position: absolute;
-  top:0; left:0;
-  width:100%;
-  height:100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /* Hover effects */
@@ -146,24 +150,26 @@ body.fullscreen-active::before {
   z-index:998;
 }
 
-/* Vega-Lite slider binding adjustments */
-.vega-bind {
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 0.9rem;
-  margin-top: 0.25rem;
-}
-
-/* Responsive adjustments */
-@media (max-width: 1200px) {
-  .dashboard { width: max-content; }
-  .chart-box { min-width: 500px; }
+/* Responsive: horizontal scroll only if needed */
+@media (max-width: 1200px) { 
+  .dashboard {
+    width: max-content; /* allows horizontal scroll */
+  }
+  .chart-box {
+    min-width: 500px;
+  }
 }
 
 @media (max-width: 900px) {
-  .row { flex-direction: column; align-items: center; }
-  .story-box, .chart-box { width: 90%; min-width: unset; }
-  .chart-box { height: 500px; }
+  .row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .story-box, .chart-box {
+    width: 90%;  /* fit smaller screens */
+    min-width: unset;
+  }
+  .chart-box {
+    height: 500px;
+  }
 }
