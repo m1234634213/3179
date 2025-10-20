@@ -1,4 +1,4 @@
-/* Background */
+/* -------------------- Background -------------------- */
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
@@ -7,7 +7,7 @@ body {
   overflow-x: auto; /* horizontal scroll for entire page */
 }
 
-/* Header */
+/* -------------------- Header -------------------- */
 header {
   text-align: center;
   padding: 2rem 0;
@@ -22,7 +22,7 @@ header h1 {
   z-index: 5;
 }
 
-/* Cloud animation */
+/* -------------------- Cloud animation -------------------- */
 .cloud {
   position: absolute;
   top: 20px;
@@ -41,7 +41,7 @@ header h1 {
 @keyframes cloud { from { right: -500px; } to { right: 110%; } }
 @keyframes bob { 0% { transform: translateY(0); } 100% { transform: translateY(-15px); } }
 
-/* Slider */
+/* -------------------- Slider -------------------- */
 #sliderContainer {
   text-align: center;
   margin: 1.5rem auto;
@@ -49,28 +49,21 @@ header h1 {
   color: #003366;
 }
 
-/* Dashboard wrapper + horizontal scroll */
-.dashboard-wrapper {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  overflow-x: auto;
-}
-
-/* Dashboard layout */
+/* -------------------- Dashboard layout -------------------- */
 .dashboard {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; /* allow horizontal scroll */
+  width: max-content;      /* expand horizontally if needed */
   gap: 2rem;
+  box-sizing: border-box;
   padding: 0 2%;
-  width: max-content; /* allow wide layout */
 }
 
-/* Rows */
+/* -------------------- Rows -------------------- */
 .row {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: stretch;
   gap: 1rem;
 }
@@ -80,40 +73,52 @@ header h1 {
   gap: 1rem;
 }
 
-/* Boxes */
+/* -------------------- Boxes -------------------- */
 .story-box, .chart-box {
-  flex: 0 0 auto;
+  flex: 0 0 auto;            /* prevent shrinking */
   background: white;
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   padding: 1rem;
-  min-width: 700px;
-  max-width: 900px; /* control globe size */
-  height: 700px; /* height of charts */
+  min-width: 400px;          /* horizontal scroll support */
+  max-width: 900px;          /* limit globe/chart size */
+  width: 100%;
+  height: auto;              /* flexible height */
+  display: flex;
+  flex-direction: column;
   transition: transform 0.3s ease;
+  max-height: 900px;         /* optional max height */
+  overflow-y: auto;          /* scroll if chart content overflows vertically */
 }
 
-/* Chart containers */
+/* -------------------- Chart containers -------------------- */
 .chart-box > div {
+  flex: 1 1 auto;            /* fill available height */
   width: 100%;
-  height: 100%;
+  min-height: 500px;         /* ensures charts have minimum size */
   position: relative;
 }
 
 .chart-box > div > div {
   position: absolute;
-  top:0; left:0;
-  width:100%;
-  height:100%;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-/* Hover effects */
+/* -------------------- Headings -------------------- */
+.story-box h2 {
+  color: #004c99;
+  margin-bottom: 1rem;
+}
+
+/* -------------------- Hover effects -------------------- */
 .chart-box:hover, .story-box:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 25px rgba(0, 124, 237, 0.5);
 }
 
-/* Fullscreen overlay */
+/* -------------------- Fullscreen overlay -------------------- */
 .chart-box.fullscreen {
   position: fixed;
   top: 50%;
@@ -139,9 +144,9 @@ body.fullscreen-active::before {
   z-index:998;
 }
 
-/* Responsive adjustments */
-@media (max-width: 1200px) { .chart-box > div { height: 600px; } }
+/* -------------------- Responsive adjustments -------------------- */
+@media (max-width: 1200px) { .chart-box > div { min-height: 600px; } }
 @media (max-width: 900px) {
   .row { flex-direction: column; }
-  .chart-box > div { height: 500px; }
+  .chart-box > div { min-height: 500px; }
 }
