@@ -89,21 +89,22 @@ header h1 {
   height: auto; /* adjusts to content */
 }
 
-chart-box {
+.chart-box {
   flex: 1 1 auto;
   background: white;
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  padding: 1rem 1rem 3rem 1rem; /* extra bottom padding for sliders */
+  padding: 1rem; /* top/bottom padding */
   min-width: 600px;
   height: 700px;
   display: flex;
   flex-direction: column; /* title on top */
   justify-content: flex-start;
   align-items: center;
-  overflow: hidden;
   box-sizing: border-box;
+  overflow: visible; /* allow controls to overflow if needed */
 }
+
 
 /* Chart container inside box */
 .chart-box > div {
