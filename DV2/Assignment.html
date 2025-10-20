@@ -15,7 +15,6 @@
   <header>
     <h1>Australian International and Domestic Travel</h1>
     <div class="cloud cloud1">
-      <div class="light"></div>
       <img src="05cd33059a006bf49006097af4ccba98-plane-in-flight-by-vexels.png" alt="Plane" />
     </div>
   </header>
@@ -27,80 +26,88 @@
     <span id="yearLabel">2010</span>
   </div>
 
-  <!-- Dashboard with scaling -->
-  <div class="scaled-container">
-    <main class="dashboard">
+  <!-- Scaled Dashboard -->
+  <main class="dashboard scaled-container">
 
-      <!-- Row 1 -->
-      <div class="row">
-        <div class="story-box">
-          <h2>Global Flight Trends</h2>
-          <p>The global international routes map provides a broad view of how Australia connects with the rest of the world...</p>
-        </div>
-        <div class="chart-box">
-          <div id="mainChart" class="rotating-globe"></div>
-        </div>
+    <!-- Row 1: Global Flight Trends -->
+    <div class="row">
+      <div class="story-box">
+        <h2>Global Flight Trends</h2>
+        <p>…existing text…</p>
       </div>
-
-      <!-- Row 2 -->
-      <div class="row">
-        <div class="chart-box">
-          <h2>Domestic Airlines</h2>
-          <div id="domesticAirlines"></div>
-        </div>
-        <div class="story-box">
-          <p>The story of Australian domestic air travel begins with the well-established giants of the sky...</p>
-        </div>
+      <div class="chart-box">
+        <div id="mainChart" class="rotating-globe"></div>
       </div>
+    </div>
 
-      <!-- Row 3 (Full width) -->
-      <div class="row full-width">
-        <div class="chart-box">
-          <h2>Emissions Map</h2>
-          <div id="emissionsMap"></div>
-        </div>
+    <!-- Row 2: Domestic Airlines -->
+    <div class="row">
+      <div class="story-box">
+        <p>…existing text…</p>
       </div>
-
-      <!-- Row 4 (Full width) -->
-      <div class="row full-width">
-        <div class="chart-box">
-          <h2>Gas Trends</h2>
-          <div id="gas"></div>
-        </div>
+      <div class="chart-box">
+        <h2>Domestic Airlines</h2>
+        <div id="domesticAirlines"></div>
       </div>
+    </div>
 
-    </main>
-  </div>
+    <!-- Row 3: Domestic Passenger Trends (full width) -->
+    <div class="row full-width">
+      <div class="chart-box">
+        <h2>Domestic Passenger Trends</h2>
+        <div id="domestic"></div>
+      </div>
+    </div>
+
+    <!-- Row 4: International Routes -->
+    <div class="row">
+      <div class="story-box">
+        <h2>International Routes</h2>
+        <p>…existing text…</p>
+      </div>
+      <div class="chart-box">
+        <div id="cityInt"></div>
+      </div>
+    </div>
+
+    <!-- Row 5: Emissions Map (full width) -->
+    <div class="row full-width">
+      <div class="chart-box">
+        <h2>Emissions Map</h2>
+        <div id="emissionsMap"></div>
+      </div>
+    </div>
+
+    <!-- Row 6: Gas Trends (full width) -->
+    <div class="row full-width">
+      <div class="chart-box">
+        <h2>Gas Trends</h2>
+        <div id="gas"></div>
+      </div>
+    </div>
+
+    <!-- Row 7: Global Trends -->
+    <div class="row">
+      <div class="story-box">
+        <h2>Global Trends</h2>
+        <p>…existing text…</p>
+      </div>
+      <div class="chart-box">
+        <div id="week9Homework" class="rotating-globe"></div>
+      </div>
+    </div>
+
+  </main>
 
   <script>
-    // Dynamic scaling of dashboard
-    const container = document.querySelector('.scaled-container');
-
-    function scaleDashboard() {
-      const screenWidth = window.innerWidth;
-      const maxContentWidth = 1400; // same as max-width in CSS
-      let scale = 1;
-
-      if (screenWidth < maxContentWidth) {
-        scale = screenWidth / maxContentWidth; // scale to fit screen
-      }
-
-      container.style.transform = `scale(${scale})`;
-      container.style.transformOrigin = 'top center';
-    }
-
-    // Initial scaling
-    scaleDashboard();
-
-    // Rescale on window resize
-    window.addEventListener('resize', scaleDashboard);
-
-    // Vega chart setup
     const charts = [
       { id: "mainChart", file: "world_map.vg.json" },
       { id: "domesticAirlines", file: "domestic_airlines.vg.json" },
+      { id: "domestic", file: "Domestic.vg.json" },
       { id: "emissionsMap", file: "Emissions_map.vg.json" },
-      { id: "gas", file: "gas.vg.json" }
+      { id: "cityInt", file: "city_int.vg.json" },
+      { id: "gas", file: "gas.vg.json" },
+      { id: "week9Homework", file: "week_9_homework.vg.json" },
     ];
 
     let chartViews = {};
@@ -120,9 +127,18 @@
       fetch(chart.file)
         .then(r => r.json())
         .then(spec => {
-          if (chart.id !== "mainChart") {
+          if (!["mainChart", "week9Homework"].includes(chart.id)) {
             spec.params = spec.params || [];
-            spec.params.push({ name: "selectedYear", value: parseInt(yearSlider.value), bind: false });
+            spec.params.push({
+              name: "selectedYear",
+              value: parseInt(yearSlider.value),
+              bind: false
+            });
+          }
+
+          spec.autosize = { type: "fit", contains: "padding" };
+          if (["gas", "emissionsMap", "domestic", "cityInt"].includes(chart.id)) {
+            spec.width = "container";
           }
 
           vegaEmbed('#' + chart.id, spec, { actions: false })
@@ -133,6 +149,27 @@
     });
 
     yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
+
+    // Rotating globes
+    vegaEmbed('#week9Homework', 'week_9_homework.vg.json', { actions: false })
+      .then(res => {
+        let globeView = res.view;
+        let angle = 0;
+        setInterval(() => {
+          angle += 0.2;
+          globeView.signal("rotate0", angle).run();
+        }, 50);
+      });
+
+    vegaEmbed('#mainChart', 'world_map.vg.json', { actions: false })
+      .then(res => {
+        let mainView = res.view;
+        let angle = 0;
+        setInterval(() => {
+          angle += 0.6;
+          mainView.signal("rotLon", angle).run();
+        }, 50);
+      });
   </script>
 </body>
 </html>
