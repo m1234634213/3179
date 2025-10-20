@@ -4,7 +4,8 @@ body {
   font-family: "Poppins", sans-serif;
   background: linear-gradient(to bottom, #007ced 1%, #cce7ff 100%);
   color: #222;
-  overflow-x: auto; /* horizontal scroll only if needed */
+  overflow-x: auto;
+  /* horizontal scroll only if needed */
 }
 
 /* Header */
@@ -38,8 +39,25 @@ header h1 {
   animation: bob 3s ease-in-out infinite alternate;
 }
 
-@keyframes cloud { from { right: -500px; } to { right: 110%; } }
-@keyframes bob { 0% { transform: translateY(0); } 100% { transform: translateY(-15px); } }
+@keyframes cloud {
+  from {
+    right: -500px;
+  }
+
+  to {
+    right: 110%;
+  }
+}
+
+@keyframes bob {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-15px);
+  }
+}
 
 /* Slider */
 #sliderContainer {
@@ -53,9 +71,11 @@ header h1 {
 .dashboard {
   display: flex;
   flex-direction: column;
-  align-items: center; /* center rows when screen is wide */
+  align-items: center;
+  /* center rows when screen is wide */
   width: 100%;
-  max-width: 1400px; /* wide max-width */
+  max-width: 1400px;
+  /* wide max-width */
   margin: 0 auto;
   gap: 2rem;
   padding: 0 2%;
@@ -81,40 +101,42 @@ header h1 {
 
 /* Boxes */
 .story-box {
-  flex: 0 0 400px; /* fixed width for text boxes */
+  flex: 0 0 400px;
+  /* fixed width for text boxes */
   background: white;
   border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   padding: 1rem;
-  height: auto; /* adjusts to content */
+  height: auto;
+  /* adjusts to content */
 }
 
 .chart-box {
   flex: 1 1 auto;
+  /* expand to fill remaining space */
   background: white;
   border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  padding: 1rem; /* top/bottom padding */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  padding: 1rem 1rem 2rem 1rem;
   min-width: 600px;
+  /* prevent too small chart */
   height: 700px;
+  /* fixed chart height */
   display: flex;
-  flex-direction: column; /* title on top */
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  box-sizing: border-box;
-  overflow: visible; /* allow controls to overflow if needed */
+  overflow: hidden;
+  /* contain the chart */
 }
 
-
-/* Chart container inside box */
-.chart-box > div {
+/* Chart containers */
+.chart-box>div {
   width: 100%;
-  height: calc(100% - 2rem); /* leave space at bottom for sliders */
+  height: 100%;
   position: relative;
-  margin-top: 0.5rem; /* space below title */
 }
 
-.chart-box > div > div {
+.chart-box>div>div {
   position: absolute;
   top: 0;
   left: 0;
@@ -123,7 +145,8 @@ header h1 {
 }
 
 /* Hover effects */
-.chart-box:hover, .story-box:hover {
+.chart-box:hover,
+.story-box:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 25px rgba(0, 124, 237, 0.5);
 }
@@ -138,7 +161,7 @@ header h1 {
   z-index: 999;
   transform: translate(-50%, -50%);
   border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
   background: white;
   padding: 2rem;
   overflow: auto;
@@ -146,19 +169,23 @@ header h1 {
 }
 
 body.fullscreen-active::before {
-  content:"";
+  content: "";
   position: fixed;
-  top:0; left:0;
-  width:100vw; height:100vh;
-  background: rgba(0,0,0,0.3);
-  z-index:998;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 998;
 }
 
 /* Responsive: horizontal scroll only if needed */
-@media (max-width: 1200px) { 
+@media (max-width: 1200px) {
   .dashboard {
-    width: max-content; /* allows horizontal scroll */
+    width: max-content;
+    /* allows horizontal scroll */
   }
+
   .chart-box {
     min-width: 500px;
   }
@@ -169,12 +196,17 @@ body.fullscreen-active::before {
     flex-direction: column;
     align-items: center;
   }
-  .story-box, .chart-box {
-    width: 90%;  /* fit smaller screens */
+
+  .story-box,
+  .chart-box {
+    width: 90%;
+    /* fit smaller screens */
     min-width: unset;
   }
+
   .chart-box {
     height: 500px;
-    padding-bottom: 2rem; /* extra for slider/legend */
+    padding-bottom: 2rem;
+    /* extra for slider/legend */
   }
 }
