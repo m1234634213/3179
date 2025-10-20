@@ -4,7 +4,7 @@ body {
   font-family: "Poppins", sans-serif;
   background: linear-gradient(to bottom, #007ced 1%, #cce7ff 100%);
   color: #222;
-  overflow-x: auto; /* horizontal scroll if needed */
+  overflow-x: auto; /* horizontal scroll only if needed */
 }
 
 /* Header */
@@ -53,12 +53,13 @@ header h1 {
 .dashboard {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* horizontal scroll works */
-  width: max-content;      /* expands horizontally if needed */
+  align-items: center; /* center rows when screen is wide */
+  width: 100%;
+  max-width: 1400px; /* wide max-width */
+  margin: 0 auto;
   gap: 2rem;
-  box-sizing: border-box;
   padding: 0 2%;
-  transform-origin: top center;
+  box-sizing: border-box;
 }
 
 /* Rows */
@@ -67,35 +68,39 @@ header h1 {
   justify-content: flex-start;
   align-items: stretch;
   gap: 1rem;
+  width: 100%;
+  overflow: visible;
 }
 
-/* Full-width rows span full viewport */
+/* Full-width rows span container */
 .row.full-width {
   flex-direction: column;
   gap: 1rem;
-  width: 100vw;
-  padding: 0 2rem;  /* spacing on ends */
+  width: 100%;
 }
 
 /* Boxes */
-.story-box, .chart-box {
-  flex: 0 0 auto;   /* prevent shrinking */
+.story-box {
+  flex: 0 0 400px; /* fixed width for text boxes */
   background: white;
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   padding: 1rem;
-  min-width: 400px;  /* for horizontal scroll */
-  max-width: 900px;  /* limit globe size */
-  height: 700px;
-  transition: transform 0.3s ease;
+  height: auto; /* adjusts to content */
 }
 
-/* Full-width boxes override max-width */
-.row.full-width .chart-box, .row.full-width .story-box {
-  max-width: none;
-  width: 100%;
-  padding-left: 2rem;
-  padding-right: 2rem;
+.chart-box {
+  flex: 1 1 auto; /* expand to fill remaining space */
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  padding: 1rem;
+  min-width: 600px; /* prevent too small chart */
+  height: 700px;    /* fixed chart height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* contain the chart */
 }
 
 /* Chart containers */
@@ -107,9 +112,10 @@ header h1 {
 
 .chart-box > div > div {
   position: absolute;
-  top:0; left:0;
-  width:100%;
-  height:100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /* Hover effects */
@@ -144,11 +150,26 @@ body.fullscreen-active::before {
   z-index:998;
 }
 
-/* Responsive adjustments */
+/* Responsive: horizontal scroll only if needed */
 @media (max-width: 1200px) { 
-  .chart-box > div { height: 600px; } 
+  .dashboard {
+    width: max-content; /* allows horizontal scroll */
+  }
+  .chart-box {
+    min-width: 500px;
+  }
 }
+
 @media (max-width: 900px) {
-  .row { flex-direction: column; }
-  .chart-box > div { height: 500px; }
+  .row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .story-box, .chart-box {
+    width: 90%;  /* fit smaller screens */
+    min-width: unset;
+  }
+  .chart-box {
+    height: 500px;
+  }
 }
