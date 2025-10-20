@@ -132,4 +132,36 @@ header h1 {
   background: white;
   padding: 2rem;
   overflow: auto;
-  transition:
+  transition: all 0.4s ease;
+}
+
+body.fullscreen-active::before {
+  content:"";
+  position: fixed;
+  top:0; left:0;
+  width:100vw; height:100vh;
+  background: rgba(0,0,0,0.3);
+  z-index:998;
+}
+
+/* Vega-Lite slider binding adjustments */
+.vega-bind {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .dashboard { width: max-content; }
+  .chart-box { min-width: 500px; }
+}
+
+@media (max-width: 900px) {
+  .row { flex-direction: column; align-items: center; }
+  .story-box, .chart-box { width: 90%; min-width: unset; }
+  .chart-box { height: 500px; }
+}
