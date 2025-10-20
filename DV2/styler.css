@@ -4,7 +4,7 @@ body {
   font-family: "Poppins", sans-serif;
   background: linear-gradient(to bottom, #007ced 1%, #cce7ff 100%);
   color: #222;
-  overflow-x: hidden;
+  overflow-x: auto; /* horizontal scroll for entire page */
 }
 
 /* Header */
@@ -53,30 +53,19 @@ header h1 {
 .dashboard {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 1100px;
-  margin: 2rem auto;
+  align-items: flex-start; /* horizontal scroll works */
+  width: max-content; /* expands horizontally if needed */
   gap: 2rem;
   box-sizing: border-box;
-  padding: 0 3%;
-  transform-origin: top center;
-  transition: transform 0.3s ease;
-}
-
-.scaled-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+  padding: 0 2%;
 }
 
 /* Rows */
 .row {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: stretch;
   gap: 1rem;
-  width: 100%;
 }
 
 .row.full-width {
@@ -86,27 +75,21 @@ header h1 {
 
 /* Boxes */
 .story-box, .chart-box {
-  flex: 1 1 auto;
+  flex: 0 0 auto; /* prevent shrinking */
   background: white;
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  padding: 0rem;
-  min-width: 0;
+  padding: 1rem;
+  min-width: 400px;  /* for horizontal scroll */
+  max-width: 900px;  /* limit globe size */
+  height: 700px;
   transition: transform 0.3s ease;
-  width: 100%;
-  height: 700px; /* determines globe size */
-  margin: 0 auto;
 }
 
-.story-box h2 {
-  color: #004c99;
-  margin-bottom: 1rem;
-}
-
-/* Chart containers: maintain aspect ratio */
+/* Chart containers */
 .chart-box > div {
-  width: 100%;      /* fill horizontal space */
-  height: 100%;     /* fill vertical space */
+  width: 100%;
+  height: 100%;
   position: relative;
 }
 
@@ -149,11 +132,9 @@ body.fullscreen-active::before {
   z-index:998;
 }
 
-/* Responsive */
-@media (max-width: 1200px) { .chart-box > div { padding-bottom: 55%; } }
+/* Responsive adjustments */
+@media (max-width: 1200px) { .chart-box > div { height: 600px; } }
 @media (max-width: 900px) {
   .row { flex-direction: column; }
-  .chart-box > div { padding-bottom: 60%; }
+  .chart-box > div { height: 500px; }
 }
-
-

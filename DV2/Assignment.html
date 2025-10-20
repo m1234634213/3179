@@ -1,115 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Australian International and Domestic Travel</title>
-  <link rel="stylesheet" href="styler.css">
-  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Australian International and Domestic Travel</title>
+<link rel="stylesheet" href="styler.css">
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
 <body>
-  <header>
-    <h1>Australian International and Domestic Travel</h1>
-    <div class="cloud cloud1">
-      <img src="05cd33059a006bf49006097af4ccba98-plane-in-flight-by-vexels.png" alt="Plane" />
-    </div>
-  </header>
 
-  <div id="sliderContainer">
-    <label for="yearSlider"><strong>Select Year:</strong></label>
-    <input type="range" id="yearSlider" min="2000" max="2025" step="1" value="2010">
-    <span id="yearLabel">2010</span>
+<header>
+  <h1>Australian International and Domestic Travel</h1>
+  <div class="cloud cloud1">
+    <img src="05cd33059a006bf49006097af4ccba98-plane-in-flight-by-vexels.png" alt="Plane" />
   </div>
+</header>
 
-  <main id="dashboard" class="dashboard scaled-container">
-    <!-- Example rows -->
-    <div class="row">
-      <div class="story-box"><h2>Global Flight Trends</h2><p>…existing text…</p></div>
-      <div class="chart-box"><div id="mainChart"></div></div>
-    </div>
+<div id="sliderContainer">
+  <label for="yearSlider"><strong>Select Year:</strong></label>
+  <input type="range" id="yearSlider" min="2000" max="2025" step="1" value="2010">
+  <span id="yearLabel">2010</span>
+</div>
 
-    <div class="row">
-      <div class="story-box"><p>…existing text…</p></div>
-      <div class="chart-box"><h2>Domestic Airlines</h2><div id="domesticAirlines"></div></div>
-    </div>
+<main id="dashboard" class="dashboard">
+  <div class="row">
+    <div class="story-box"><h2>Global Flight Trends</h2><p>…existing text…</p></div>
+    <div class="chart-box"><div id="mainChart"></div></div>
+  </div>
+  <div class="row">
+    <div class="story-box"><p>…existing text…</p></div>
+    <div class="chart-box"><h2>Domestic Airlines</h2><div id="domesticAirlines"></div></div>
+  </div>
+  <div class="row full-width">
+    <div class="chart-box"><h2>Domestic Passenger Trends</h2><div id="domestic"></div></div>
+  </div>
+  <div class="row">
+    <div class="story-box"><h2>International Routes</h2><p>…existing text…</p></div>
+    <div class="chart-box"><div id="cityInt"></div></div>
+  </div>
+  <div class="row full-width">
+    <div class="chart-box"><h2>Emissions Map</h2><div id="emissionsMap"></div></div>
+  </div>
+  <div class="row full-width">
+    <div class="chart-box"><h2>Gas Trends</h2><div id="gas"></div></div>
+  </div>
+  <div class="row">
+    <div class="story-box"><h2>Global Trends</h2><p>…existing text…</p></div>
+    <div class="chart-box"><div id="week9Homework"></div></div>
+  </div>
+</main>
 
-    <div class="row full-width">
-      <div class="chart-box"><h2>Domestic Passenger Trends</h2><div id="domestic"></div></div>
-    </div>
+<script>
+const charts = [
+  { id: "mainChart", file: "world_map.vg.json" },
+  { id: "domesticAirlines", file: "domestic_airlines.vg.json" },
+  { id: "domestic", file: "Domestic.vg.json" },
+  { id: "emissionsMap", file: "Emissions_map.vg.json" },
+  { id: "cityInt", file: "city_int.vg.json" },
+  { id: "gas", file: "gas.vg.json" },
+  { id: "week9Homework", file: "week_9_homework.vg.json" }
+];
 
-    <div class="row">
-      <div class="story-box"><h2>International Routes</h2><p>…existing text…</p></div>
-      <div class="chart-box"><div id="cityInt"></div></div>
-    </div>
+const chartViews = {};
+const yearSlider = document.getElementById("yearSlider");
+const yearLabel = document.getElementById("yearLabel");
 
-    <div class="row full-width">
-      <div class="chart-box"><h2>Emissions Map</h2><div id="emissionsMap"></div></div>
-    </div>
+function updateCharts(year) {
+  yearLabel.textContent = year;
+  Object.values(chartViews).forEach(view => {
+    if (view.signalNames().includes("selectedYear")) view.signal("selectedYear", year).run();
+  });
+}
 
-    <div class="row full-width">
-      <div class="chart-box"><h2>Gas Trends</h2><div id="gas"></div></div>
-    </div>
-
-    <div class="row">
-      <div class="story-box"><h2>Global Trends</h2><p>…existing text…</p></div>
-      <div class="chart-box"><div id="week9Homework"></div></div>
-    </div>
-  </main>
-
-  <script>
-    const charts = [
-      { id: "mainChart", file: "world_map.vg.json" },
-      { id: "domesticAirlines", file: "domestic_airlines.vg.json" },
-      { id: "domestic", file: "Domestic.vg.json" },
-      { id: "emissionsMap", file: "Emissions_map.vg.json" },
-      { id: "cityInt", file: "city_int.vg.json" },
-      { id: "gas", file: "gas.vg.json" },
-      { id: "week9Homework", file: "week_9_homework.vg.json" }
-    ];
-
-    const chartViews = {};
-    const yearSlider = document.getElementById("yearSlider");
-    const yearLabel = document.getElementById("yearLabel");
-
-    function updateCharts(year) {
-      yearLabel.textContent = year;
-      Object.values(chartViews).forEach(view => {
-        if (view.signalNames().includes("selectedYear")) view.signal("selectedYear", year).run();
-      });
-    }
-
-    function embedChart(chart) {
-      fetch(chart.file)
-        .then(r => r.json())
-        .then(spec => {
-          spec.autosize = { type:"fit", contains:"padding" };
-          if (!["mainChart","week9Homework"].includes(chart.id)) {
-            spec.params = spec.params || [];
-            spec.params.push({ name:"selectedYear", value:parseInt(yearSlider.value), bind:false });
-          }
-          vegaEmbed('#'+chart.id, spec, { actions:false, renderer:"canvas" })
-            .then(res => { chartViews[chart.id] = res.view; res.view.resize(); })
-            .catch(err => console.error(err));
-        })
+charts.forEach(chart => {
+  fetch(chart.file)
+    .then(r => r.json())
+    .then(spec => {
+      spec.autosize = { type:"fit", contains:"padding" };
+      if (!["mainChart","week9Homework"].includes(chart.id)) {
+        spec.params = spec.params || [];
+        spec.params.push({ name:"selectedYear", value:parseInt(yearSlider.value), bind:false });
+      }
+      vegaEmbed('#'+chart.id, spec, { actions:false, renderer:"canvas" })
+        .then(res => { chartViews[chart.id] = res.view; res.view.resize(); })
         .catch(err => console.error(err));
-    }
-
-    charts.forEach(embedChart);
-    yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
-
-    // Rotating globes
-    ["mainChart","week9Homework"].forEach(id => {
-      vegaEmbed('#'+id, id==="mainChart"?"world_map.vg.json":"week_9_homework.vg.json", { actions:false })
-        .then(res => {
-          let view = res.view, angle=0;
-          setInterval(() => { angle += id==="mainChart"?0.6:0.2; view.signal(id==="mainChart"?"rotLon":"rotate0", angle).run(); }, 50);
-        });
     });
+});
 
-    // Resize charts on window resize
-    window.addEventListener("resize", () => { Object.values(chartViews).forEach(view => view.resize()); });
-  </script>
+yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
+
+// Rotating globes
+["mainChart","week9Homework"].forEach(id => {
+  vegaEmbed('#'+id, id==="mainChart"?"world_map.vg.json":"week_9_homework.vg.json", { actions:false })
+    .then(res => {
+      let view = res.view, angle=0;
+      setInterval(() => {
+        angle += id==="mainChart"?0.6:0.2;
+        view.signal(id==="mainChart"?"rotLon":"rotate0", angle).run();
+      }, 50);
+    });
+});
+
+// Resize charts on window resize
+window.addEventListener("resize", () => {
+  Object.values(chartViews).forEach(view => view.resize());
+});
+</script>
+
 </body>
 </html>

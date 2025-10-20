@@ -1,8 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Interactive globe with Australian outbound flights as proper geoshape arcs",
-  "width": 450,
-  "height": 450,
+  "width": "container",
+  "height": "container",
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  }
   "data": {
     "url": "citypairs.csv"
   },
@@ -26,7 +30,9 @@
   ],
   "projection": {
     "type": "orthographic",
-    "rotate": {"signal": "[rotLon,0,0]"},
+    "rotate": {
+      "signal": "[rotLon,0,0]"
+    },
     "scale": 450
   },
   "transform": [
@@ -38,11 +44,18 @@
         {
           "op": "rank",
           "as": "routeRank",
-          "sort": [{"field": "OutSeatsMax", "order": "descending"}]
+          "sort": [
+            {
+              "field": "OutSeatsMax",
+              "order": "descending"
+            }
+          ]
         }
       ]
     },
-    { "filter": "datum.routeRank <= 40" },
+    {
+      "filter": "datum.routeRank <= 40"
+    },
     {
       "calculate": "{ \"type\": \"Feature\", \"geometry\": { \"type\": \"LineString\", \"coordinates\": [[datum['Lon Aus'], datum['Lat  Aus']], [datum['Lon International'], datum['Lat International']]] }, \"properties\": {\"From\": datum.Australian, \"To\": datum.International, \"OutSeatsMax\": datum.OutSeatsMax} }",
       "as": "geo"
@@ -52,44 +65,95 @@
     {
       "data": {
         "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
-        "format": {"type": "topojson", "feature": "oceans"}
+        "format": {
+          "type": "topojson",
+          "feature": "oceans"
+        }
       },
-      "mark": {"type": "geoshape", "fill": "skyblue"}
+      "mark": {
+        "type": "geoshape",
+        "fill": "skyblue"
+      }
     },
     {
       "data": {
         "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
-        "format": {"type": "topojson", "feature": "countries"}
+        "format": {
+          "type": "topojson",
+          "feature": "countries"
+        }
       },
-      "mark": {"type": "geoshape", "fill": "#1b263b", "stroke": "#888"}
+      "mark": {
+        "type": "geoshape",
+        "fill": "#1b263b",
+        "stroke": "#888"
+      }
     },
     {
-      "mark": {"type": "geoshape", "stroke": "orangered", "strokeWidth": 2,"fill": "transparent"},
+      "mark": {
+        "type": "geoshape",
+        "stroke": "orangered",
+        "strokeWidth": 2,
+        "fill": "transparent"
+      },
       "encoding": {
-        "shape": {"field": "geo", "type": "geojson"},
+        "shape": {
+          "field": "geo",
+          "type": "geojson"
+        },
         "tooltip": [
-          {"field": "From", "type": "nominal"},
-          {"field": "To", "type": "nominal"},
-          {"field": "OutSeatsMax", "type": "quantitative"}
+          {
+            "field": "From",
+            "type": "nominal"
+          },
+          {
+            "field": "To",
+            "type": "nominal"
+          },
+          {
+            "field": "OutSeatsMax",
+            "type": "quantitative"
+          }
         ]
       }
     },
-    {"transform": [
+    {
+      "transform": [
         {
           "calculate": "{ \"type\": \"Feature\", \"geometry\": { \"type\": \"Point\", \"coordinates\": [datum['Lon International'], datum['Lat International']] }, \"properties\": { \"From\": datum.Australian, \"To\": datum.International, \"OutSeatsMax\": datum.OutSeatsMax} }",
           "as": "geoPoint"
         }
       ],
       "mark": {
-        "type": "geoshape", "filled": true, "shape": "triangle", "size": 600, "stroke": "#ff9a00",
+        "type": "geoshape",
+        "filled": true,
+        "shape": "triangle",
+        "size": 600,
+        "stroke": "#ff9a00",
         "strokeWidth": 0,
-        "fill": "#ff9a00"},
+        "fill": "#ff9a00"
+      },
       "encoding": {
-        "shape": {"field": "geoPoint", "type": "geojson"},
+        "shape": {
+          "field": "geoPoint",
+          "type": "geojson"
+        },
         "tooltip": [
-          {"field": "Australian", "type": "nominal", "title": "From"},
-          {"field": "International", "type": "nominal", "title": "To"},
-          {"field": "OutSeatsMax", "type": "quantitative", "title": "Passengers"}
+          {
+            "field": "Australian",
+            "type": "nominal",
+            "title": "From"
+          },
+          {
+            "field": "International",
+            "type": "nominal",
+            "title": "To"
+          },
+          {
+            "field": "OutSeatsMax",
+            "type": "quantitative",
+            "title": "Passengers"
+          }
         ]
       }
     }
