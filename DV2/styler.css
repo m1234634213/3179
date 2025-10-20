@@ -39,7 +39,6 @@ header h1 {
   animation: bob 3s ease-in-out infinite alternate;
 }
 
-/* Animations */
 @keyframes cloud { from { right: -500px; } to { right: 110%; } }
 @keyframes bob { 0% { transform: translateY(0); } 100% { transform: translateY(-15px); } }
 
@@ -56,18 +55,16 @@ header h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 98%;          /* almost full width */
+  width: 100%;
   max-width: 1400px;
-  margin: 0 auto;      /* top/bottom margins removed to minimize side space */
+  margin: 2rem auto;
   gap: 2rem;
   box-sizing: border-box;
-  padding: 0 1%;       /* minimal side padding */
+  padding: 0 1%;
 }
 
-/* Scale container for 0.67x look */
+/* Scale container for dynamic scaling */
 .scaled-container {
-  transform: scale(0.67);
-  transform-origin: top center;
   width: 100%;
 }
 
@@ -76,7 +73,7 @@ header h1 {
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-  gap: 1rem;          /* reduced gap */
+  gap: 1rem;
   width: 100%;
 }
 
@@ -93,7 +90,7 @@ header h1 {
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   padding: 2rem;
   transition: transform 0.3s ease;
-  min-width: 0;        /* allows flex items to shrink fully */
+  min-width: 0;
 }
 
 .story-box h2 {
