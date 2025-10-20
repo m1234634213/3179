@@ -90,10 +90,12 @@ header h1 {
   background: white;
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  padding: 2rem;
+  padding: 0rem;
   min-width: 0;
   transition: transform 0.3s ease;
-  height: 700px;
+  width: 100%;
+  height: 700px; /* determines globe size */
+  margin: 0 auto;
 }
 
 .story-box h2 {
@@ -105,8 +107,6 @@ header h1 {
 .chart-box > div {
   width: 100%;      /* fill horizontal space */
   height: 100%;     /* fill vertical space */
-  min-height: 600px;
-  padding-bottom: 50%;  /* 2:1 ratio, adjust as needed */
   position: relative;
 }
 
