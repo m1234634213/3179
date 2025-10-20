@@ -1,24 +1,62 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Capital City Airports with Traffic Categories",
-  "width": 800,
-  "height": 800,
+  "description": "Interactive globe with Australian outbound flights as proper geoshape arcs",
+  "width": 900,
+  "height": 900,
+  "data": {
+    "url": "citypairs.csv"
+  },
   "params": [
     {
-      "name": "rotate0",
-      "value": 0
+      "name": "selectedYear",
+      "value": 2020,
+      "bind": {
+        "input": "range",
+        "min": 2000,
+        "max": 2025,
+        "step": 1,
+        "name": "Year: "
+      }
+    },
+    {
+      "name": "rotLon",
+      "value": -135,
+      "bind": false
     }
   ],
   "projection": {
     "type": "orthographic",
-    "clipAngle": 90,
-    "rotate": [
-      {
-        "signal": "rotate0"
-      },
-      0
-    ]
+    "rotate": {
+      "signal": "[rotLon,0,0]"
+    },
+    "scale": 450
   },
+  "transform": [
+    {
+      "filter": "datum.Year == selectedYear && datum['Lat Aus'] != null && datum['Lat International'] != null"
+    },
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "routeRank",
+          "sort": [
+            {
+              "field": "OutSeatsMax",
+              "order": "descending"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "filter": "datum.routeRank <= 40"
+    },
+    {
+      "calculate": "{ \"type\": \"Feature\", \"geometry\": { \"type\": \"LineString\", \"coordinates\": [[datum['Lon Aus'], datum['Lat Aus']], [datum['Lon International'], datum['Lat International']]] }, \"properties\": {\"From\": datum.Australian, \"To\": datum.International, \"OutSeatsMax\": datum.OutSeatsMax} }",
+      "as": "geo"
+    }
+  ],
   "layer": [
     {
       "data": {
@@ -35,87 +73,82 @@
     },
     {
       "data": {
-        "url": "ne_110m_admin_0_countries.topojson",
+        "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
         "format": {
           "type": "topojson",
-          "feature": "ne_110m_admin_0_countries"
+          "feature": "countries"
         }
       },
       "mark": {
         "type": "geoshape",
-        "fill": "#f0f0f0",
+        "fill": "#1b263b",
         "stroke": "#888"
       }
     },
     {
-      "data": {
-        "url": "capital_city_airports_all.csv",
-        "format": {
-          "type": "csv"
-        }
-      },
-      "transform": [
-        {
-          "calculate": "toNumber(datum['Traffic Category']) < 30000000 ? 'Low' : toNumber(datum['Traffic Category']) <= 60000000 ? 'Medium' : 'High'",
-          "as": "TrafficBucket"
-        }
-      ],
       "mark": {
-        "type": "circle",
-        "size": 80
+        "type": "geoshape",
+        "stroke": "orangered",
+        "strokeWidth": 2,
+        "fill": "transparent"
       },
       "encoding": {
-        "longitude": {
-          "field": "Longitude",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "Latitude",
-          "type": "quantitative"
-        },
-        "color": {
-          "field": "TrafficBucket",
-          "type": "nominal",
-          "scale": {
-            "domain": [
-              "Low",
-              "Medium",
-              "High"
-            ],
-            "range": [
-              "#66c2a5",
-              "#fc8d62",
-              "#e31a1c"
-            ]
-          },
-          "legend": {
-            "title": "Airport Traffic Volume"
-          }
+        "shape": {
+          "field": "geo",
+          "type": "geojson"
         },
         "tooltip": [
           {
-            "field": "Name",
+            "field": "From",
             "type": "nominal"
           },
           {
-            "field": "City",
+            "field": "To",
             "type": "nominal"
           },
           {
-            "field": "Country",
-            "type": "nominal"
-          },
-          {
-            "field": "IATA Code",
-            "type": "nominal"
-          },
-          {
-            "field": "TrafficBucket",
-            "type": "nominal"
-          },
-          {
-            "field": "Traffic Category",
+            "field": "OutSeatsMax",
             "type": "quantitative"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "calculate": "{ \"type\": \"Feature\", \"geometry\": { \"type\": \"Point\", \"coordinates\": [datum['Lon International'], datum['Lat International']] }, \"properties\": { \"From\": datum.Australian, \"To\": datum.International, \"OutSeatsMax\": datum.OutSeatsMax} }",
+          "as": "geoPoint"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "filled": true,
+        "shape": "triangle",
+        "size": 600,
+        "stroke": "#ff9a00",
+        "strokeWidth": 0,
+        "fill": "#ff9a00"
+      },
+      "encoding": {
+        "shape": {
+          "field": "geoPoint",
+          "type": "geojson"
+        },
+        "tooltip": [
+          {
+            "field": "Australian",
+            "type": "nominal",
+            "title": "From"
+          },
+          {
+            "field": "International",
+            "type": "nominal",
+            "title": "To"
+          },
+          {
+            "field": "OutSeatsMax",
+            "type": "quantitative",
+            "title": "Passengers"
           }
         ]
       }
