@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Aircraft Engine Emissions Dashboard fit to 800x600 container",
+  "description": "Aircraft Engine Emissions Dashboard with Year Brush Filter on Total Emissions",
   "params": [
     {
       "name": "manufacturerFilter",
@@ -17,10 +17,11 @@
     {
       "hconcat": [
         {
-          "title": {"text": "Average NOx Emissions Over Time","anchor":"start","fontSize":14},
+          "title": "Average NOx Emissions Over Time",
           "data": {"url": "gas.csv"},
           "transform": [
-            {"filter": "manufacturerFilter == null || datum['Manufacturer'] == manufacturerFilter"}
+            {"filter": "manufacturerFilter == null || datum['Manufacturer'] == manufacturerFilter"},
+            {"filter": {"param": "yearBrush"}}
           ],
           "layer": [
             {
@@ -47,14 +48,15 @@
             }
           ],
           "width": 390,
-          "height": 210,
-          "padding": {"top":20,"bottom":30,"left":40,"right":10}
+          "height": 180,
+          "padding": {"top": 30, "bottom": 80, "left": 50, "right": 20}
         },
         {
-          "title": {"text": "Fuel Burn Rate vs NOx Emissions","anchor":"start","fontSize":14},
+          "title": "Fuel Burn Rate vs NOx Emissions",
           "data": {"url": "gas.csv"},
           "transform": [
-            {"filter": "manufacturerFilter == null || datum['Manufacturer'] == manufacturerFilter"}
+            {"filter": "manufacturerFilter == null || datum['Manufacturer'] == manufacturerFilter"},
+            {"filter": {"param": "yearBrush"}}
           ],
           "layer": [
             {
@@ -81,17 +83,16 @@
             }
           ],
           "width": 390,
-          "height": 210,
-          "padding": {"top":20,"bottom":30,"left":40,"right":10}
+          "height": 180
         }
-      ],
-      "resolve": {"scale": {"y":"independent"}}
+      ]
     },
     {
-      "title": {"text":"Average Emissions by Decade","anchor":"start","fontSize":14},
+      "title": "Average Emissions by Decade",
       "data": {"url": "gas.csv"},
       "transform": [
         {"filter": "manufacturerFilter == null || datum['Manufacturer'] == manufacturerFilter"},
+        {"filter": {"param": "yearBrush"}},
         {"timeUnit": "year","field":"Initial Test Date","as":"Year"},
         {"calculate":"floor(datum.Year/10)*10","as":"Decade"},
         {"fold": ["HC LTO Total mass (g)","CO LTO Total Mass (g)","NOx LTO Total mass (g)"], "as":["Emission Type","Value"]},
@@ -109,11 +110,10 @@
         ]
       },
       "width": 780,
-      "height": 130,
-      "padding": {"top":20,"bottom":30,"left":40,"right":10}
+      "height": 100
     },
     {
-      "title": {"text":"Total Pollution per Flight Cycle","anchor":"start","fontSize":14},
+      "title": "Total Pollution per Flight Cycle",
       "data": {"url": "gas.csv"},
       "transform": [
         {"filter": "manufacturerFilter == null || datum['Manufacturer'] == manufacturerFilter"},
@@ -130,8 +130,7 @@
         ]
       },
       "width": 780,
-      "height": 130,
-      "padding": {"top":10,"bottom":30,"left":40,"right":10},
+      "height": 100,
       "params": [
         {
           "name": "yearBrush",
@@ -141,3 +140,4 @@
     }
   ]
 }
+  
