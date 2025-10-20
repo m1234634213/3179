@@ -28,7 +28,8 @@
   ],
   "projection": {
     "type": "orthographic",
-    "rotate": {"signal": "[rotLon,0,0]"}
+    "rotate": {"signal": "[rotLon,0,0]"},
+    "scale": 450
   },
   "transform": [
     {
