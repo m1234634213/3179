@@ -33,7 +33,7 @@
     "rotate": {
       "signal": "[rotLon,0,0]"
     },
-    "scale": 450
+    "scale": 300
   },
   "transform": [
     {
