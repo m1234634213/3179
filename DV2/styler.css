@@ -1,129 +1,149 @@
-html, body {
-  width: 100%;
-  height: 100%;
+/* Background */
+body {
   margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
   background: linear-gradient(to bottom, #007ced 1%, #cce7ff 100%);
+  color: #222;
+  overflow-x: hidden;
 }
 
-/* Header styling */
+/* Header */
 header {
   text-align: center;
-  padding: 40px 0 20px 0;
+  padding: 2rem 0;
   position: relative;
-  text-align: center;
-  overflow: hidden;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 2.2em;
   color: white;
-  text-shadow: 0 0 5px rgba(0,0,0,0.4);
-  z-index: 5;
-  position: relative;
-}
-
-/* Slider */
-#sliderContainer {
-  text-align: center;
-  margin: 20px;
-  color: #fff;
-}
-
-/* Dashboard layout */
-.dashboard {
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-  padding: 20px;
-}
-
-.side-column {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.main-column {
-  flex: 2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.chart-box {
-  background: rgba(255,255,255,0.9);
-  border: 1px solid #ccc;
-  padding: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  border-radius: 8px;
-  flex:1;
   overflow: visible;
 }
 
-.chart-box h2 {
-  font-size: 1.1em;
-  margin-top: 0;
-  text-align: center;
-}
-
-.main-chart {
-  width: 650px;
-  height: 650px;
-  width: 100%;
-  margin: auto;
-}
-
-.notes {
-  font-size: 0.85em;
-  color: #333;
-  margin-top: 8px;
-}
-
-/* Show Vega-Lite slider bindings under each chart */
-.vega-bindings {
-  display: block !important;
-  text-align: center;
-  margin-top: 10px;
-}
-
-/* Style for the Vega-Lite slider controls */
-.vega-bindings input[type=range] {
-  width: 80%;
-  accent-color: #007ced;
-}
-
-.vega-bindings label {
-  color: #333;
-  font-weight: bold;
+header h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 5;
 }
 
 /* Cloud animation */
 .cloud {
   position: absolute;
-  top: 0px;
+  top: 20px;
   right: -500px;
-  opacity: .8;
-  animation: cloud 10s linear 0s infinite reverse;
-  z-index: 0;
+  opacity: 0.9;
+  animation: cloud 10s linear infinite reverse;
+  z-index: 5;
 }
 
 .cloud img {
   width: 200px;
   height: auto;
+  animation: bob 3s ease-in-out infinite alternate;
 }
 
-@keyframes light {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+/* Animations */
+@keyframes cloud { from { right: -500px; } to { right: 110%; } }
+@keyframes bob { 0% { transform: translateY(0); } 100% { transform: translateY(-15px); } }
+
+/* Slider */
+#sliderContainer {
+  text-align: center;
+  margin: 1.5rem auto;
+  font-size: 1.1rem;
+  color: #003366;
 }
 
-@keyframes cloud {
-  from { right: -500px; }
-  to { right: 102%; }
+/* Dashboard layout */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  max-width: 1400px;
+  margin: auto;
+  gap: 3rem;
 }
 
+/* Scale container for 0.67x look */
+.scaled-container {
+  transform: scale(0.67);
+  transform-origin: top center;
+  width: 150%;
+}
 
+/* Rows */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 2rem;
+  width: 100%;
+}
+
+.row.full-width {
+  flex-direction: column;
+}
+
+.story-box, .chart-box {
+  flex: 1;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  padding: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.chart-box:hover, .story-box:hover {
+  transform: translateY(-5px);
+}
+
+.story-box h2 {
+  color: #004c99;
+  margin-bottom: 1rem;
+}
+
+.chart-box > div {
+  width: 100%;
+  height: 450px;
+}
+
+.row.full-width .chart-box > div {
+  height: 500px;
+}
+
+.story-box p {
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 1200px) { .chart-box > div { height: 400px; } }
+@media (max-width: 900px) {
+  .row { flex-direction: column; }
+  .chart-box > div { height: 350px; }
+}
+
+/* Fullscreen overlay */
+.chart-box.fullscreen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 90vw;
+  height: 90vh;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  background: white;
+  padding: 2rem;
+  transition: all 0.4s ease;
+  overflow: auto;
+}
+
+body.fullscreen-active::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.3);
+  z-index: 998;
+}

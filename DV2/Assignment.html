@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Australian International and Domestic Travel</title>
-  <link rel="stylesheet" href="trial.css">
+  <link rel="stylesheet" href="styler.css">
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
@@ -26,7 +26,8 @@
     <span id="yearLabel">2010</span>
   </div>
 
-  <main class="dashboard">
+  <!-- Scaled Dashboard -->
+  <main class="dashboard scaled-container">
 
     <!-- Row 1: Global Flight Trends -->
     <div class="row">
@@ -126,7 +127,6 @@
       fetch(chart.file)
         .then(r => r.json())
         .then(spec => {
-          // Add selectedYear param for charts that need it
           if (!["mainChart", "week9Homework"].includes(chart.id)) {
             spec.params = spec.params || [];
             spec.params.push({
@@ -136,7 +136,6 @@
             });
           }
 
-          // Make charts responsive
           spec.autosize = { type: "fit", contains: "padding" };
           if (["gas", "emissionsMap", "domestic", "cityInt"].includes(chart.id)) {
             spec.width = "container";
