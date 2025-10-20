@@ -1,6 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Aircraft Engine Emissions Dashboard with Year Brush Filter on Total Emissions",
+  "description": "Aircraft Engine Emissions Dashboard scaled to fit 800x600 container",
+  "width": 800,
+  "height": 600,
   "params": [
     {
       "name": "manufacturerFilter",
@@ -28,7 +30,7 @@
               "mark": "point",
               "encoding": {
                 "x": {"field": "Initial Test Date","type": "temporal","title": "Year"},
-                "y": {"field": "NOx Dp/Foo Avg (g/kN)","type": "quantitative","title": "Average NOx per Unit Thrust"},
+                "y": {"field": "NOx Dp/Foo Avg (g/kN)","type": "quantitative","title": "Avg NOx"},
                 "color": {"field": "Engine Type","type": "nominal"},
                 "tooltip": [
                   {"field": "Engine Identification"},
@@ -47,8 +49,9 @@
               }
             }
           ],
-          "width": 400,
-          "height": 300
+          "width": 390,
+          "height": 250,
+          "padding": {"top": 20,"bottom":40,"left":40,"right":10}
         },
         {
           "title": "Fuel Burn Rate vs NOx Emissions",
@@ -61,8 +64,8 @@
             {
               "mark": "point",
               "encoding": {
-                "x": {"field": "Fuel Flow T/O (kg/sec)","type": "quantitative","title": "Fuel Burn Rate During Takeoff (kg/sec)"},
-                "y": {"field": "NOx Dp/Foo Avg (g/kN)","type": "quantitative","title": "Average NOx per Unit Thrust"},
+                "x": {"field": "Fuel Flow T/O (kg/sec)","type": "quantitative","title": "Fuel Burn Rate"},
+                "y": {"field": "NOx Dp/Foo Avg (g/kN)","type": "quantitative","title": "Avg NOx"},
                 "color": {"field": "Engine Type","type": "nominal"},
                 "tooltip": [
                   {"field": "Engine Identification"},
@@ -81,8 +84,9 @@
               }
             }
           ],
-          "width": 400,
-          "height": 300
+          "width": 390,
+          "height": 250,
+          "padding": {"top": 20,"bottom":40,"left":40,"right":10}
         }
       ]
     },
@@ -100,7 +104,7 @@
       "mark": "bar",
       "encoding": {
         "x": {"field":"Decade","type":"ordinal","title":"Decade"},
-        "y": {"field":"Avg Value","type":"quantitative","title":"Average Emissions per Flight (g)"},
+        "y": {"field":"Avg Value","type":"quantitative","title":"Avg Emissions (g)"},
         "color": {"field":"Emission Type","type":"nominal","title":"Emission Type"},
         "tooltip": [
           {"field":"Decade"},
@@ -108,8 +112,9 @@
           {"field":"Avg Value"}
         ]
       },
-      "width": 800,
-      "height": 300
+      "width": 780,
+      "height": 160,
+      "padding": {"top": 20,"bottom":40,"left":40,"right":10}
     },
     {
       "title": "Total Pollution per Flight Cycle",
@@ -121,15 +126,16 @@
       "mark": "point",
       "encoding": {
         "x": {"field":"Initial Test Date","type":"temporal","title":"Year"},
-        "y": {"field":"Total Emissions","type":"quantitative","title":"Total Emissions per Flight Cycle (g)"},
+        "y": {"field":"Total Emissions","type":"quantitative","title":"Total Emissions (g)"},
         "tooltip": [
           {"field":"Engine Identification"},
           {"field":"Total Emissions"},
           {"field":"Initial Test Date"}
         ]
       },
-      "width": 800,
-      "height": 150,
+      "width": 780,
+      "height": 160,
+      "padding": {"top": 20,"bottom":40,"left":40,"right":10},
       "params": [
         {
           "name": "yearBrush",
