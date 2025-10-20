@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +9,6 @@
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
-
 <body>
   <header>
     <h1>Australian International and Domestic Travel</h1>
@@ -19,84 +17,45 @@
     </div>
   </header>
 
-  <!-- Global year slider -->
   <div id="sliderContainer">
     <label for="yearSlider"><strong>Select Year:</strong></label>
     <input type="range" id="yearSlider" min="2000" max="2025" step="1" value="2010">
     <span id="yearLabel">2010</span>
   </div>
 
-  <!-- Scaled Dashboard -->
-  <main class="dashboard scaled-container">
-
-    <!-- Row 1: Global Flight Trends -->
+  <main id="dashboard" class="dashboard scaled-container">
+    <!-- Example rows -->
     <div class="row">
-      <div class="story-box">
-        <h2>Global Flight Trends</h2>
-        <p>…existing text…</p>
-      </div>
-      <div class="chart-box">
-        <div id="mainChart" class="rotating-globe"></div>
-      </div>
+      <div class="story-box"><h2>Global Flight Trends</h2><p>…existing text…</p></div>
+      <div class="chart-box"><div id="mainChart"></div></div>
     </div>
 
-    <!-- Row 2: Domestic Airlines -->
     <div class="row">
-      <div class="story-box">
-        <p>…existing text…</p>
-      </div>
-      <div class="chart-box">
-        <h2>Domestic Airlines</h2>
-        <div id="domesticAirlines"></div>
-      </div>
+      <div class="story-box"><p>…existing text…</p></div>
+      <div class="chart-box"><h2>Domestic Airlines</h2><div id="domesticAirlines"></div></div>
     </div>
 
-    <!-- Row 3: Domestic Passenger Trends (full width) -->
     <div class="row full-width">
-      <div class="chart-box">
-        <h2>Domestic Passenger Trends</h2>
-        <div id="domestic"></div>
-      </div>
+      <div class="chart-box"><h2>Domestic Passenger Trends</h2><div id="domestic"></div></div>
     </div>
 
-    <!-- Row 4: International Routes -->
     <div class="row">
-      <div class="story-box">
-        <h2>International Routes</h2>
-        <p>…existing text…</p>
-      </div>
-      <div class="chart-box">
-        <div id="cityInt"></div>
-      </div>
+      <div class="story-box"><h2>International Routes</h2><p>…existing text…</p></div>
+      <div class="chart-box"><div id="cityInt"></div></div>
     </div>
 
-    <!-- Row 5: Emissions Map (full width) -->
     <div class="row full-width">
-      <div class="chart-box">
-        <h2>Emissions Map</h2>
-        <div id="emissionsMap"></div>
-      </div>
+      <div class="chart-box"><h2>Emissions Map</h2><div id="emissionsMap"></div></div>
     </div>
 
-    <!-- Row 6: Gas Trends (full width) -->
     <div class="row full-width">
-      <div class="chart-box">
-        <h2>Gas Trends</h2>
-        <div id="gas"></div>
-      </div>
+      <div class="chart-box"><h2>Gas Trends</h2><div id="gas"></div></div>
     </div>
 
-    <!-- Row 7: Global Trends -->
     <div class="row">
-      <div class="story-box">
-        <h2>Global Trends</h2>
-        <p>…existing text…</p>
-      </div>
-      <div class="chart-box">
-        <div id="week9Homework" class="rotating-globe"></div>
-      </div>
+      <div class="story-box"><h2>Global Trends</h2><p>…existing text…</p></div>
+      <div class="chart-box"><div id="week9Homework"></div></div>
     </div>
-
   </main>
 
   <script>
@@ -107,69 +66,50 @@
       { id: "emissionsMap", file: "Emissions_map.vg.json" },
       { id: "cityInt", file: "city_int.vg.json" },
       { id: "gas", file: "gas.vg.json" },
-      { id: "week9Homework", file: "week_9_homework.vg.json" },
+      { id: "week9Homework", file: "week_9_homework.vg.json" }
     ];
 
-    let chartViews = {};
+    const chartViews = {};
     const yearSlider = document.getElementById("yearSlider");
     const yearLabel = document.getElementById("yearLabel");
 
     function updateCharts(year) {
       yearLabel.textContent = year;
       Object.values(chartViews).forEach(view => {
-        if (view.signalNames().includes("selectedYear")) {
-          view.signal("selectedYear", year).run();
-        }
+        if (view.signalNames().includes("selectedYear")) view.signal("selectedYear", year).run();
       });
     }
 
-    charts.forEach(chart => {
+    function embedChart(chart) {
       fetch(chart.file)
         .then(r => r.json())
         .then(spec => {
-          if (!["mainChart", "week9Homework"].includes(chart.id)) {
+          spec.autosize = { type:"fit", contains:"padding" };
+          if (!["mainChart","week9Homework"].includes(chart.id)) {
             spec.params = spec.params || [];
-            spec.params.push({
-              name: "selectedYear",
-              value: parseInt(yearSlider.value),
-              bind: false
-            });
+            spec.params.push({ name:"selectedYear", value:parseInt(yearSlider.value), bind:false });
           }
-
-          spec.autosize = { type: "fit", contains: "padding" };
-          if (["gas", "emissionsMap", "domestic", "cityInt"].includes(chart.id)) {
-            spec.width = "container";
-          }
-
-          vegaEmbed('#' + chart.id, spec, { actions: false })
-            .then(res => { chartViews[chart.id] = res.view; })
-            .catch(err => console.error(`Error embedding chart ${chart.id}:`, err));
+          vegaEmbed('#'+chart.id, spec, { actions:false, renderer:"canvas" })
+            .then(res => { chartViews[chart.id] = res.view; res.view.resize(); })
+            .catch(err => console.error(err));
         })
-        .catch(err => console.error(`Error loading ${chart.file}:`, err));
-    });
+        .catch(err => console.error(err));
+    }
 
+    charts.forEach(embedChart);
     yearSlider.addEventListener("input", e => updateCharts(parseInt(e.target.value)));
 
     // Rotating globes
-    vegaEmbed('#week9Homework', 'week_9_homework.vg.json', { actions: false })
-      .then(res => {
-        let globeView = res.view;
-        let angle = 0;
-        setInterval(() => {
-          angle += 0.2;
-          globeView.signal("rotate0", angle).run();
-        }, 50);
-      });
+    ["mainChart","week9Homework"].forEach(id => {
+      vegaEmbed('#'+id, id==="mainChart"?"world_map.vg.json":"week_9_homework.vg.json", { actions:false })
+        .then(res => {
+          let view = res.view, angle=0;
+          setInterval(() => { angle += id==="mainChart"?0.6:0.2; view.signal(id==="mainChart"?"rotLon":"rotate0", angle).run(); }, 50);
+        });
+    });
 
-    vegaEmbed('#mainChart', 'world_map.vg.json', { actions: false })
-      .then(res => {
-        let mainView = res.view;
-        let angle = 0;
-        setInterval(() => {
-          angle += 0.6;
-          mainView.signal("rotLon", angle).run();
-        }, 50);
-      });
+    // Resize charts on window resize
+    window.addEventListener("resize", () => { Object.values(chartViews).forEach(view => view.resize()); });
   </script>
 </body>
 </html>
