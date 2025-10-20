@@ -87,7 +87,7 @@ header h1 {
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   padding: 1rem;
-  min-width: 900px;
+  min-width: 700px;
   max-width: 900px; /* control globe size */
   height: 700px; /* height of charts */
   transition: transform 0.3s ease;
