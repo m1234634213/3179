@@ -44,7 +44,7 @@
       },
       "transform": [
         {
-          "calculate": "cos(datum.Latitude * PI / 180) * cos((datum.Longitude + rotate0) * PI / 180) > 0 ? 1 : 0",
+          "calculate": "let lon = datum.Longitude > 180 ? datum.Longitude - 360 : datum.Longitude; cos(datum.Latitude * PI / 180) * cos((lon + rotate0) * PI / 180) > 0 ? 1 : 0",
           "as": "visible"
         },
         {"filter": "datum.visible == 1"},
