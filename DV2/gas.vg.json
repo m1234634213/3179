@@ -47,8 +47,8 @@
               }
             }
           ],
-          "width": 390,
-          "height": 180
+          "width": 400,
+          "height": 160
         },
         {
           "title": "Fuel Burn Rate vs NOx Emissions",
@@ -81,8 +81,8 @@
               }
             }
           ],
-          "width": 390,
-          "height": 180
+          "width": 400,
+          "height": 160
         }
       ]
     },
